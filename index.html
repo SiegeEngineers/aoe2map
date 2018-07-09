@@ -8,7 +8,6 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/aoe2maps.css">
 
     <title>Create a map pack</title>
     <style>
@@ -32,12 +31,21 @@
                     <div class="card-body" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" ondragleave="dragLeaveHandler(event);"
                         style="min-height: 20rem;">
                         <div id="filelist"></div>
-                        <div class="text-center">Drag and drop .rms map files here</div>
+                        <div class="text-center">Drag .rms map files here!
+                            <br>When the border turns white, drop the file(s)
+                            <br> <small>(maybe you have to wiggle your mouse a bit)</small></div>
                     </div>
                 </div>
             </div>
-            <div style="margin-top: 1rem;">
-                <button class="btn btn-primary btn-block" onclick="getdata();">Generate and download map pack</button>
+            <div style="margin-top: 1rem;" class="text-center">
+                <button class="btn btn-primary btn-block" onclick="getdata();">Generate and download* map pack</button>
+            </div>
+            <div class="text-center">
+                <small>*All data is processed in the browser. Nothing is transmitted over the web.
+                    <br> It's just that the browser will "download" the result.</small>
+            </div>
+            <div style="margin-top: 1rem; margin-bottom: 1rem;" class="text-center">
+                <button class="btn btn-danger" onclick="clearList();">Clear</button>
             </div>
         </div>
     </div>
@@ -166,6 +174,10 @@
             element.click();
 
             document.body.removeChild(element);
+        }
+
+        function clearList() {
+            $('#filelist').empty();
         }
     </script>
 </body>

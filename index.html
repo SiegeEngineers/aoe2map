@@ -208,7 +208,6 @@
             mapcontent = mapcontent.replace(/\}/g, "\n}\n");
             mapcontent = mapcontent.replace(/ \n/g, "\n");
             mapcontent = mapcontent.replace(/#include_drsrandom_mapdef/g, "#include_drs random_map.def");
-            mapcontent = mapcontent.replace(/#const /g, "#const " + prefix);
             return mapcontent;
         }
 
@@ -216,10 +215,7 @@
             let consts = new Map();
             for (let line of lines) {
                 let matchArray = line.match(/#const ([A-Z_][A-Z0-9_]*)/);
-                console.log(line);
-                console.log(matchArray);
                 if (matchArray != null) {
-                    console.log(matchArray);
                     let key = matchArray[1];
                     if (!consts.has(key)) {
                         consts.set(key, []);
@@ -236,8 +232,6 @@
             let lines = mapcontent.split("\n");
 
             let declaredConsts = collectDeclaredConsts(lines);
-
-            console.log(declaredConsts);
 
             for (let key of declaredConsts.keys()) {
                 let values = declaredConsts.get(key);
@@ -257,6 +251,7 @@
             let lineNr = 0;
             for (let line of lines) {
                 lineNr++;
+                line = addPrefixesToConsts(line, prefix, declaredConsts);
                 if (line.startsWith("#const")) {
                     constLines.push(line);
                 } else {
@@ -268,6 +263,16 @@
             }
 
             return mapLines.join("\n");
+        }
+
+        function addPrefixesToConsts(line, prefix, declaredConsts) {
+            for (let key of declaredConsts.keys()) {
+                if (line.includes(key)) {
+                    let re = new RegExp("(\\s)" + key + "(\\s|{|$)", "g");
+                    line = line.replace(re, "$1" + prefix + key + "$2");
+                }
+            }
+            return line;
         }
 
         function addWarning(message) {

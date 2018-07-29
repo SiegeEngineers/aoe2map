@@ -198,7 +198,7 @@
 
         function normalizeMap(mapcontent, prefix) {
             mapcontent = mapcontent.replace(/#include_drs\s+random_map.def/g, "#include_drsrandom_mapdef");
-            mapcontent = mapcontent.replace(/\n/g, " ");
+            mapcontent = mapcontent.replace(/\r?\n/g, " ");
             mapcontent = mapcontent.replace(/\/\*.*?\*\//g, "");
             mapcontent = mapcontent.replace(/\s+/g, " ");
             mapcontent = mapcontent.replace(/\s([a-z_]+)/g, "\n$1");

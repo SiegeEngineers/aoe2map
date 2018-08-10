@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'mapsapp/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'mapsapp/css/aoe2maps.css' %}">
+
+    <title>aoe2maps{% block pagetitle %}{% endblock %}</title>
+    {% block style %}{% endblock %}
+</head>
+
+<body>
+<div class="container-fluid">
+    <h1 class="text-center"><a href="{% url 'index' %}"><img id="banner"
+                                                             src="{% static 'mapsapp/images/banner.svg' %}"/></a></h1>
+
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'maps' %}">Maps</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'collections' %}">Map Collections</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'mappack' %}">Mappack Creator</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'mymaps' %}">My Maps</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'newmap' %}">New Map</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        {% endif %}
+        <li>
+            <form class="form-inline" method="POST" action="{% url 'map_search_post' %}">
+                {% csrf_token %}
+                <label class="sr-only" for="searchterm">Search</label>
+                <input type="text" class="form-control mb-2 mr-sm-2" id="searchterm" name="searchterm"
+                       placeholder="Search Map or Authors…">
+            </form>
+        </li>
+    </ul>
+    {% block subtitle %}{% endblock%}
+    {% block content %}
+    <div class="maps row">
+
+    </div>
+    {% endblock %}
+</div>
+{% block js %}
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script type="text/javascript">var API_URL = "{{API_URL}}"</script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="{% static 'mapsapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'mapsapp/js/aoe2map.js' %}"></script>
+{% endblock %}
+</body>
+
+</html>

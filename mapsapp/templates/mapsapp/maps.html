@@ -1,0 +1,22 @@
+{% extends "mapsapp/base.html" %}
+
+{% block pagetitle%} – Maps{% endblock %}
+{% block subtitle %}
+<hr>
+
+<h4 class="text-center">Maps</h4>
+{% endblock %}
+
+{% block content %}
+<div class="col-md-6 offset-md-3">
+    <ul>
+        {% for rms in rmss %}
+        <li><a href="{% url 'map' rms_id=rms.uuid %}">{{rms.name}}
+            <small>(by {{rms.authors}})</small>
+        </a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+{% block js %}
+{% endblock %}

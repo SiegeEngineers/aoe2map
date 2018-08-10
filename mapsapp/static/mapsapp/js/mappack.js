@@ -1,87 +1,4 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-
-    <title>Create a map pack</title>
-    <style>
-        .active {
-            border-width: .2rem;
-            border-color: aliceblue;
-        }
-
-        body {
-            padding-top: 1rem;
-        }
-
-        #fileInput {
-            display: none;
-        }
-
-        label {
-            display: inline;
-        }
-
-        .map {
-            margin-bottom: .5rem;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <div class="col-md-6 offset-md-3">
-            <h1>Create a map pack</h1>
-            <label for="fileInput">
-                <div class="dropzone">
-                    <div class="card" id="target" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" ondragleave="dragLeaveHandler(event);"
-                        style="min-height: 20rem;">
-                        <div class="card-header">
-                            <div class="text-center">Click here or drag .rms map files here!
-                                <br>When the border turns white, drop the file(s)
-                                <br>
-                                <small>(maybe you have to wiggle your mouse a bit)</small>
-                            </div>
-                        </div>
-                        <ul id="filelist" class="list-group list-group-flush"></ul>
-                    </div>
-                </div>
-            </label>
-            <input type="file" id="fileInput" onchange="handleFiles(this.files);" multiple>
-            <div style="margin-top: 1rem;" class="text-center">
-                <button class="btn btn-primary btn-block" onclick="getdata();">Generate and download* map pack</button>
-            </div>
-            <div class="text-center">
-                <small>*All data is processed in the browser. Nothing is transmitted over the web.
-                    <br> It's just that the browser will "download" the result.</small>
-            </div>
-            <div style="margin-top: 1rem;" class="text-center">
-                <button class="btn btn-danger" onclick="clearList();">Clear</button>
-            </div>
-        </div>
-        <div style="margin-top: 1rem; margin-bottom: 1rem;" class="text-center">
-            <small>
-                <a href="https://github.com/HSZemi/aoe2map/issues">We have bugs, many bugs!</a>
-            </small>
-        </div>
-    </div>
-    </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-
-        window.addEventListener("dragover", function (e) {
+window.addEventListener("dragover", function (e) {
             e = e || event;
             e.preventDefault();
         }, false);
@@ -158,7 +75,7 @@
 
             allButtons.each(function (i, it) {
                 let ifVariant = "elseif";
-                if (i == 0) {
+                if (i === 0) {
                     ifVariant = "if";
                 }
                 let prefix = "M" + i + "_";
@@ -175,7 +92,7 @@
             let a = [];
             let sum = 0;
             for (let i = 0; i < amount - 1; i++) {
-                percentage = Math.floor(100 / amount);
+                let percentage = Math.floor(100 / amount);
                 a.push(percentage);
                 sum += percentage;
             }
@@ -360,7 +277,3 @@
         function clearList() {
             $('#filelist').empty();
         }
-    </script>
-</body>
-
-</html>

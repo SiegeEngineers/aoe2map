@@ -45,7 +45,7 @@
     </ul>
     {% if request.user.is_authenticated %}
         <ul class="nav justify-content-center user-nav">
-            <li class="nav-item"><span class="nav-link">Hello <b>{{ request.user.username }}</b>!</span></li>
+            <li class="nav-item"><span class="nav-link"><b>{{ request.user.username }}</b></span></li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'mymaps' %}">My Maps</a>
             </li>

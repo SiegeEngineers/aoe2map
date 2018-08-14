@@ -1,21 +1,28 @@
 {% extends "mapsapp/base.html" %}
 
 {% block subtitle %}
-<h4 class="text-center">My maps</small></h4>
-<hr>
-{% endblock%}
+    <h4 class="text-center">My maps</small></h4>
+    <hr>
+{% endblock %}
 
 
 {% block content %}
-<div class="col-md-6 offset-md-3">
-    <ul>
-        {% for rms in rmss %}
-        <li><a href="{% url 'map' rms_id=rms.uuid %}">{{rms.name}}
-            <small>(by {{rms.authors}})</small>
-        </a></li>
-        {% endfor %}
-    </ul>
-</div>
+    <div class="col-md-6 offset-md-3">
+        {% if rmss %}
+            <ul>
+                {% for rms in rmss %}
+                    <li><a href="{% url 'map' rms_id=rms.uuid %}">{{ rms.name }}
+                        <small>(by {{ rms.authors }})</small>
+                    </a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="text-center">
+                <div style="font-size: 10rem;">😢</div>
+            <p>Looks like you have not uploaded any maps yet. <a href="{% url 'newmap' %}">Start now!</a></p>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
 {% block js %}
 {% endblock %}

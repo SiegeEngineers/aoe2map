@@ -1,7 +1,6 @@
 from django.urls import path
 
-from . import views, api
-
+from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -14,7 +13,10 @@ urlpatterns = [
     path('mappack', views.mappack, name='mappack'),
     path('login', views.loginpage, name='login'),
     path('register', views.registerpage, name='register'),
+    path('settings', views.settings, name='settings'),
     path('logout', views.logoutpage, name='logout'),
     path('mymaps', views.mymaps, name='mymaps'),
     path('newmap', views.newmap, name='newmap'),
+    path('email_verification_sent', views.email_verification_sent, name='email_verification_sent'),
+    path('verify/<uidb64>/<token>', views.verify_email, name='verify_email'),
 ]

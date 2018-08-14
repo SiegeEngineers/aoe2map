@@ -3,9 +3,12 @@ import uuid as uuid
 import os
 from io import BytesIO
 from PIL import Image as PilImage
+from django.contrib.auth.models import User
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from aoe2map import settings
 
@@ -86,3 +89,17 @@ class Collection(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email_confirmed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()

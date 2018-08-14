@@ -29,20 +29,10 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'mappack' %}">Mappack Creator</a>
         </li>
-        {% if request.user.is_authenticated %}
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'mymaps' %}">My Maps</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'newmap' %}">New Map</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-        </li>
-        {% else %}
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Login</a>
-        </li>
+        {% if not request.user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
         {% endif %}
         <li>
             <form class="form-inline" method="POST" action="{% url 'map_search_post' %}">
@@ -53,23 +43,41 @@
             </form>
         </li>
     </ul>
-    {% block subtitle %}{% endblock%}
+    {% if request.user.is_authenticated %}
+        <ul class="nav justify-content-center user-nav">
+            <li class="nav-item"><span class="nav-link">Hello <b>{{ request.user.username }}</b>!</span></li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'mymaps' %}">My Maps</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'newmap' %}">New Map</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'settings' %}">Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+        </ul>
+    {% endif %}
+    <hr>
+    {% block subtitle %}{% endblock %}
     {% block content %}
-    <div class="maps row">
+        <div class="maps row">
 
-    </div>
+        </div>
     {% endblock %}
 </div>
 {% block js %}
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script type="text/javascript">var API_URL = "{{API_URL}}"</script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-        crossorigin="anonymous"></script>
-<script src="{% static 'mapsapp/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'mapsapp/js/aoe2map.js' %}"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script type="text/javascript">var API_URL = "{{API_URL}}"</script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'mapsapp/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'mapsapp/js/aoe2map.js' %}"></script>
 {% endblock %}
 </body>
 

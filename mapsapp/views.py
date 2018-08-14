@@ -2,14 +2,20 @@ import os
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.storage import FileSystemStorage
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.encoding import force_bytes, force_text
 from django.utils.html import escape
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from mapsapp.models import Rms, Image, Collection
-from .forms import NewRmsForm
+from mapsapp.tokens import email_verification_token
+from .forms import NewRmsForm, SignUpForm, SettingsForm
 
 API_URL = "API_URL"
 
@@ -61,7 +67,6 @@ def mappack(request):
 
 
 def loginpage(request):
-    user = None
     context = {"messages": []}
     if request.POST:
         username = request.POST['username']
@@ -80,7 +85,77 @@ def loginpage(request):
 
 
 def registerpage(request):
-    return HttpResponse("register")
+    context = {}
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            if form.cleaned_data['email'] != "":
+                send_verification_email(request, user)
+                return redirect('email_verification_sent')
+            else:
+                login(request, user)
+                return redirect('mymaps')
+    else:
+        form = SignUpForm()
+    context['form'] = form
+    return render(request, 'mapsapp/register.html', context=context)
+
+
+def settings(request):
+    context = {'messages': []}
+    if request.method == 'POST':
+        form = SettingsForm(request.POST, user=request.user)
+        if form.is_valid():
+            user = request.user
+            if form.cleaned_data['new_password']:
+                user.password = make_password(form.cleaned_data['new_password'])
+                user.save()
+                login(request, user)
+                context['messages'].append({'class': 'success', 'text': 'Your password has been changed.'})
+            if form.cleaned_data['email'] != user.email:
+                user.email = form.cleaned_data['email']
+                user.profile.email_confirmed = False
+                user.save()
+                if form.cleaned_data['email'] == '':
+                    context['messages'].append({'class': 'warning', 'text': 'Your email address has been removed.'})
+                else:
+                    send_verification_email(request, user)
+                    return redirect('email_verification_sent')
+
+    else:
+        form = SettingsForm(initial={'email': request.user.email})
+    context['form'] = form
+    return render(request, 'mapsapp/settings.html', context=context)
+
+
+def send_verification_email(request, user):
+    current_site = get_current_site(request)
+    subject = 'Verify Your Email Address'
+    message = render_to_string('email_verification_email.html', {
+        'user': user,
+        'domain': current_site.domain,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
+        'token': email_verification_token.make_token(user),
+    })
+    user.email_user(subject, message)
+
+
+def verify_email(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and email_verification_token.check_token(user, token):
+        user.is_active = True
+        user.profile.email_confirmed = True
+        user.save()
+        login(request, user)
+        return render(request, 'mapsapp/email_verification_valid.html')
+    else:
+        return render(request, 'mapsapp/email_verification_invalid.html')
 
 
 def logoutpage(request):
@@ -133,3 +208,8 @@ def newmap(request):
         form = NewRmsForm()
     context["form"] = form
     return render(request, 'mapsapp/newmap.html', context=context)
+
+
+def email_verification_sent(request):
+    context = {'email': request.user.email}
+    return render(request, 'mapsapp/email_verification_sent.html', context=context)

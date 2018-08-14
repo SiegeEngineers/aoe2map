@@ -1,17 +1,20 @@
 {% extends "mapsapp/base.html" %}
 {% load widget_tweaks %}
 
-{% block pagetitle %} – New Map{% endblock %}
+{% block pagetitle %} – Settings{% endblock %}
 {% block subtitle %}
-    <h4 class="text-center">New Map</h4>
+    <h4 class="text-center">Settings</h4>
 {% endblock %}
 
 {% block content %}
     <div class="col-md-8 offset-md-2">
 
-        <p>You want to upload a new map? Just fill out the fields below with meaningful data, add your <tt>.rms</tt>
-            file
-            and a screenshot of the map (or another meaningful image) and hit Upload!</p>
+        <p>You can change your password and modify your email address here. If add or modify your email address, you
+            will receive an email with a link that you have to click in order to confirm your email address. You can
+            also remove your email address and save an empty field in order to remove your email address from our
+            system.</p>
+
+        <p><strong>You cannot reset a forgotten password unless you add and confirm an email address.</strong></p>
 
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
@@ -56,12 +59,12 @@
                     {% endif %}
 
                     {% if field.help_text %}
-                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                        <small class="form-text text-muted">{{ field.help_text | safe }}</small>
                     {% endif %}
                 </div>
             {% endfor %}
 
-            <button type="submit" class="btn btn-primary">Upload</button>
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
 {% endblock %}

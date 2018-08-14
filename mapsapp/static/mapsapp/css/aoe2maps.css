@@ -5,3 +5,20 @@
 #banner {
     max-height: 100px;
 }
+
+.user-nav {
+    background: linear-gradient(#fc0, #fa0);
+    border-radius: .5rem;
+    color: black;
+}
+
+.user-nav a {
+    color: black;
+}
+.user-nav a:hover {
+    color: #333;
+}
+
+hr {
+    border-color: #00bc8c;
+}

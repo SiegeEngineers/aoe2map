@@ -26,7 +26,7 @@ def index(request):
 
 
 def maps(request):
-    context = {"rmss": Rms.objects.order_by('name')}
+    context = {"rmss": Rms.objects.filter(newer_version=None).order_by('name')}
     return render(request, 'mapsapp/maps.html', context)
 
 
@@ -170,34 +170,46 @@ def mymaps(request):
 
 
 @login_required
-def newmap(request):
+def newmap(request, rms_id=None):
     context = {'messages': []}
+    old_rms = None
+    if rms_id:
+        old_rms = get_object_or_404(Rms, pk=rms_id)
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = NewRmsForm(request.POST, request.FILES)
         # check whether it's valid:
         if form.is_valid():
-            rms = Rms()
-            rms.name = form.cleaned_data['name']
-            rms.owner = request.user
-            rms.version = form.cleaned_data['version']
-            rms.authors = form.cleaned_data['authors']
-            rms.description = form.cleaned_data['description']
-            rms.url = form.cleaned_data['url']
+            new_rms = Rms()
+            new_rms.name = form.cleaned_data['name']
+            new_rms.owner = request.user
+            new_rms.version = form.cleaned_data['version']
+            new_rms.authors = form.cleaned_data['authors']
+            new_rms.description = form.cleaned_data['description']
+            new_rms.url = form.cleaned_data['url']
 
             fs = FileSystemStorage()
-            filename = fs.save(os.path.join(str(rms.uuid), form.cleaned_data['file'].name), form.cleaned_data['file'])
-            rms.file = filename
-            rms.save()
+            filename = fs.save(os.path.join(str(new_rms.uuid), form.cleaned_data['file'].name), form.cleaned_data['file'])
+            new_rms.file = filename
+            new_rms.save()
 
-            rms.tags.set(form.cleaned_data['tags'])
-            rms.versiontags.set(form.cleaned_data['versiontags'])
+            if old_rms:
+                old_rms.newer_version = new_rms
+                old_rms.save()
+
+                for related_collection in old_rms.collection_set.all():
+                    related_collection.rms.add(new_rms)
+                    related_collection.rms.remove(old_rms)
+                    related_collection.save()
+
+            new_rms.tags.set(form.cleaned_data['tags'])
+            new_rms.versiontags.set(form.cleaned_data['versiontags'])
 
             imagefiles = request.FILES.getlist('images')
             for image in imagefiles:
                 img = Image()
                 img.file = image
-                img.rms = rms
+                img.rms = new_rms
                 img.save()
             form = NewRmsForm()
             context['messages'].append({'class': 'success', 'text': 'Rms created successfully'})
@@ -205,7 +217,11 @@ def newmap(request):
             context['messages'].append({'class': 'danger', 'text': 'That did not work…'})
         # if a GET (or any other method) we'll create a blank form
     else:
-        form = NewRmsForm()
+        initial = {}
+        if old_rms:
+            for key in ('name', 'authors', 'description', 'url'):
+                initial[key] = getattr(old_rms, key)
+        form = NewRmsForm(initial=initial)
     context["form"] = form
     return render(request, 'mapsapp/newmap.html', context=context)
 

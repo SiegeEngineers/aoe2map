@@ -46,6 +46,7 @@ class Rms(models.Model):
     file = models.FileField(upload_to=rms_path)
     tags = models.ManyToManyField(Tag)
     versiontags = models.ManyToManyField(VersionTag)
+    newer_version = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, default=None)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

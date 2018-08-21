@@ -22,7 +22,7 @@ def status(request):
 
 
 def maps(request):
-    objects = maps2json(Rms.objects.order_by('?')[0:12])
+    objects = maps2json(Rms.objects.filter(newer_version=None).order_by('?')[0:12])
 
     return JsonResponse({"maps": objects})
 
@@ -35,7 +35,8 @@ def rms(request, rms_id):
 
 
 def rms_by_name(request, name):
-    rms = Rms.objects.filter(name__icontains=name) | Rms.objects.filter(authors__icontains=name)
+    rms = Rms.objects.filter(newer_version=None).filter(name__icontains=name) | \
+          Rms.objects.filter(newer_version=None).filter(authors__icontains=name)
     objects = maps2json(rms)
 
     return JsonResponse({"maps": objects})

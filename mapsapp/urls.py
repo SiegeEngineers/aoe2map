@@ -17,6 +17,7 @@ urlpatterns = [
     path('settings', views.settings, name='settings'),
     path('logout', views.logoutpage, name='logout'),
     path('mymaps', views.mymaps, name='mymaps'),
+    path('newmap/<uuid:rms_id>', views.newmap, name='newmap_newer_version'),
     path('newmap', views.newmap, name='newmap'),
     path('edit/<uuid:rms_id>', views.editmap, name='editmap'),
     path('email_verification_sent', views.email_verification_sent, name='email_verification_sent'),

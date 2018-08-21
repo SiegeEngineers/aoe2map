@@ -1,7 +1,7 @@
 {% extends "mapsapp/base.html" %}
 
 {% block subtitle %}
-    <h4 class="text-center">My maps</small></h4>
+    <h4 class="text-center">My maps</h4>
     <hr>
 {% endblock %}
 
@@ -13,13 +13,13 @@
                 {% for rms in rmss %}
                     <li><a href="{% url 'map' rms_id=rms.uuid %}">{{ rms.name }}
                         <small>(by {{ rms.authors }})</small>
-                    </a></li>
+                    </a> – <a href="{% url 'editmap' rms_id=rms.uuid %}">edit</a></li>
                 {% endfor %}
             </ul>
         {% else %}
             <div class="text-center">
                 <div style="font-size: 10rem;">😢</div>
-            <p>Looks like you have not uploaded any maps yet. <a href="{% url 'newmap' %}">Start now!</a></p>
+                <p>Looks like you have not uploaded any maps yet. <a href="{% url 'newmap' %}">Start now!</a></p>
             </div>
         {% endif %}
     </div>

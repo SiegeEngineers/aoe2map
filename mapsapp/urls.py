@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('maps', views.maps, name='maps'),
-    path('map/<uuid:rms_id>', views.map, name='map'),
+    path('map/<uuid:rms_id>', views.rms, name='map'),
     path('map/s/<name>', views.map_search, name='map_search'),
     path('map/s/', views.map_search, name='map_search_post'),
     path('collections', views.collections, name='collections'),
@@ -18,6 +18,7 @@ urlpatterns = [
     path('logout', views.logoutpage, name='logout'),
     path('mymaps', views.mymaps, name='mymaps'),
     path('newmap', views.newmap, name='newmap'),
+    path('edit/<uuid:rms_id>', views.editmap, name='editmap'),
     path('email_verification_sent', views.email_verification_sent, name='email_verification_sent'),
     path('verify/<uidb64>/<token>', views.verify_email, name='verify_email'),
     path('password_reset', auth_views.password_reset, name='password_reset'),

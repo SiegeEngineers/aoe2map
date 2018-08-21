@@ -2,10 +2,11 @@ import os
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.storage import FileSystemStorage
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -14,7 +15,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from mapsapp.models import Rms, Image, Collection
 from mapsapp.tokens import email_verification_token
-from .forms import NewRmsForm, SignUpForm, SettingsForm
+from .forms import NewRmsForm, SignUpForm, SettingsForm, EditRmsForm
 
 API_URL = "API_URL"
 
@@ -29,11 +30,11 @@ def maps(request):
     return render(request, 'mapsapp/maps.html', context)
 
 
-def map(request, rms_id):
-    rms = get_object_or_404(Rms, pk=rms_id)
+def rms(request, rms_id):
+    rms_instance = get_object_or_404(Rms, pk=rms_id)
     context = {
         API_URL: reverse('api:rms', kwargs={'rms_id': rms_id}),
-        "rms": rms}
+        "rms": rms_instance}
     return render(request, 'mapsapp/map.html', context)
 
 
@@ -207,6 +208,39 @@ def newmap(request):
         form = NewRmsForm()
     context["form"] = form
     return render(request, 'mapsapp/newmap.html', context=context)
+
+
+@login_required
+def editmap(request, rms_id):
+    context = {'messages': []}
+    rms = get_object_or_404(Rms, pk=rms_id)
+    if rms.owner != request.user:
+        raise Http404
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = EditRmsForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            rms.name = form.cleaned_data['name']
+            rms.version = form.cleaned_data['version']
+            rms.authors = form.cleaned_data['authors']
+            rms.description = form.cleaned_data['description']
+            rms.url = form.cleaned_data['url']
+
+            rms.tags.set(form.cleaned_data['tags'])
+            rms.versiontags.set(form.cleaned_data['versiontags'])
+
+            rms.save()
+
+            form = EditRmsForm(instance=rms)
+            context['messages'].append({'class': 'success', 'text': 'Rms updated successfully'})
+        else:
+            context['messages'].append({'class': 'danger', 'text': 'That did not work…'})
+    else:
+        form = EditRmsForm(instance=rms)
+    context['rms'] = rms
+    context['form'] = form
+    return render(request, 'mapsapp/editmap.html', context=context)
 
 
 def email_verification_sent(request):

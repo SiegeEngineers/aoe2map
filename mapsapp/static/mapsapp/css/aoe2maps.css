@@ -16,10 +16,34 @@
 .user-nav a {
     color: black;
 }
+
 .user-nav a:hover {
     color: #333;
 }
 
 hr {
     border-color: #00bc8c;
+}
+
+ul.maplist,
+ul.mapslist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.maplist li:before {
+    content: url('../images/map.svg');
+}
+
+ul.mapslist li:before {
+    content: url('../images/maps.svg');
+}
+
+ul.maplist li:before,
+ul.mapslist li:before {
+    display: inline-block;;
+    width: 1rem;
+    height: 1rem;
+    margin-right: .2rem;
 }

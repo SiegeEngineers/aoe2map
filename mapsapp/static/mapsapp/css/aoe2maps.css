@@ -4,6 +4,7 @@
 
 #banner {
     max-height: 100px;
+    max-width: 100%;
 }
 
 .user-nav {

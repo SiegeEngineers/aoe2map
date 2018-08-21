@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
+from django.utils.html import escape
 
 from mapsapp.models import Rms, VersionTag, Tag, Image, Collection
 
@@ -70,11 +71,11 @@ def maps2json(maps):
             versiontags.append(vt.name)
         objects.append({
             "uuid": o.uuid,
-            "name": o.name,
-            "version": o.version,
-            "authors": o.authors,
-            "description": o.description,
-            "url": o.url,
+            "name": escape(o.name),
+            "version": escape(o.version),
+            "authors": escape(o.authors),
+            "description": escape(o.description),
+            "url": escape(o.url),
             "file": o.file.name,
             "fileurl": o.file.url,
             "tags": tags,

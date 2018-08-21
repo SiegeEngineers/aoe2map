@@ -10,7 +10,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
-from django.utils.html import escape
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from mapsapp.models import Rms, Image, Collection
@@ -178,12 +177,12 @@ def newmap(request):
         # check whether it's valid:
         if form.is_valid():
             rms = Rms()
-            rms.name = escape(form.cleaned_data['name'])
+            rms.name = form.cleaned_data['name']
             rms.owner = request.user
-            rms.version = escape(form.cleaned_data['version'])
-            rms.authors = escape(form.cleaned_data['authors'])
-            rms.description = escape(form.cleaned_data['description'])
-            rms.url = escape(form.cleaned_data['url'])
+            rms.version = form.cleaned_data['version']
+            rms.authors = form.cleaned_data['authors']
+            rms.description = form.cleaned_data['description']
+            rms.url = form.cleaned_data['url']
 
             fs = FileSystemStorage()
             filename = fs.save(os.path.join(str(rms.uuid), form.cleaned_data['file'].name), form.cleaned_data['file'])

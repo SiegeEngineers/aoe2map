@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
-from django.forms import Textarea
+from django.forms import Textarea, ModelForm, CheckboxSelectMultiple
 
 from mapsapp.models import VersionTag, Tag
 
@@ -34,7 +34,8 @@ class NewRmsForm(forms.Form):
     tags = forms.MultipleChoiceField(label='Tags', choices=get_tag_choices(),
                                      help_text="Tag your map with up to seven suitable keywords")
     versiontags = forms.MultipleChoiceField(label="Versions", choices=get_version_tag_choices(),
-                                            help_text="The versions that this map works in")
+                                            help_text="The versions that this map works in",
+                                            widget=CheckboxSelectMultiple)
     images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}), required=False,
                              help_text="Images get resized to 600x315 px, so you probably want to upload only pictures of that size or aspect ratio")
 

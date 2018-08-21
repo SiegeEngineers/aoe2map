@@ -44,9 +44,7 @@ class EditRmsForm(ModelForm):
     class Meta:
         model = Rms
         fields = ['name', 'version', 'authors', 'description', 'url', 'tags', 'versiontags']
-        widgets = {
-            'versiontags': CheckboxSelectMultiple,
-        }
+        widgets = {'versiontags': CheckboxSelectMultiple}
 
 
 class SignUpForm(UserCreationForm):

@@ -72,7 +72,7 @@ class Image(models.Model):
 
         # change the imagefield value to be the newly modifed image value
         self.file = InMemoryUploadedFile(output, 'ImageField', "{}.png".format(os.path.splitext(self.file.name)[0]),
-                                        'image/png', sys.getsizeof(output), None)
+                                         'image/png', sys.getsizeof(output), None)
 
         super(Image, self).save()
 
@@ -97,6 +97,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):

@@ -22,8 +22,8 @@ urlpatterns = [
     path('edit/<uuid:rms_id>', views.editmap, name='editmap'),
     path('email_verification_sent', views.email_verification_sent, name='email_verification_sent'),
     path('verify/<uidb64>/<token>', views.verify_email, name='verify_email'),
-    path('password_reset', auth_views.password_reset, name='password_reset'),
-    path('password_reset/done', auth_views.password_reset_done, name='password_reset_done'),
-    path('password_reset/<uidb64>/<token>', auth_views.password_reset_confirm, name='password_reset_confirm'),
-    path('password_reset/complete', auth_views.password_reset_complete, name='password_reset_complete'),
+    path('password_reset', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('password_reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('password_reset/complete', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]

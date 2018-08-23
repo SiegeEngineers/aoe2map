@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 from django.forms import Textarea, ModelForm, CheckboxSelectMultiple
 
-from mapsapp.models import VersionTag, Tag, Rms
+from mapsapp.models import VersionTag, Rms
 
 
 def get_version_tag_choices():
@@ -13,13 +13,6 @@ def get_version_tag_choices():
     for vt in VersionTag.objects.all():
         versiontags.append((vt.id, vt.name))
     return versiontags
-
-
-def get_tag_choices():
-    tags = []
-    for t in Tag.objects.all():
-        tags.append((t.id, t.name))
-    return tags
 
 
 class NewRmsForm(forms.Form):
@@ -31,8 +24,7 @@ class NewRmsForm(forms.Form):
     url = forms.CharField(max_length=255, required=False, help_text="An (optional) url for this map")
     file = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=['rms'])],
                            help_text="Choose the .rms script you want to share")
-    tags = forms.MultipleChoiceField(label='Tags', choices=get_tag_choices(),
-                                     help_text="Tag your map with up to seven suitable keywords")
+    tags = forms.CharField(max_length=255, help_text="Tag your map with up to seven suitable keywords")
     versiontags = forms.MultipleChoiceField(label="Versions", choices=get_version_tag_choices(),
                                             help_text="The versions that this map works in",
                                             widget=CheckboxSelectMultiple)
@@ -41,6 +33,8 @@ class NewRmsForm(forms.Form):
 
 
 class EditRmsForm(ModelForm):
+    tags = forms.CharField(max_length=255, required=True, help_text="Tags tags tags!")
+
     class Meta:
         model = Rms
         fields = ['name', 'version', 'authors', 'description', 'url', 'tags', 'versiontags']

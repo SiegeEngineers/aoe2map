@@ -13,7 +13,7 @@ from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from mapsapp.models import Rms, Image, Collection
+from mapsapp.models import Rms, Image, Collection, Tag
 from mapsapp.tokens import email_verification_token
 from .forms import NewRmsForm, SignUpForm, SettingsForm, EditRmsForm
 
@@ -169,6 +169,15 @@ def mymaps(request):
     return render(request, 'mapsapp/mymaps.html', context)
 
 
+def get_tags(tagstring):
+    tags = []
+    items = tagstring.split(',')
+    for item in items:
+        (tag, created) = Tag.objects.get_or_create(name=item)
+        tags.append(tag)
+    return tags
+
+
 @login_required
 def newmap(request, rms_id=None):
     context = {'messages': []}
@@ -189,7 +198,8 @@ def newmap(request, rms_id=None):
             new_rms.url = form.cleaned_data['url']
 
             fs = FileSystemStorage()
-            filename = fs.save(os.path.join(str(new_rms.uuid), form.cleaned_data['file'].name), form.cleaned_data['file'])
+            filename = fs.save(os.path.join(str(new_rms.uuid), form.cleaned_data['file'].name),
+                               form.cleaned_data['file'])
             new_rms.file = filename
             new_rms.save()
 
@@ -202,8 +212,9 @@ def newmap(request, rms_id=None):
                     related_collection.rms.remove(old_rms)
                     related_collection.save()
 
-            new_rms.tags.set(form.cleaned_data['tags'])
             new_rms.versiontags.set(form.cleaned_data['versiontags'])
+            tags = get_tags(form.cleaned_data['tags'])
+            new_rms.tags.add(*tags)
 
             imagefiles = request.FILES.getlist('images')
             for image in imagefiles:
@@ -226,6 +237,13 @@ def newmap(request, rms_id=None):
     return render(request, 'mapsapp/newmap.html', context=context)
 
 
+def get_tagstring(tags):
+    names = []
+    for tag in tags:
+        names.append(tag.name)
+    return ','.join(names)
+
+
 @login_required
 def editmap(request, rms_id):
     context = {'messages': []}
@@ -243,17 +261,21 @@ def editmap(request, rms_id):
             rms.description = form.cleaned_data['description']
             rms.url = form.cleaned_data['url']
 
-            rms.tags.set(form.cleaned_data['tags'])
             rms.versiontags.set(form.cleaned_data['versiontags'])
+            rms.tags.clear()
+            tags = get_tags(form.cleaned_data['tags'])
+            rms.tags.add(*tags)
 
             rms.save()
 
-            form = EditRmsForm(instance=rms)
+            tagstring = get_tagstring(rms.tags.all())
+            form = EditRmsForm(instance=rms, initial={'tags': tagstring})
             context['messages'].append({'class': 'success', 'text': 'Rms updated successfully'})
         else:
             context['messages'].append({'class': 'danger', 'text': 'That did not work…'})
     else:
-        form = EditRmsForm(instance=rms)
+        tagstring = get_tagstring(rms.tags.all())
+        form = EditRmsForm(instance=rms, initial={'tags': tagstring})
     context['rms'] = rms
     context['form'] = form
     return render(request, 'mapsapp/editmap.html', context=context)

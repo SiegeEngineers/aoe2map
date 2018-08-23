@@ -1,5 +1,10 @@
 {% extends "mapsapp/base.html" %}
 {% load widget_tweaks %}
+{% load static %}
+
+{% block additionalcss %}
+    <link rel="stylesheet" href="{% static 'mapsapp/css/tagsinput.css' %}">
+{% endblock %}
 
 {% block pagetitle %} – New Map{% endblock %}
 {% block subtitle %}
@@ -64,4 +69,10 @@
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
     </div>
+{% endblock %}
+{% block additionaljs %}
+    <script src="{% static 'mapsapp/js/tagsinput.js' %}"></script>
+    <script type="text/javascript">
+        $('#id_tags').tagsinput();
+    </script>
 {% endblock %}

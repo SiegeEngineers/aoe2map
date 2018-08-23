@@ -9,6 +9,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'mapsapp/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'mapsapp/css/aoe2maps.css' %}">
+    {% block additionalcss %}
+    {% endblock %}
 
     <title>aoe2maps{% block pagetitle %}{% endblock %}</title>
     {% block style %}{% endblock %}
@@ -78,6 +80,8 @@
             crossorigin="anonymous"></script>
     <script src="{% static 'mapsapp/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/aoe2map.js' %}"></script>
+{% endblock %}
+{% block additionaljs %}
 {% endblock %}
 </body>
 

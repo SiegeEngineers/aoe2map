@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from django.contrib.auth import views as auth_views
 
 from . import views
@@ -20,6 +20,9 @@ urlpatterns = [
     path('newmap/<uuid:rms_id>', views.newmap, name='newmap_newer_version'),
     path('newmap', views.newmap, name='newmap'),
     path('edit/<uuid:rms_id>', views.editmap, name='editmap'),
+    path('version/<version_name>', views.version, name='version'),
+    re_path(r'^tags/(?P<url_fragment>(\d+/)*)$', views.tags, name='tags'),
+    re_path(r'^tags/(?P<url_fragment>(\d+/)+)remove/(?P<id_to_remove>\d+)/$', views.tags_remove, name='tags_remove'),
     path('email_verification_sent', views.email_verification_sent, name='email_verification_sent'),
     path('verify/<uidb64>/<token>', views.verify_email, name='verify_email'),
     path('password_reset', auth_views.PasswordResetView.as_view(), name='password_reset'),

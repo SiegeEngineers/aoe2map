@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views, api
 
@@ -11,4 +11,6 @@ urlpatterns = [
     path('rms/<uuid:rms_id>', api.rms, name='rms'),
     path('rms/s/<name>', api.rms_by_name, name='rms_by_name'),
     path('collection/<uuid:collection_id>/maps', api.collection, name='collection'),
+    path('version/<version_name>', api.version, name='version'),
+    re_path(r'^tags/(?P<url_fragment>(\d+/)*)$', api.tags, name='tags'),
 ]

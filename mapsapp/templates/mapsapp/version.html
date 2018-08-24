@@ -1,0 +1,20 @@
+{% extends "mapsapp/base.html" %}
+{% block subtitle %}
+    <h4 class="text-center">Maps compatible with version ›{{ version_name }}‹</h4>
+    <hr>
+{% endblock %}
+{% block content %}
+    <div class="row allversions">
+        <div class="col-md-8 offset-md-2">
+            {% for version in allversions %}
+                {% if version.name == version_name %}
+                    <span class="badge badge-primary">{{ version.name }}</span>
+                {% else %}
+                    <a href="{% url 'version' version_name=version %}"><span class="badge badge-secondary">{{ version.name }}</span></a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="maps row">
+    </div>
+{% endblock %}

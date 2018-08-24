@@ -47,3 +47,9 @@ ul.mapslist li:before {
     height: 1rem;
     margin-right: .2rem;
 }
+
+.alltags,
+.allversions {
+    text-align: center;
+    padding-bottom: 1rem;
+}

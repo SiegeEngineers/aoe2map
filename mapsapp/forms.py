@@ -46,7 +46,7 @@ class EditRmsForm(ModelForm):
         model = Rms
         fields = ['name', 'version', 'authors', 'description', 'url', 'tags', 'versiontags']
         widgets = {'versiontags': CheckboxSelectMultiple}
-    
+
     def clean_tags(self):
         tags = self.cleaned_data['tags']
         if len(tags.split(',')) > 8:

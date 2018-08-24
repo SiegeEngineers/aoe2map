@@ -6,14 +6,14 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.files.storage import FileSystemStorage
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from mapsapp.models import Rms, Image, Collection, Tag
+from mapsapp.models import Rms, Image, Collection, Tag, VersionTag
 from mapsapp.tokens import email_verification_token
 from .forms import NewRmsForm, SignUpForm, SettingsForm, EditRmsForm
 
@@ -284,3 +284,39 @@ def editmap(request, rms_id):
 def email_verification_sent(request):
     context = {'email': request.user.email}
     return render(request, 'mapsapp/email_verification_sent.html', context=context)
+
+
+def tags(request, url_fragment):
+    items = url_fragment.split('/')
+    tagset = set()
+    for item in items:
+        if item.isnumeric():
+            tagset.add(get_object_or_404(Tag, pk=int(item)))
+    context = {
+        "tagset": tagset,
+        "alltags": Tag.objects.all(),
+        API_URL: reverse('api:tags', kwargs={'url_fragment': url_fragment})
+    }
+    return render(request, 'mapsapp/tags.html', context)
+
+
+def version(request, version_name):
+    context = {
+        "version_name": version_name,
+        "allversions": VersionTag.objects.all(),
+        API_URL: reverse('api:version', kwargs={'version_name': version_name})
+    }
+    return render(request, 'mapsapp/version.html', context)
+
+
+def tags_remove(request, url_fragment, id_to_remove):
+    items = url_fragment.split('/')
+    tag_id_set = set()
+    for item in items:
+        if item != "":
+            tag_id_set.add(item)
+    tag_id_set.remove(id_to_remove)
+    new_url_fragment = '/'.join(tag_id_set)
+    if new_url_fragment != '':
+        new_url_fragment += '/'
+    return redirect('tags', url_fragment=new_url_fragment)

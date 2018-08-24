@@ -67,7 +67,7 @@ def maps2json(maps):
         for i in o.image_set.all():
             images.append({"name": i.file.name, "url": i.file.url})
         for t in o.tags.all():
-            tags.append(t.name)
+            tags.append({"name": t.name, "id": t.id})
         for vt in o.versiontags.all():
             versiontags.append(vt.name)
         objects.append({
@@ -84,3 +84,25 @@ def maps2json(maps):
             "images": images,
         })
     return objects
+
+
+def tags(request, url_fragment):
+    items = url_fragment.split('/')
+    taglist = []
+    for item in items:
+        if item.isnumeric():
+            taglist.append(get_object_or_404(Tag, pk=int(item)))
+    resultset = Rms.objects.filter(newer_version=None)
+    for tag in taglist:
+        resultset = resultset.filter(tags=tag)
+    objects = maps2json(resultset)
+
+    return JsonResponse({"maps": objects})
+
+
+def version(request, version_name):
+    version = get_object_or_404(VersionTag, name=version_name)
+    resultset = Rms.objects.filter(newer_version=None).filter(versiontags=version)
+    objects = maps2json(resultset)
+
+    return JsonResponse({"maps": objects})

@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.forms import Textarea, ModelForm, CheckboxSelectMultiple
 
@@ -31,6 +32,12 @@ class NewRmsForm(forms.Form):
     images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}), required=False,
                              help_text="Images get resized to 600x315 px, so you probably want to upload only pictures of that size or aspect ratio")
 
+    def clean_tags(self):
+        tags = self.cleaned_data['tags']
+        if len(tags.split(',')) > 8:
+            raise ValidationError("You may add at most 7 tags!")
+        return tags
+
 
 class EditRmsForm(ModelForm):
     tags = forms.CharField(max_length=255, required=True, help_text="Tags tags tags!")
@@ -39,6 +46,12 @@ class EditRmsForm(ModelForm):
         model = Rms
         fields = ['name', 'version', 'authors', 'description', 'url', 'tags', 'versiontags']
         widgets = {'versiontags': CheckboxSelectMultiple}
+    
+    def clean_tags(self):
+        tags = self.cleaned_data['tags']
+        if len(tags.split(',')) > 8:
+            raise ValidationError("You may add at most 7 tags!")
+        return tags
 
 
 class SignUpForm(UserCreationForm):

@@ -90,11 +90,11 @@ def registerpage(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
+            login(request, user)
             if form.cleaned_data['email'] != "":
                 send_verification_email(request, user)
                 return redirect('email_verification_sent')
             else:
-                login(request, user)
                 return redirect('mymaps')
     else:
         form = SignUpForm()

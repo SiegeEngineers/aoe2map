@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils.html import escape
 
 from mapsapp.models import Rms, VersionTag, Tag, Image, Collection
@@ -76,6 +77,7 @@ def maps2json(maps):
             "version": escape(o.version),
             "authors": escape(o.authors),
             "description": escape(o.description),
+            "pageurl": reverse('map', kwargs={'rms_id': o.uuid}),
             "url": escape(o.url),
             "file": o.file.name,
             "fileurl": o.file.url,

@@ -16,7 +16,7 @@ $(function () {
             <div class="card"> \
                 <img class="card-img-top mapscreenshot rounded" src="' + map.images[0].url + '" />\
                     <div class="card-body">\
-                            <h5 class="card-title">' + map.name + '<small class="text-muted"> ' + map.version + '</small></h5>\
+                            <h5 class="card-title"><a href="'+map.pageurl+'">' + map.name + '</a><small class="text-muted"> ' + map.version + '</small></h5>\
                             <h6 class="card-subtitle mb-2 text-muted">by ' + map.authors + '</h6>\
                             <p class="card-text">' + map.description + '</p>\
                             <a href="' + map.fileurl + '" class="card-link">Download map</a>\

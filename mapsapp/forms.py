@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
+from django.db import OperationalError
 from django.forms import Textarea, ModelForm, CheckboxSelectMultiple
 
 from mapsapp.models import VersionTag, Rms
@@ -11,8 +12,11 @@ from mapsapp.models import VersionTag, Rms
 
 def get_version_tag_choices():
     versiontags = []
-    for vt in VersionTag.objects.all():
-        versiontags.append((vt.id, vt.name))
+    try:
+        for vt in VersionTag.objects.all():
+            versiontags.append((vt.id, vt.name))
+    except OperationalError:
+        pass
     return versiontags
 
 

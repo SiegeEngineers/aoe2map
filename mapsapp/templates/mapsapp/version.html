@@ -10,11 +10,16 @@
                 {% if version.name == version_name %}
                     <span class="badge badge-primary">{{ version.name }}</span>
                 {% else %}
-                    <a href="{% url 'version' version_name=version %}"><span class="badge badge-secondary">{{ version.name }}</span></a>
+                    <a href="{% url 'version' version_name=version %}"><span
+                            class="badge badge-secondary">{{ version.name }}</span></a>
                 {% endif %}
             {% endfor %}
         </div>
     </div>
     <div class="maps row">
     </div>
+{% endblock %}
+
+{% block js %}
+    {% include 'mapsapp/maps_js_block.html' %}
 {% endblock %}

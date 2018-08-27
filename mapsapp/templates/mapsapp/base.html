@@ -18,8 +18,9 @@
 
 <body>
 <div class="container-fluid">
-    <h1 class="text-center"><a href="{% url 'index' %}"><img id="banner"
-                                                             src="{% static 'mapsapp/images/banner.svg' %}"/></a></h1>
+    <h1 class="text-center"><a href="{% url 'index' %}">
+        <img id="banner" src="{% static 'mapsapp/images/banner.svg' %}"/></a>
+    </h1>
 
     <ul class="nav justify-content-center">
         <li class="nav-item">
@@ -64,6 +65,7 @@
     {% endif %}
     <hr>
     {% block subtitle %}{% endblock %}
+    <hr>
     {% block content %}
         <div class="maps row">
 
@@ -71,17 +73,6 @@
     {% endblock %}
 </div>
 {% block js %}
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script type="text/javascript">var API_URL = "{{API_URL}}"</script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-    <script src="{% static 'mapsapp/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'mapsapp/js/aoe2map.js' %}"></script>
-{% endblock %}
-{% block additionaljs %}
 {% endblock %}
 </body>
 

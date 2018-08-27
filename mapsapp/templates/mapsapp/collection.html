@@ -1,14 +1,18 @@
 {% extends "mapsapp/base.html" %}
+{% load static %}
 
 {% block subtitle %}
-<h4 class="text-center">{{collection.name}}
-    <small class="text-muted">by {{collection.authors}} ({{collection.rms.count}} maps)</small>
-</h4>
+    <h4 class="text-center">{{ collection.name }}
+        <small class="text-muted">by {{ collection.authors }} ({{ collection.rms.count }} maps)</small>
+    </h4>
 
-<hr>
-<div class="col-md-6 offset-md-3 col-12">
-    {{collection.description|linebreaks}}
-</div>
-<hr>
+    <hr>
+    <div class="col-md-6 offset-md-3 col-12">
+        {{ collection.description|linebreaks }}
+    </div>
+    <hr>
+{% endblock %}
 
-{% endblock%}
+{% block js %}
+    {% include 'mapsapp/maps_js_block.html' %}
+{% endblock %}

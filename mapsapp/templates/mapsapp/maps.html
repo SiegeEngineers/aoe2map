@@ -1,21 +1,19 @@
 {% extends "mapsapp/base.html" %}
 {% load static %}
 
-{% block pagetitle%} – Maps{% endblock %}
+{% block pagetitle %} – Maps{% endblock %}
 {% block subtitle %}
-<h4 class="text-center"><img src="{% static 'mapsapp/images/map.svg' %}" style="height:1em;"/> Maps</h4>
+    <h4 class="text-center"><img src="{% static 'mapsapp/images/map.svg' %}" style="height:1em;"/> Maps</h4>
 {% endblock %}
 
 {% block content %}
-<div class="col-md-6 offset-md-3">
-    <ul class="maplist">
-        {% for rms in rmss %}
-        <li><a href="{% url 'map' rms_id=rms.uuid %}">{{rms.name}}
-            <small>(by {{rms.authors}})</small>
-        </a></li>
-        {% endfor %}
-    </ul>
-</div>
-{% endblock %}
-{% block js %}
+    <div class="col-md-6 offset-md-3">
+        <ul class="maplist">
+            {% for rms in rmss %}
+                <li><a href="{% url 'map' rms_id=rms.uuid %}">{{ rms.name }}
+                    <small>(by {{ rms.authors }})</small>
+                </a></li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

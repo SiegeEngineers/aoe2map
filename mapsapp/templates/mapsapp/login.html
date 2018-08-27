@@ -1,41 +1,40 @@
 {% extends "mapsapp/base.html" %}
 {% block pagetitle %} – Login{% endblock %}
 {% block subtitle %}
-<h4 class="text-center">Login</h4>
-<hr>
-{% endblock%}
+    <h4 class="text-center">Login</h4>
+{% endblock %}
 {% block content %}
-<div class="col-xl-2 offset-xl-5 col-md-4 offset-md-4">
-    <form method="POST">
-        {% csrf_token %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.class }}" role="alert">
-            {{ message.text }}
-        </div>
-        {% endfor %}
-        {% endif %}
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Your user name"
-                   {% if username %}value="{{ username }}" {% endif %}>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Your password">
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Login</button>
-        </div>
+    <div class="col-xl-2 offset-xl-5 col-md-4 offset-md-4">
+        <form method="POST">
+            {% csrf_token %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.class }}" role="alert">
+                        {{ message.text }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Your user name"
+                       {% if username %}value="{{ username }}" {% endif %}>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Your password">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
 
-        <div class="form-group">
-            <a href="{% url 'register' %}">Click here to register</a>
-        </div>
-        <div class="form-group">
-            <a href="{% url 'password_reset' %}">Forgot your password?</a>
-        </div>
-    </form>
-</div>
+            <div class="form-group">
+                <a href="{% url 'register' %}">Click here to register</a>
+            </div>
+            <div class="form-group">
+                <a href="{% url 'password_reset' %}">Forgot your password?</a>
+            </div>
+        </form>
+    </div>
 {% endblock %}
 {% block js %}
 {% endblock %}

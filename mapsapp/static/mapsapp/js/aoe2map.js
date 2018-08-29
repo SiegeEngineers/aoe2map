@@ -12,11 +12,19 @@ $(function () {
             if (map.images.length === 0) {
                 map.images.push({"url": "/static/mapsapp/images/empty.png"});
             }
+            let alert = '';
+            if (map.newer_version !== null) {
+                alert = '<div class="alert alert-info" role="alert">\
+                      A newer version of this map is available! \
+                    <a href="' + map.newer_version + '" class="alert-link">Check it out!</a>\
+                    </div>'
+            }
             $('<div class="col-lg-4 col-md-6 col-12"> \
-            <div class="card"> \
-                <img class="card-img-top mapscreenshot rounded" src="' + map.images[0].url + '" />\
-                    <div class="card-body">\
-                            <h5 class="card-title"><a href="'+map.pageurl+'">' + map.name + '</a><small class="text-muted"> ' + map.version + '</small></h5>\
+                <div class="card"> \
+                    <img class="card-img-top mapscreenshot rounded" src="' + map.images[0].url + '" />\
+                        <div class="card-body">\
+                            ' + alert + '\
+                            <h5 class="card-title"><a href="' + map.pageurl + '">' + map.name + '</a><small class="text-muted"> ' + map.version + '</small></h5>\
                             <h6 class="card-subtitle mb-2 text-muted">by ' + map.authors + '</h6>\
                             <p class="card-text">' + map.description + '</p>\
                             <a href="' + map.fileurl + '" class="card-link">Download map</a>\

@@ -71,6 +71,9 @@ def maps2json(maps):
             tags.append({"name": t.name, "id": t.id})
         for vt in o.versiontags.all():
             versiontags.append(vt.name)
+        newer_version = None
+        if o.newer_version:
+            newer_version = reverse('map', kwargs={'rms_id': o.newer_version.uuid})
         objects.append({
             "uuid": o.uuid,
             "name": escape(o.name),
@@ -78,6 +81,7 @@ def maps2json(maps):
             "authors": escape(o.authors),
             "description": escape(o.description),
             "pageurl": reverse('map', kwargs={'rms_id': o.uuid}),
+            "newer_version": newer_version,
             "url": escape(o.url),
             "file": o.file.name,
             "fileurl": o.file.url,

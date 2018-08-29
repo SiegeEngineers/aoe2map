@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('info', views.info, name='info'),
     path('maps', views.maps, name='maps'),
     path('map/<uuid:rms_id>', views.rms, name='map'),
     path('map/s/<name>', views.map_search, name='map_search'),

@@ -320,3 +320,8 @@ def tags_remove(request, url_fragment, id_to_remove):
     if new_url_fragment != '':
         new_url_fragment += '/'
     return redirect('tags', url_fragment=new_url_fragment)
+
+
+def info(request):
+    context = {}
+    return render(request, 'mapsapp/info.html', context)

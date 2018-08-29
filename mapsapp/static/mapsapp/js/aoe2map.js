@@ -27,8 +27,10 @@ $(function () {
                             <h5 class="card-title"><a href="' + map.pageurl + '">' + map.name + '</a><small class="text-muted"> ' + map.version + '</small></h5>\
                             <h6 class="card-subtitle mb-2 text-muted">by ' + map.authors + '</h6>\
                             <p class="card-text">' + map.description + '</p>\
-                            <a href="' + map.fileurl + '" class="card-link">Download map</a>\
-                            <a href="' + map.url + '" class="card-link" target="_blank">Website</a>\
+                            <p>\
+                                <a href="' + map.fileurl + '" class="card-link btn btn-secondary">Download map</a>\
+                                <a href="' + map.url + '" class="card-link btn btn-outline-secondary" target="_blank">Website</a>\
+                            </p>\
                             <div class="tags">Tags: \
                             ' + getTags(map.tags) + '\
                             </div>\
@@ -44,7 +46,7 @@ $(function () {
     function getTags(tags) {
         let retval = "";
         for (tag of tags) {
-            retval += '<a href="/tags/' + tag.id + '"><span class="badge badge-secondary">' + tag.name + '</span></a> ';
+            retval += '<a href="/tags/' + tag.id + '" class="badge badge-secondary">' + tag.name + '</a> ';
         }
         return retval;
     }
@@ -52,7 +54,7 @@ $(function () {
     function getVersiontags(tags) {
         let retval = "";
         for (tag of tags) {
-            retval += '<a href="/version/' + tag + '"><span class="badge badge-secondary">' + tag + '</span></a> ';
+            retval += '<a href="/version/' + tag + '" class="badge badge-secondary">' + tag + '</a> ';
         }
         return retval;
     }

@@ -2,16 +2,15 @@
 {% block subtitle %}
     <h4 class="text-center">Maps tagged with ›{% for tag in tagset %}{{ tag }}{% if not forloop.last %},
     {% endif %}{% endfor %}‹</h4>
-    <hr>
 {% endblock %}
 {% block content %}
     <div class="row alltags">
         <div class="col-md-8 offset-md-2">
             {% for tag in alltags %}
                 {% if tag in tagset %}
-                    <a href="./remove/{{ tag.id }}/"><span class="badge badge-primary">{{ tag }}</span></a>
+                    <a href="./remove/{{ tag.id }}/" class="badge badge-primary">{{ tag }}</a>
                 {% else %}
-                    <a href="./{{ tag.id }}/"><span class="badge badge-secondary">{{ tag }}</span></a>
+                    <a href="./{{ tag.id }}/" class="badge badge-secondary">{{ tag }}</a>
                 {% endif %}
             {% endfor %}
         </div>

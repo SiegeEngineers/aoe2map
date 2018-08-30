@@ -8,6 +8,7 @@ urlpatterns = [
     path('status', api.status, name='status'),
     path('maps', api.maps, name='maps'),
     path('mymaps', api.mymaps, name='mymaps'),
+    path('alltags', api.alltags, name='alltags'),
     path('rms/<uuid:rms_id>', api.rms, name='rms'),
     path('rms/s/<name>', api.rms_by_name, name='rms_by_name'),
     path('collection/<uuid:collection_id>/maps', api.collection, name='collection'),

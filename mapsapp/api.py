@@ -112,3 +112,10 @@ def version(request, version_name):
     objects = maps2json(resultset)
 
     return JsonResponse({"maps": objects})
+
+
+def alltags(request):
+    tags = []
+    for tag in Tag.objects.order_by('name'):
+        tags.append(tag.name)
+    return JsonResponse({"tags": tags})

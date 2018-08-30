@@ -93,6 +93,9 @@ def maps2json(maps):
 
 
 def tags(request, url_fragment):
+    if url_fragment == '':
+        return JsonResponse({"maps": []})
+
     items = url_fragment.split('/')
     taglist = []
     for item in items:

@@ -1,6 +1,7 @@
-from django.urls import path, re_path
 from django.contrib.auth import views as auth_views
+from django.urls import path, re_path
 
+from mapsapp.views import PasswordResetViewWithCustomDomain
 from . import views
 
 urlpatterns = [
@@ -26,8 +27,9 @@ urlpatterns = [
     re_path(r'^tags/(?P<url_fragment>(\d+/)+)remove/(?P<id_to_remove>\d+)/$', views.tags_remove, name='tags_remove'),
     path('email_verification_sent', views.email_verification_sent, name='email_verification_sent'),
     path('verify/<uidb64>/<token>', views.verify_email, name='verify_email'),
-    path('password_reset', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset', PasswordResetViewWithCustomDomain.as_view(), name='password_reset'),
     path('password_reset/done', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('password_reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('password_reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(),
+         name='password_reset_confirm'),
     path('password_reset/complete', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]

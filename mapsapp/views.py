@@ -4,15 +4,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
-from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.views import PasswordResetView
 from django.core.files.storage import FileSystemStorage
-from django.http import Http404, HttpResponse
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
+from django.conf import settings as djangosettings
 from mapsapp.models import Rms, Image, Collection, Tag, VersionTag
 from mapsapp.tokens import email_verification_token
 from .forms import NewRmsForm, SignUpForm, SettingsForm, EditRmsForm
@@ -130,15 +131,18 @@ def settings(request):
 
 
 def send_verification_email(request, user):
-    current_site = get_current_site(request)
     subject = 'Verify Your Email Address'
     message = render_to_string('email_verification_email.html', {
         'user': user,
-        'domain': current_site.domain,
+        'django_top_url': djangosettings.DJANGO_TOP_URL,
         'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
         'token': email_verification_token.make_token(user),
     })
     user.email_user(subject, message)
+
+
+class PasswordResetViewWithCustomDomain(PasswordResetView):
+    extra_email_context = {'django_top_url': djangosettings.DJANGO_TOP_URL}
 
 
 def verify_email(request, uidb64, token):

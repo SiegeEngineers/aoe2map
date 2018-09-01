@@ -1,7 +1,7 @@
 {% autoescape off %}
 Hi {{ user.username }},
 
-Please click on the link below to confirm your registration:
+Please click on the link below to confirm your email address:
 
-http://{{ domain }}{% url 'verify_email' uidb64=uid token=token %}
+{{ django_top_url }}{% url 'verify_email' uidb64=uid token=token %}
 {% endautoescape %}

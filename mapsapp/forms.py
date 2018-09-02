@@ -7,7 +7,7 @@ from django.core.validators import FileExtensionValidator
 from django.db import OperationalError
 from django.forms import Textarea, ModelForm, CheckboxSelectMultiple
 
-from mapsapp.models import VersionTag, Rms
+from mapsapp.models import VersionTag, Rms, Collection
 
 
 def get_version_tag_choices():
@@ -56,6 +56,13 @@ class EditRmsForm(ModelForm):
         if len(tags.split(',')) > 8:
             raise ValidationError("You may add at most 7 tags!")
         return tags
+
+
+class CollectionForm(ModelForm):
+
+    class Meta:
+        model = Collection
+        fields = ['name', 'authors', 'description', 'rms']
 
 
 class SignUpForm(UserCreationForm):

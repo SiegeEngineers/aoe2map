@@ -1,0 +1,26 @@
+{% extends "mapsapp/base.html" %}
+{% load static %}
+
+{% block subtitle %}
+    <h4 class="text-center"><img src="{% static 'mapsapp/images/maps.svg' %}" style="height:1em;"/> My Collections</h4>
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-md-6 offset-md-3">
+        {% if collections %}
+            <ul class="mapslist">
+                {% for collection in collections %}
+                    <li><a href="{% url 'collection' collection_id=collection.uuid %}">{{ collection.name }}
+                        <small>(by {{ collection.authors }})</small>
+                    </a> – <a href="{% url 'editcollection' collection_id=collection.uuid %}">edit</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="text-center">
+                <div style="font-size: 10rem;">😢</div>
+                <p>Looks like you have not created a collection yet. <a href="{% url 'newcollection' %}">Start now!</a></p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

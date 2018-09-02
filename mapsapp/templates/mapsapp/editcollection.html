@@ -1,0 +1,67 @@
+{% extends "mapsapp/base.html" %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block additionalcss %}
+    <link rel="stylesheet" href="{% static 'mapsapp/css/tagsinput.css' %}">
+{% endblock %}
+
+{% block subtitle %}
+    <h4 class="text-center">{{ action }} Collection</h4>
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-8 offset-md-2">
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.class }}" role="alert">
+                        {{ message.text }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+            {% endfor %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% for field in form.visible_fields %}
+                <div class="form-group">
+                    <label for="{{ field.auto_id }}">
+                        {{ field.label }}{% if field.field.required %} (required){% endif %}
+                    </label>
+
+                    {% if form.is_bound %}
+                        {% if field.errors %}
+                            {% render_field field class="form-control is-invalid" %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            {% render_field field class="form-control is-valid" %}
+                        {% endif %}
+                    {% else %}
+                        {% render_field field class="form-control" %}
+                    {% endif %}
+
+                    {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+{% endblock %}

@@ -16,7 +16,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.conf import settings as djangosettings
 from mapsapp.models import Rms, Image, Collection, Tag, VersionTag
 from mapsapp.tokens import email_verification_token
-from .forms import NewRmsForm, SignUpForm, SettingsForm, EditRmsForm
+from .forms import NewRmsForm, SignUpForm, SettingsForm, EditRmsForm, CollectionForm
 
 API_URL = "API_URL"
 
@@ -173,6 +173,12 @@ def mymaps(request):
     return render(request, 'mapsapp/mymaps.html', context)
 
 
+@login_required
+def mycollections(request):
+    context = {"collections": Collection.objects.filter(owner=request.user).order_by('name')}
+    return render(request, 'mapsapp/mycollections.html', context)
+
+
 def get_tags(tagstring):
     tags = []
     items = tagstring.split(',')
@@ -239,6 +245,39 @@ def newmap(request, rms_id=None):
         form = NewRmsForm(initial=initial)
     context["form"] = form
     return render(request, 'mapsapp/newmap.html', context=context)
+
+
+@login_required
+def editcollection(request, collection_id=None):
+    context = {'messages': [], 'action': 'Create'}
+    verb = 'created'
+    if collection_id:
+        verb = 'updated'
+        context['action'] = 'Edit'
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        if collection_id:
+            collection_instance = get_object_or_404(Collection, pk=collection_id)
+            form = CollectionForm(request.POST, instance=collection_instance)
+        else:
+            form = CollectionForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.owner = request.user
+            instance.save()
+            context['messages'].append({'class': 'success', 'text': 'Collection {} successfully. Hooray!'.format(verb)})
+        else:
+            context['messages'].append({'class': 'danger', 'text': 'That did not work…'})
+    else:
+        initial = {}
+        if collection_id:
+            collection_instance = get_object_or_404(Collection, pk=collection_id)
+            form = CollectionForm(instance=collection_instance)
+        else:
+            form = CollectionForm(initial=initial)
+    context["form"] = form
+    return render(request, 'mapsapp/templates/mapsapp/editcollection.html', context=context)
 
 
 def get_tagstring(tags):

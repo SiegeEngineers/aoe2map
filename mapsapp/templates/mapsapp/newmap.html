@@ -77,7 +77,7 @@
     <script type="text/javascript">
         var tagnames = new Bloodhound({
             datumTokenizer: function (n) {
-                return n.split(/,/)
+                return n.name.split(/,/)
             },
             queryTokenizer: function (n) {
                 return n.split(/,/)

@@ -71,7 +71,9 @@
     <hr>
     {% block content %}
         <div class="maps row">
-
+            <div class="text-center col-12 loading-animation">
+                <img src="{% static 'mapsapp/images/load.gif' %}"/> Scouting for maps
+            </div>
         </div>
     {% endblock %}
 </div>

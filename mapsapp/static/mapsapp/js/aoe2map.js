@@ -1,3 +1,14 @@
+function partition(array, chunksize) {
+    let i, j, nr, temparray;
+    let retval = [];
+    for (nr = 0, i = 0, j = array.length; i < j; i += chunksize) {
+        temparray = array.slice(i, i + chunksize);
+        retval.push({number: nr, data: temparray});
+        nr++;
+    }
+    return retval;
+}
+
 $(function () {
 
     $.getJSON(API_URL, function (data) {
@@ -5,21 +16,24 @@ $(function () {
     });
 
     function addAllMaps(data) {
+        $('.maps').empty();
         if (data.maps.length === 0) {
             $('<div class="col-12 text-center">No result :-(</div>').appendTo('.maps');
         }
-        for (let map of data.maps) {
-            if (map.images.length === 0) {
-                map.images.push({"url": "/static/mapsapp/images/empty.png"});
-            }
-            let alert = '';
-            if (map.newer_version !== null) {
-                alert = '<div class="alert alert-info" role="alert">\
+        for (let part of partition(data.maps, 10)) {
+            setTimeout(function () {
+                for (let map of part.data) {
+                    if (map.images.length === 0) {
+                        map.images.push({"url": "/static/mapsapp/images/empty.png"});
+                    }
+                    let alert = '';
+                    if (map.newer_version !== null) {
+                        alert = '<div class="alert alert-info" role="alert">\
                       A newer version of this map is available! \
                     <a href="' + map.newer_version + '" class="alert-link">Check it out!</a>\
                     </div>'
-            }
-            $('<div class="col-lg-4 col-md-6 col-12"> \
+                    }
+                    $('<div class="col-lg-4 col-md-6 col-12"> \
                 <div class="card"> \
                     <img class="card-img-top mapscreenshot rounded" src="' + map.images[0].url + '" />\
                         <div class="card-body">\
@@ -40,6 +54,8 @@ $(function () {
                         </div>\
                     </div>\
             </div>').appendTo('.maps');
+                }
+            }, part.number * 100);
         }
     }
 

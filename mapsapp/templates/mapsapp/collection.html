@@ -5,12 +5,10 @@
     <h4 class="text-center">{{ collection.name }}
         <small class="text-muted">by {{ collection.authors }} ({{ collection.rms.count }} maps)</small>
     </h4>
-
     <hr>
     <div class="col-md-6 offset-md-3 col-12">
         {{ collection.description|linebreaks }}
     </div>
-    <hr>
 {% endblock %}
 
 {% block js %}

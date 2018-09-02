@@ -70,32 +70,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="{% static 'mapsapp/js/tagsinput.js' %}"></script>
     <script src="{% static 'mapsapp/js/typeahead.bundle.js' %}"></script>
-    <script type="text/javascript">
-        var tagnames = new Bloodhound({
-            datumTokenizer: function (n) {
-                return n.name.split(/,/);
-            },
-            queryTokenizer: function (n) {
-                return n.split(/,/);
-            },
-            prefetch: {
-                url: '{% url 'api:alltags' %}',
-                filter: function (list) {
-                    return $.map(list.tags, function (tagname) {
-                        return {name: tagname};
-                    });
-                }
-            }
-        });
-        tagnames.initialize();
-        $('#id_tags').tagsinput({
-            "maxTags": 8,
-            typeaheadjs: {
-                name: 'tagnames',
-                displayKey: 'name',
-                valueKey: 'name',
-                source: tagnames.ttAdapter()
-            }
-        });
-    </script>
+    <script type="text/javascript">var ALLTAGS_PREFETCH_URL = "{% url 'api:alltags' %}";</script>
+    <script src="{% static 'mapsapp/js/tags.js' %}"></script>
 {% endblock %}

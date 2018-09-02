@@ -2,15 +2,22 @@
 {% load static %}
 
 {% block subtitle %}
-    <h4 class="text-center">{{ collection.name }}
+    <h4 class="text-center"><span id="collection-name">{{ collection.name }}</span>
         <small class="text-muted">by {{ collection.authors }} ({{ collection.rms.count }} maps)</small>
     </h4>
     <hr>
     <div class="col-md-6 offset-md-3 col-12">
         {{ collection.description|linebreaks }}
+
+        <p class="text-center">
+            <button class="btn btn-outline-primary" id="download">Download Collection</button>
+        </p>
     </div>
 {% endblock %}
 
 {% block js %}
     {% include 'mapsapp/maps_js_block.html' %}
+    <script src="{% static 'mapsapp/js/jszip.min.js' %}"></script>
+    <script src="{% static 'mapsapp/js/FileSaver.js' %}"></script>
+    <script src="{% static 'mapsapp/js/collection.js' %}"></script>
 {% endblock %}

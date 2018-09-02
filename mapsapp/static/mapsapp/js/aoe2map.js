@@ -42,7 +42,7 @@ $(function () {
                             <h6 class="card-subtitle mb-2 text-muted">by ' + map.authors + '</h6>\
                             <p class="card-text">' + map.description + '</p>\
                             <p>\
-                                <a href="' + map.fileurl + '" class="card-link btn btn-secondary">Download map</a>\
+                                <a href="' + map.fileurl + '" class="card-link btn btn-secondary map-download">Download map</a>\
                                 <a href="' + map.url + '" class="card-link btn btn-outline-secondary" target="_blank">Website</a>\
                             </p>\
                             <div class="tags">Tags: \

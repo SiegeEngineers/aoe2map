@@ -122,3 +122,22 @@ def alltags(request):
     for tag in Tag.objects.order_by('name'):
         tags.append(tag.name)
     return JsonResponse({"tags": tags})
+
+
+def mapsbyname(request, searchstring=None):
+    maps = []
+    if not searchstring:
+        rms_objects = Rms.objects.filter(owner=request.user).order_by('name')
+    else:
+        rms_objects = Rms.objects.filter(name__icontains=searchstring)
+    for rms_object in rms_objects:
+        maps.append({
+            'name': '{name} by {authors}'.format(name=rms_object.name, authors=rms_object.authors),
+            'uuid': rms_object.uuid
+        })
+    return JsonResponse({"maps": maps})
+
+
+def namebyid(request, rms_id):
+    rms_instance = get_object_or_404(Rms, pk=rms_id)
+    return JsonResponse({"name": rms_instance.name, "authors": rms_instance.authors})

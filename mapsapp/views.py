@@ -266,6 +266,7 @@ def editcollection(request, collection_id=None):
             instance = form.save(commit=False)
             instance.owner = request.user
             instance.save()
+            instance.rms.set(form.cleaned_data['rms'])
             context['messages'].append({'class': 'success', 'text': 'Collection {} successfully. Hooray!'.format(verb)})
         else:
             context['messages'].append({'class': 'danger', 'text': 'That did not work…'})
@@ -273,7 +274,11 @@ def editcollection(request, collection_id=None):
         initial = {}
         if collection_id:
             collection_instance = get_object_or_404(Collection, pk=collection_id)
-            form = CollectionForm(instance=collection_instance)
+            rms_ids = []
+            for rms_instance in collection_instance.rms.all():
+                rms_ids.append(str(rms_instance.uuid))
+            initial['rms'] = ','.join(rms_ids)
+            form = CollectionForm(initial=initial, instance=collection_instance)
         else:
             form = CollectionForm(initial=initial)
     context["form"] = form

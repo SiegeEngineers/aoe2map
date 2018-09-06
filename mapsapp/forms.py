@@ -59,10 +59,20 @@ class EditRmsForm(ModelForm):
 
 
 class CollectionForm(ModelForm):
+    rms = forms.CharField(required=True,
+                          help_text="Type the names of the maps you want to add and select the desire map from proposed values!")
 
     class Meta:
         model = Collection
         fields = ['name', 'authors', 'description', 'rms']
+
+    def clean_rms(self):
+        uuidstring = self.cleaned_data['rms']
+        uuids = uuidstring.split(',')
+        for uuid in uuids:
+            if not Rms.objects.filter(pk=uuid).exists():
+                raise ValidationError('No map exists for value: %(value)s', params={'value': uuid}, code='invalid_uuid')
+        return Rms.objects.filter(uuid__in=uuids)
 
 
 class SignUpForm(UserCreationForm):

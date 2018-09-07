@@ -11,7 +11,6 @@ urlpatterns = [
     path('alltags', api.alltags, name='alltags'),
     path('mapsbyname', api.mapsbyname, name='mapsbyname'),
     path('mapsbyname/<searchstring>', api.mapsbyname, name='mapsbyname'),
-    path('namebyid/<uuid:rms_id>', api.namebyid, name='namebyid'),
     path('rms/<uuid:rms_id>', api.rms, name='rms'),
     path('rms/s/<name>', api.rms_by_name, name='rms_by_name'),
     path('collection/<uuid:collection_id>/maps', api.collection, name='collection'),

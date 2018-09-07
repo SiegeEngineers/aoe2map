@@ -18,7 +18,7 @@
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.class }}" role="alert">
-                        {{ message.text }}
+                        {{ message.text | safe }}
                     </div>
                 {% endfor %}
             {% endif %}
@@ -63,7 +63,7 @@
 
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
-    <div style="padding-bottom: 5rem;"></div>
+        <div style="padding-bottom: 5rem;"></div>
     </div>
 {% endblock %}
 
@@ -74,7 +74,7 @@
     <script type="text/javascript">
         var MAPS_PREFETCH_URL = "{% url 'api:mapsbyname' %}";
         var MAPS_URL = "{% url 'api:mapsbyname' searchstring='QUERY' %}";
-        var UUID_TO_MAP_NAME_URL = "{% url 'api:namebyid' rms_id='00000000-0000-0000-0000-000000000000' %}";
+        var RMS_INITIAL_DATA = {{ rms_initial_data |safe}};
     </script>
     <script src="{% static 'mapsapp/js/maps.js' %}"></script>
 

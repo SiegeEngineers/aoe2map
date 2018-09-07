@@ -249,7 +249,7 @@ def newmap(request, rms_id=None):
 
 @login_required
 def editcollection(request, collection_id=None):
-    context = {'messages': [], 'action': 'Create'}
+    context = {'messages': [], 'action': 'Create', 'rms_initial_data': []}
     verb = 'created'
     if collection_id:
         verb = 'updated'
@@ -267,7 +267,23 @@ def editcollection(request, collection_id=None):
             instance.owner = request.user
             instance.save()
             instance.rms.set(form.cleaned_data['rms'])
-            context['messages'].append({'class': 'success', 'text': 'Collection {} successfully. Hooray!'.format(verb)})
+            if collection_id:
+                rms_initial_data = []
+                for rms_instance in instance.rms.order_by('name'):
+                    rms_initial_data.append(
+                        {'name': rms_instance.name, 'authors': rms_instance.authors, 'uuid': str(rms_instance.uuid)}
+                    )
+                context['rms_initial_data'] = rms_initial_data
+                context['messages'].append(
+                    {'class': 'success', 'text': 'Collection {} successfully. Hooray!'.format(verb)})
+
+            else:
+                form = CollectionForm()
+                context['messages'].append({'class': 'success',
+                                            'text': '''Collection {} successfully. 
+                                            Hooray! <a class="alert-link" href="{}">Forgot something? Click here to edit the collection.</a>'''
+                                           .format(verb,
+                                                   reverse('editcollection', kwargs={'collection_id': instance.uuid}))})
         else:
             context['messages'].append({'class': 'danger', 'text': 'That did not work…'})
     else:
@@ -275,9 +291,14 @@ def editcollection(request, collection_id=None):
         if collection_id:
             collection_instance = get_object_or_404(Collection, pk=collection_id)
             rms_ids = []
-            for rms_instance in collection_instance.rms.all():
+            rms_initial_data = []
+            for rms_instance in collection_instance.rms.order_by('name'):
                 rms_ids.append(str(rms_instance.uuid))
+                rms_initial_data.append(
+                    {'name': rms_instance.name, 'authors': rms_instance.authors, 'uuid': str(rms_instance.uuid)}
+                )
             initial['rms'] = ','.join(rms_ids)
+            context['rms_initial_data'] = rms_initial_data
             form = CollectionForm(initial=initial, instance=collection_instance)
         else:
             form = CollectionForm(initial=initial)

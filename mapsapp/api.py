@@ -127,9 +127,9 @@ def alltags(request):
 def mapsbyname(request, searchstring=None):
     maps = []
     if not searchstring:
-        rms_objects = Rms.objects.filter(owner=request.user).order_by('name')
+        rms_objects = Rms.objects.filter(newer_version=None).filter(owner=request.user).order_by('name')
     else:
-        rms_objects = Rms.objects.filter(name__icontains=searchstring)
+        rms_objects = Rms.objects.filter(newer_version=None).filter(name__icontains=searchstring)
     for rms_object in rms_objects:
         maps.append({
             'name': '{name} by {authors}'.format(name=rms_object.name, authors=rms_object.authors),

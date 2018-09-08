@@ -11,6 +11,10 @@
     justify-content: space-around;
 }
 
+.singlemap-area {
+    background-image: url("../images/tile.png");
+}
+
 #banner {
     max-height: 100px;
     max-width: 100%;

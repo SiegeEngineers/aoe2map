@@ -27,11 +27,14 @@ class NewRmsForm(forms.Form):
     description = forms.CharField(widget=Textarea,
                                   help_text="Briefly describe the map layout, the setting and/or the idea behind the map. This will appear on the map cards.")
     information = forms.CharField(widget=Textarea, required=False,
-                                  help_text="All the information about the map. This will appear only on the single map page.")
+                                  help_text="""All the information about the map. This will appear only on the single 
+                                  map page. You can use some Markdown syntax in this field, like <b>**bold**</b>, 
+                                  <i>_italic_</i> or ~~<del>strikethrough</del>~~""")
     url = forms.CharField(max_length=255, required=False, help_text="An (optional) url for this map")
     file = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=['rms'])],
                            help_text="Choose the .rms script you want to share")
-    tags = forms.CharField(max_length=255, help_text="Tag your map with up to seven suitable keywords, for example ›4v4‹, ›FFA‹, or ›Nothing‹")
+    tags = forms.CharField(max_length=255,
+                           help_text="Tag your map with up to seven suitable keywords, for example ›4v4‹, ›FFA‹, or ›Nothing‹")
     versiontags = forms.MultipleChoiceField(label="Versions", choices=get_version_tag_choices(),
                                             help_text="The versions that this map works in",
                                             widget=CheckboxSelectMultiple)

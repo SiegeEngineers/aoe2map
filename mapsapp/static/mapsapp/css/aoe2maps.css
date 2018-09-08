@@ -2,6 +2,15 @@
     margin-bottom: 1rem;
 }
 
+.mapscreenshot {
+    max-width: 600px;
+}
+
+.mapscreenshot-container {
+    display: flex;
+    justify-content: space-around;
+}
+
 #banner {
     max-height: 100px;
     max-width: 100%;

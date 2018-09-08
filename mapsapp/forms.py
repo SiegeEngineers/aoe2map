@@ -31,7 +31,7 @@ class NewRmsForm(forms.Form):
     url = forms.CharField(max_length=255, required=False, help_text="An (optional) url for this map")
     file = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=['rms'])],
                            help_text="Choose the .rms script you want to share")
-    tags = forms.CharField(max_length=255, help_text="Tag your map with up to seven suitable keywords")
+    tags = forms.CharField(max_length=255, help_text="Tag your map with up to seven suitable keywords, for example ›4v4‹, ›FFA‹, or ›Nothing‹")
     versiontags = forms.MultipleChoiceField(label="Versions", choices=get_version_tag_choices(),
                                             help_text="The versions that this map works in",
                                             widget=CheckboxSelectMultiple)

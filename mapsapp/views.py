@@ -189,11 +189,17 @@ def get_tags(tagstring):
 
 
 @login_required
-def newmap(request, rms_id=None):
+def newmap(request, rms_id=None, created_rms_id=None):
     context = {'messages': []}
     old_rms = None
     if rms_id:
         old_rms = get_object_or_404(Rms, pk=rms_id)
+        if old_rms.newer_version:
+            raise Http404
+    if created_rms_id:
+        context['messages'].append({'class': 'success',
+                                    'text': 'Rms created successfully! Click <a href="{}">here</a> to edit it further.'.format(
+                                        reverse('editmap', kwargs={'rms_id': created_rms_id}))})
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = NewRmsForm(request.POST, request.FILES)
@@ -233,8 +239,7 @@ def newmap(request, rms_id=None):
                 img.file = image
                 img.rms = new_rms
                 img.save()
-            form = NewRmsForm()
-            context['messages'].append({'class': 'success', 'text': 'Rms created successfully'})
+            return redirect('newmap_created', created_rms_id=new_rms.uuid)
         else:
             context['messages'].append({'class': 'danger', 'text': 'That did not work…'})
         # if a GET (or any other method) we'll create a blank form

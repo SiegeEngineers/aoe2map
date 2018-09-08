@@ -20,6 +20,7 @@ urlpatterns = [
     path('logout', views.logoutpage, name='logout'),
     path('mymaps', views.mymaps, name='mymaps'),
     path('mycollection', views.mycollections, name='mycollections'),
+    path('newmap/created/<uuid:created_rms_id>', views.newmap, name='newmap_created'),
     path('newmap/<uuid:rms_id>', views.newmap, name='newmap_newer_version'),
     path('newmap', views.newmap, name='newmap'),
     path('edit/<uuid:rms_id>', views.editmap, name='editmap'),

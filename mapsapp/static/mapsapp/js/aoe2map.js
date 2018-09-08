@@ -35,7 +35,7 @@ $(function () {
                     }
                     $('<div class="col-lg-4 col-md-6 col-12"> \
                 <div class="card"> \
-                    <img class="card-img-top mapscreenshot rounded" src="' + map.images[0].url + '" />\
+                    <img class="card-img-top rounded" src="' + map.images[0].url + '" />\
                         <div class="card-body">\
                             ' + alert + '\
                             <h5 class="card-title"><a href="' + map.pageurl + '">' + map.name + '</a><small class="text-muted"> ' + map.version + '</small></h5>\

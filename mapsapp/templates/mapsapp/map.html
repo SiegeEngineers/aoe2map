@@ -86,14 +86,14 @@
         </div>
     </div>
     {% if rms.information %}
-        <div class="row">
+        <div class="row pt-4">
             <div class="offset-md-2 col-md-8 col-12">
                 <div class="card">
                     <div class="card-header">
                         Information
                     </div>
                     <div class="card-body">
-                        <div class="card-text">{{ rms.information | linebreaks }}</div>
+                        <div class="card-text markdown-text">{{ rms.information }}</div>
                     </div>
                 </div>
             </div>
@@ -107,4 +107,6 @@
 {% block js %}
     <script src="{% static 'mapsapp/js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'mapsapp/js/markdown-it.min.js' %}"></script>
+    <script src="{% static 'mapsapp/js/markdown.js' %}"></script>
 {% endblock %}

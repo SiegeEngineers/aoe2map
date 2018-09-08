@@ -42,6 +42,7 @@ class Rms(models.Model):
     version = models.CharField(max_length=255, blank=True)
     authors = models.CharField(max_length=255)
     description = models.TextField()
+    information = models.TextField(blank=True, default=None)
     url = models.CharField(max_length=255, blank=True)
     file = models.FileField(upload_to=rms_path)
     tags = models.ManyToManyField(Tag)

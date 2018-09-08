@@ -25,7 +25,9 @@ class NewRmsForm(forms.Form):
     version = forms.CharField(max_length=255, required=False, help_text="Optional version indicator like '1.1' or 'v2'")
     authors = forms.CharField(max_length=255, help_text="Who made this map?")
     description = forms.CharField(widget=Textarea,
-                                  help_text="Describe the map layout, the setting and/or the idea behind the map")
+                                  help_text="Briefly describe the map layout, the setting and/or the idea behind the map. This will appear on the map cards.")
+    information = forms.CharField(widget=Textarea, required=False,
+                                  help_text="All the information about the map. This will appear only on the single map page.")
     url = forms.CharField(max_length=255, required=False, help_text="An (optional) url for this map")
     file = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=['rms'])],
                            help_text="Choose the .rms script you want to share")
@@ -48,7 +50,7 @@ class EditRmsForm(ModelForm):
 
     class Meta:
         model = Rms
-        fields = ['name', 'version', 'authors', 'description', 'url', 'tags', 'versiontags']
+        fields = ['name', 'version', 'authors', 'description', 'information', 'url', 'tags', 'versiontags']
         widgets = {'versiontags': CheckboxSelectMultiple}
 
     def clean_tags(self):

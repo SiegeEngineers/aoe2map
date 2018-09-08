@@ -1,13 +1,80 @@
 {% extends "mapsapp/base.html" %}
 {% load static %}
 
-{% block content %}
-    <div class="maps row">
-        <div class="col-lg-4 col-md-3"></div>
 
+{% block subtitle %}
+    <div class="row">
+
+        {% if rms.newer_version %}
+            <div class="offset-md-1 col-md-10 col-12 text-center">
+                <div class="alert alert-info" role="alert">
+                    A newer version of this map is available!
+                    <a href="{% url 'map' rms_id=rms.newer_version.uuid %}" class="alert-link">Check it out!</a>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="offset-md-1 col-md-5 col-12 text-center">
+            {% if rms.image_set %}
+                <img class="mapscreenshot img-fluid" src="{{ rms.image_set.all.0.file.url }}"/>
+            {% else %}
+                <img class="mapscreenshot img-fluid" src="{% static '/mapsapp/images/empty.png' %}"/>
+            {% endif %}
+        </div>
+        <div class="col-md-5 col-12">
+            <div class="row pt-5">
+                <div class="col-12 text-center">
+                    <h4 class="card-title"><a href="{% url 'map' rms_id=rms.uuid %}">{{ rms.name }}</a>
+                        <small class="text-muted"> {{ rms.version }}</small>
+                    </h4>
+                    <h5 class="card-subtitle mb-2 text-muted">by {{ rms.authors }}</h5>
+                    <p class="card-text font-italic">{{ rms.description }}</p>
+
+                </div>
+            </div>
+            <div class="row pt-5">
+                <div class="col-12 align-self-end">
+                    <div class="tags">Tags:
+                        {% for tag in rms.tags.all %}
+                            <a href="{% url 'tags' url_fragment=tag.id|stringformat:"s/" %}" line
+                               class="badge badge-secondary">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="tags">Versions:
+                        {% for tag in rms.versiontags.all %}
+                            <a href="{% url 'version' version_name=tag.name %}"
+                               class="badge badge-secondary">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <p>
+                <a href="{{ rms.file.url }}" class="card-link btn btn-secondary map-download">Download map</a>
+                <a href="{{ rms.url }}" class="card-link btn btn-outline-secondary"
+                   target="_blank">Website</a>
+            </p>
+        </div>
+    </div>
+    {% if rms.information %}
+        <div class="row">
+            <div class="offset-md-2 col-md-8 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Information
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text">{{ rms.information | linebreaks }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
-{% block js %}
-    {% include 'mapsapp/maps_js_block.html' %}
+{% block content %}
 {% endblock %}

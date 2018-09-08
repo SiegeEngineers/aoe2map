@@ -40,7 +40,7 @@ $(function () {
                             ' + alert + '\
                             <h5 class="card-title"><a href="' + map.pageurl + '">' + map.name + '</a><small class="text-muted"> ' + map.version + '</small></h5>\
                             <h6 class="card-subtitle mb-2 text-muted">by ' + map.authors + '</h6>\
-                            <p class="card-text">' + map.description + '</p>\
+                            <p class="card-text font-italic">' + map.description + '</p>\
                             <p>\
                                 <a href="' + map.fileurl + '" class="card-link btn btn-secondary map-download">Download map</a>\
                                 <a href="' + map.url + '" class="card-link btn btn-outline-secondary" target="_blank">Website</a>\

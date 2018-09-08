@@ -205,6 +205,7 @@ def newmap(request, rms_id=None):
             new_rms.version = form.cleaned_data['version']
             new_rms.authors = form.cleaned_data['authors']
             new_rms.description = form.cleaned_data['description']
+            new_rms.information = form.cleaned_data['information']
             new_rms.url = form.cleaned_data['url']
 
             fs = FileSystemStorage()
@@ -328,6 +329,7 @@ def editmap(request, rms_id):
             rms.version = form.cleaned_data['version']
             rms.authors = form.cleaned_data['authors']
             rms.description = form.cleaned_data['description']
+            rms.information = form.cleaned_data['information']
             rms.url = form.cleaned_data['url']
 
             rms.versiontags.set(form.cleaned_data['versiontags'])

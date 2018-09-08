@@ -17,7 +17,7 @@
 </head>
 
 <body>
-<div class="container-fluid">
+<div class="container-fluid pb-5">
     <h1 class="text-center"><a href="{% url 'index' %}">
         <img id="banner" src="{% static 'mapsapp/images/banner.svg' %}"/></a>
     </h1>
@@ -77,9 +77,7 @@
     <hr>
     {% block content %}
         <div class="maps row">
-            <div class="text-center col-12 loading-animation">
-                <img src="{% static 'mapsapp/images/load.gif' %}"/> Scouting for maps
-            </div>
+            {% include 'mapsapp/snippets/loading_animation.html' %}
         </div>
     {% endblock %}
 </div>

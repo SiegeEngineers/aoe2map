@@ -109,9 +109,9 @@ def tags(request, url_fragment):
     return JsonResponse({"maps": objects})
 
 
-def version(request, version_name):
-    version = get_object_or_404(VersionTag, name=version_name)
-    resultset = Rms.objects.filter(newer_version=None).filter(versiontags=version)
+def versiontag(request, version_name):
+    versiontag_instance = get_object_or_404(VersionTag, name=version_name)
+    resultset = Rms.objects.filter(newer_version=None).filter(versiontags=versiontag_instance)
     objects = maps2json(resultset)
 
     return JsonResponse({"maps": objects})

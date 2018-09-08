@@ -16,9 +16,10 @@
         </div>
     </div>
     <div class="maps row">
+        {% include 'mapsapp/snippets/loading_animation.html' %}
     </div>
 {% endblock %}
 
 {% block js %}
-    {% include 'mapsapp/maps_js_block.html' %}
+    {% include 'mapsapp/snippets/maps_js_block.html' %}
 {% endblock %}

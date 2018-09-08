@@ -11,9 +11,27 @@
         {% if rmss %}
             <ul class="maplist">
                 {% for rms in rmss %}
-                    <li><a href="{% url 'map' rms_id=rms.uuid %}">{{ rms.name }}
-                        <small>{% if rms.version %}{{ rms.version }} {% endif %}(by {{ rms.authors }})</small>
-                    </a> – <a href="{% url 'editmap' rms_id=rms.uuid %}">edit</a></li>
+                    <li>
+                        <a href="{% url 'map' rms_id=rms.uuid %}">{{ rms.name }}
+                            <small>{% if rms.version %}{{ rms.version }} {% endif %}(by {{ rms.authors }})</small>
+                        </a>
+                        <div class="dropdown" style="display: inline;">
+                            <button class="btn btn-sm btn-link dropdown-toggle" type="button"
+                                    id="dropdownMenuButton-{{ rms.uuid }}" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-{{ rms.uuid }}">
+                                <a class="dropdown-item" href="{% url 'editmap' rms_id=rms.uuid %}">
+                                    Edit map
+                                </a>
+                                {% if not rms.newer_version %}
+                                    <a class="dropdown-item" href="{% url 'newmap_newer_version' rms_id=rms.uuid %}">
+                                        Upload new version
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
                 {% endfor %}
             </ul>
         {% else %}
@@ -23,4 +41,10 @@
             </div>
         {% endif %}
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="{% static 'mapsapp/js/popper.min.js' %}"></script>
+    <script src="{% static 'mapsapp/js/bootstrap.min.js' %}"></script>
 {% endblock %}

@@ -38,19 +38,26 @@ window.addEventListener("dragover", function (e) {
                 reader.onload = function (e) {
                     let contents = e.target.result;
                     let warnings = [];
-                    restructureMap(contents, "", [], warnings);
-                    console.log(warnings);
-                    let clazz = 'success';
-                    let text = 'Looks good!';
-                    if (warnings.length > 0) {
-                        clazz = 'warning';
-                        text = "This map might not be suitable for usage in a map pack and break the map pack you are about to create. Problems: \
+                    if (contents.startsWith('PK\x03\x04')) {
+                        $('<li class="list-group-item">\
+                        <h5 class="mapname">' + file.name + '</h5>\
+                        <p class="text-danger">Unfortunately, you cannot add ZR maps to a map pack.</p>\
+                    </li>').appendTo('#filelist');
+                    } else {
+                        restructureMap(contents, "", [], warnings);
+                        console.log(warnings);
+                        let clazz = 'success';
+                        let text = 'Looks good!';
+                        if (warnings.length > 0) {
+                            clazz = 'warning';
+                            text = "This map might not be suitable for usage in a map pack and break the map pack you are about to create. Problems: \
                         <ul><li>" + warnings.join("</li>\n<li>") + "</li></ul>";
-                    }
-                    $('<li class="list-group-item map">\
-                        <h5 class="mapname">'+ file.name + '</h5>\
+                        }
+                        $('<li class="list-group-item map">\
+                        <h5 class="mapname">' + file.name + '</h5>\
                         <p class="text-' + clazz + '">' + text + '</p>\
                     </li>').appendTo('#filelist').data('map', contents);
+                    }
                 }
                 reader.readAsText(file);
             } else {

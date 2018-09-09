@@ -39,7 +39,7 @@ class NewRmsForm(forms.Form):
                                             help_text="The versions that this map works in",
                                             widget=CheckboxSelectMultiple)
     images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}), required=False,
-                             help_text="Images get resized to 600x315 px, so you probably want to upload only pictures of that size or aspect ratio")
+                             help_text="Images get resized to 600x311 px, so you probably want to upload only pictures of that size or aspect ratio")
 
     def clean_tags(self):
         tags = self.cleaned_data['tags']

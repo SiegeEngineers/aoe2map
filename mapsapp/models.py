@@ -66,7 +66,7 @@ class Image(models.Model):
         output = BytesIO()
 
         # Resize/modify the image
-        im = im.resize((600, 315))
+        im = im.resize((600, 311))
 
         # after modifications, save it to the output
         im.save(output, format='PNG', quality=100)

@@ -107,3 +107,20 @@ def update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
     instance.profile.save()
+
+
+class SiteSettings(models.Model):
+
+    contact = models.TextField(default='')
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super(SiteSettings, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj

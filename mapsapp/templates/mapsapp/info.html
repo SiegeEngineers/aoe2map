@@ -163,5 +163,46 @@
             </div>
         </div>
 
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">How We Use Your Email Address</h5>
+                <p class="card-text">When you have an account on this website, you <em>can</em> add an email address.
+                    This is entirely optional. If you added an email address to your account, you can remove it at any
+                    time. It will then be gone from the website. It might remain in some backup files though, because
+                    that is how those backups work.</p>
+                <p class="card-text">We will <em>never</em> use such an email address to send you marketing messages,
+                    advertisements or spam. Should you receive such content on an email address that you use exclusively
+                    on this website, please inform us (see below), so we can investigate how this was possible.</p>
+                <p class="card-text">We will use such an email address:
+                <ul>
+                    <li>to send you a link to confirm your email address when you add it
+                    </li>
+                    <li>to send you a link to reset your password if you request it
+                    </li>
+                    <li>to send you a message in case a map creator wants to have one of their maps that you
+                        uploaded transferred to their own account
+                    </li>
+                    <li>to send you a message in case we discover that problematic content was uploaded by your account
+                    </li>
+                    <li>to inform you in case we discover that we got hacked and that your email address is now possibly
+                        known to a third party
+                    </li>
+                    <li>to inform you in case we decide to shut down this service</li>
+                    <li>to inform you in case we decide to hand this service over to somebody else</li>
+                    <li>to send you a message we think we should definitely send you that is not covered by the points
+                        above (that is very vague, yes, but that is the whole point of this point)
+                    </li>
+                </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Contact</h5>
+                <p class="card-text">{{ contact | safe | linebreaks }}</p>
+            </div>
+        </div>
+
     </div>
 {% endblock %}

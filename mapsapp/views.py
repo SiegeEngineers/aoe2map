@@ -14,7 +14,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from django.conf import settings as djangosettings
-from mapsapp.models import Rms, Image, Collection, Tag, VersionTag
+from mapsapp.models import Rms, Image, Collection, Tag, VersionTag, SiteSettings
 from mapsapp.tokens import email_verification_token
 from .forms import NewRmsForm, SignUpForm, SettingsForm, EditRmsForm, CollectionForm
 
@@ -399,5 +399,5 @@ def tags_remove(request, url_fragment, id_to_remove):
 
 
 def info(request):
-    context = {}
+    context = {'contact': SiteSettings.load().contact}
     return render(request, 'mapsapp/info.html', context)

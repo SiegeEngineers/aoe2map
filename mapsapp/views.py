@@ -198,8 +198,11 @@ def newmap(request, rms_id=None, created_rms_id=None):
             raise Http404
     if created_rms_id:
         context['messages'].append({'class': 'success',
-                                    'text': 'Rms created successfully! Click <a href="{}">here</a> to edit it further.'.format(
-                                        reverse('editmap', kwargs={'rms_id': created_rms_id}))})
+                                    'text': '''Your Map has been created! Click <a href="{}">here</a> to view it, 
+                                    or <a href="{}">here</a> to edit it further.'''.format(
+                                        reverse('map', kwargs={'rms_id': created_rms_id}),
+                                        reverse('editmap', kwargs={'rms_id': created_rms_id})
+                                    )})
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = NewRmsForm(request.POST, request.FILES)
@@ -281,7 +284,10 @@ def editcollection(request, collection_id=None):
                     )
                 context['rms_initial_data'] = rms_initial_data
                 context['messages'].append(
-                    {'class': 'success', 'text': 'Collection {} successfully. Hooray!'.format(verb)})
+                    {'class': 'success', 'text': 'Collection {} successfully. Hooray! <a href="{}">Show me</a>'.format(
+                        verb,
+                        reverse('collection', kwargs={'collection_id': instance.uuid})
+                    )})
 
             else:
                 form = CollectionForm()
@@ -357,7 +363,12 @@ def editmap(request, rms_id):
                 img.save()
 
             form = EditRmsForm(instance=rms, initial={'tags': tagstring})
-            context['messages'].append({'class': 'success', 'text': 'Map updated successfully'})
+            context['messages'].append({
+                'class': 'success',
+                'text': '''Your Map was updated! Click <a href="{}">here</a> to view it, or continue editing it 
+                right here on this page.'''.format(
+                    reverse('map', kwargs={'rms_id': rms.uuid})
+                )})
         else:
             context['messages'].append({'class': 'danger', 'text': 'That did not work…'})
     else:

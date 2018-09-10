@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from aoe2map import settings
@@ -79,7 +79,13 @@ class Image(models.Model):
         super(Image, self).save()
 
     def __str__(self):
-        return "{}: {}".format(self.rms, self.file.name)
+        items = self.file.name.split('/')
+        return "{}".format(items[-1])
+
+
+@receiver(post_delete, sender=Image)
+def submission_delete(sender, instance, **kwargs):
+    instance.file.delete(False)
 
 
 class Collection(models.Model):
@@ -110,7 +116,6 @@ def update_user_profile(sender, instance, created, **kwargs):
 
 
 class SiteSettings(models.Model):
-
     contact = models.TextField(default='')
 
     def save(self, *args, **kwargs):

@@ -1,5 +1,6 @@
 import os
 
+from django.conf import settings as djangosettings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
@@ -13,7 +14,6 @@ from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-from django.conf import settings as djangosettings
 from mapsapp.models import Rms, Image, Collection, Tag, VersionTag, SiteSettings
 from mapsapp.tokens import email_verification_token
 from .forms import NewRmsForm, SignUpForm, SettingsForm, EditRmsForm, CollectionForm
@@ -327,7 +327,7 @@ def editmap(request, rms_id):
         raise Http404
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = EditRmsForm(request.POST)
+        form = EditRmsForm(request.POST, request.FILES, instance=rms)
         # check whether it's valid:
         if form.is_valid():
             rms.name = form.cleaned_data['name']
@@ -345,8 +345,19 @@ def editmap(request, rms_id):
             rms.save()
 
             tagstring = get_tagstring(rms.tags.all())
+
+            for image_instance in form.cleaned_data['remove_images']:
+                image_instance.delete()
+
+            imagefiles = request.FILES.getlist('add_images')
+            for image in imagefiles:
+                img = Image()
+                img.file = image
+                img.rms = rms
+                img.save()
+
             form = EditRmsForm(instance=rms, initial={'tags': tagstring})
-            context['messages'].append({'class': 'success', 'text': 'Rms updated successfully'})
+            context['messages'].append({'class': 'success', 'text': 'Map updated successfully'})
         else:
             context['messages'].append({'class': 'danger', 'text': 'That did not work…'})
     else:

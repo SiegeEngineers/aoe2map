@@ -7,7 +7,7 @@ from django.core.validators import FileExtensionValidator
 from django.db import OperationalError
 from django.forms import Textarea, ModelForm, CheckboxSelectMultiple
 
-from mapsapp.models import VersionTag, Rms, Collection
+from mapsapp.models import VersionTag, Rms, Collection, Image
 
 
 def get_version_tag_choices():
@@ -51,10 +51,21 @@ class NewRmsForm(forms.Form):
 class EditRmsForm(ModelForm):
     tags = forms.CharField(max_length=255, required=True, help_text="Tags tags tags!")
 
+    remove_images = forms.ModelMultipleChoiceField(queryset=None, required=False,
+                                                   widget=CheckboxSelectMultiple,
+                                                   help_text="Check all images that you want to <b>remove</b>")
+
+    add_images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}), required=False,
+                                 help_text="Images get resized to 600x311 px, so you probably want to upload only pictures of that size or aspect ratio")
+
     class Meta:
         model = Rms
         fields = ['name', 'version', 'authors', 'description', 'information', 'url', 'tags', 'versiontags']
         widgets = {'versiontags': CheckboxSelectMultiple}
+
+    def __init__(self, *args, **kwargs):
+        super(EditRmsForm, self).__init__(*args, **kwargs)
+        self.fields['remove_images'].queryset = Image.objects.filter(rms=self.instance)
 
     def clean_tags(self):
         tags = self.cleaned_data['tags']

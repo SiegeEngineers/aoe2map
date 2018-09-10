@@ -2,6 +2,10 @@
     margin-bottom: 1rem;
 }
 
+.form-control {
+    height: initial !important;
+}
+
 .mapscreenshot {
     max-width: 600px;
 }

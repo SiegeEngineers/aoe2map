@@ -21,6 +21,8 @@ def get_version_tag_choices():
 
 
 class NewRmsForm(forms.Form):
+    file = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=['rms'])],
+                           help_text="Choose the .rms script you want to share")
     name = forms.CharField(max_length=255, help_text="The name of the map")
     version = forms.CharField(max_length=255, required=False, help_text="Optional version indicator like '1.1' or 'v2'")
     authors = forms.CharField(max_length=255, help_text="Who made this map?")
@@ -31,8 +33,6 @@ class NewRmsForm(forms.Form):
                                   map page. You can use some Markdown syntax in this field, like <b>**bold**</b>, 
                                   <i>_italic_</i> or ~~<del>strikethrough</del>~~""")
     url = forms.CharField(max_length=255, required=False, help_text="An (optional) url for this map")
-    file = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=['rms'])],
-                           help_text="Choose the .rms script you want to share")
     tags = forms.CharField(max_length=255,
                            help_text="Tag your map with up to seven suitable keywords, for example ›4v4‹, ›FFA‹, or ›Nothing‹")
     versiontags = forms.MultipleChoiceField(label="Versions", choices=get_version_tag_choices(),

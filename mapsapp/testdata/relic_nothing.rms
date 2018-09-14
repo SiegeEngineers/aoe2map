@@ -1,0 +1,86 @@
+#define LANDMAP
+#define NO_CLIFFS
+<PLAYER_SETUP>
+random_placement
+<LAND_GENERATION>
+base_terrain GRASS
+create_player_lands
+{
+    terrain_type GRASS
+    border_fuzziness 1
+    land_percent 1
+    base_size 1
+}
+
+<OBJECTS_GENERATION>
+create_object TOWN_CENTER
+{
+    set_place_for_every_player
+    group_placement_radius 1
+    min_distance_to_players 0
+    max_distance_to_players 0
+}
+
+create_object MARKET
+{
+    set_place_for_every_player
+    group_placement_radius 1
+    min_distance_to_players 0
+    max_distance_to_players 0
+}
+
+create_object MONASTERY
+{
+    set_place_for_every_player
+    group_placement_radius 1
+    min_distance_to_players 0
+    max_distance_to_players 0
+}
+
+create_object MONK
+{
+    set_place_for_every_player
+    min_distance_to_players 3
+    max_distance_to_players 4
+}
+
+if REGICIDE
+    create_object KING
+    {
+        set_place_for_every_player
+        min_distance_to_players 6
+        max_distance_to_players 7
+    }
+    
+endif
+create_object RELIC
+{
+    number_of_objects 5000
+    min_distance_to_players 5
+    temp_min_distance_group_placement 5
+    set_scaling_to_map_size
+}
+
+create_object OAKTREE
+{
+    set_place_for_every_player
+    group_placement_radius 1
+    number_of_groups 2
+    number_of_objects 3
+    set_gaia_object_only
+    min_distance_to_players 5
+    max_distance_to_players 10
+}
+
+create_object OAKTREE
+{
+    set_place_for_every_player
+    group_placement_radius 1
+    number_of_groups 6
+    number_of_objects 5
+    set_tight_grouping
+    set_gaia_object_only
+    set_scaling_to_map_size
+    min_distance_to_players 20
+    max_distance_to_players 150
+}

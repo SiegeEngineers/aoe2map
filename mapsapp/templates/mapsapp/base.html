@@ -18,26 +18,26 @@
 
 <body>
 <div class="container-fluid pb-5">
-    <h1 class="text-center"><a href="{% url 'index' %}">
+    <h1 class="text-center"><a href="{% url 'index' %}" id="banner-link-index">
         <img id="banner" src="{% static 'mapsapp/images/banner.svg' %}"/></a>
     </h1>
 
     <ul class="nav justify-content-center">
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'maps' %}">Maps</a>
+            <a class="nav-link" href="{% url 'maps' %}" id="nav-link-maps">Maps</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'collections' %}">Map Collections</a>
+            <a class="nav-link" href="{% url 'collections' %}" id="nav-link-map-collections">Map Collections</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'mappack' %}">Mappack Creator</a>
+            <a class="nav-link" href="{% url 'mappack' %}" id="nav-link-mappack-creator">Mappack Creator</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'info' %}">Info</a>
+            <a class="nav-link" href="{% url 'info' %}" id="nav-link-info">Info</a>
         </li>
         {% if not request.user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'login' %}">Login</a>
+                <a class="nav-link" href="{% url 'login' %}" id="nav-link-login">Login</a>
             </li>
         {% endif %}
         <li>
@@ -51,24 +51,24 @@
     </ul>
     {% if request.user.is_authenticated %}
         <ul class="nav justify-content-center user-nav">
-            <li class="nav-item"><span class="nav-link"><b>{{ request.user.username }}</b></span></li>
+            <li class="nav-item"><span class="nav-link" id="user-nav-username"><b>{{ request.user.username }}</b></span></li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'mymaps' %}">My Maps</a>
+                <a class="nav-link" href="{% url 'mymaps' %}" id="user-nav-my-maps">My Maps</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'newmap' %}">New Map</a>
+                <a class="nav-link" href="{% url 'newmap' %}" id="user-nav-new-map">New Map</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'mycollections' %}">My Collections</a>
+                <a class="nav-link" href="{% url 'mycollections' %}" id="user-nav-my-collections">My Collections</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'newcollection' %}">New Collection</a>
+                <a class="nav-link" href="{% url 'newcollection' %}" id="user-nav-new-collection">New Collection</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'settings' %}">Settings</a>
+                <a class="nav-link" href="{% url 'settings' %}" id="user-nav-settings">Settings</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                <a class="nav-link" href="{% url 'logout' %}" id="user-nav-logout">Logout</a>
             </li>
         </ul>
     {% endif %}

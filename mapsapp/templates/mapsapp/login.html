@@ -24,14 +24,14 @@
                 <input type="password" class="form-control" id="password" name="password" placeholder="Your password">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary" id="login">Login</button>
             </div>
 
             <div class="form-group">
-                <a href="{% url 'register' %}">Click here to register</a>
+                <a href="{% url 'register' %}" id="a-register">Click here to register</a>
             </div>
             <div class="form-group">
-                <a href="{% url 'password_reset' %}">Forgot your password?</a>
+                <a href="{% url 'password_reset' %}" id="a-forgot-password">Forgot your password?</a>
             </div>
         </form>
     </div>

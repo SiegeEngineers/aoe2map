@@ -50,6 +50,11 @@ They have been written down into `dependencies.txt`, so we just have to execute:
 pip install -r dependencies.txt
 ```
 
+We also want to install the development dependencies from `development.txt`:
+```
+pip install -r development.txt
+```
+
 Before we can start the application, we have to add a configuration file. 
 We copy the template in the aoe2map _subfolder_, but for development, 
 we do not have to edit anything inside.

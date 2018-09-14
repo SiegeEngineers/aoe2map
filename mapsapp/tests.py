@@ -1,8 +1,15 @@
-from django.test import TestCase
-from django.urls import resolve
+import os
+from time import sleep
 
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.test import TestCase, override_settings
+from django.urls import resolve, reverse
+from selenium.webdriver.firefox.webdriver import WebDriver
+
+from mapsapp.models import VersionTag
 from mapsapp.views import index
-from mapsapp.models import *
 
 
 class HomePageTest(TestCase):
@@ -12,44 +19,162 @@ class HomePageTest(TestCase):
         self.assertEqual(found.func, index)
 
 
-class ModelTest(TestCase):
+class AuthenticationTest(StaticLiveServerTestCase):
 
-    def test_simple_rms(self):
-        tag = Tag(name="sample tag")
-        tag.save()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.browser = WebDriver()
+        cls.browser.implicitly_wait(10)
 
-        versiontag = VersionTag(name="sample version tag")
+    @classmethod
+    def tearDownClass(cls):
+        cls.browser.quit()
+        super().tearDownClass()
+
+    def test_index_works(self):
+        self.browser.get(self.live_server_url)
+
+        self.assertIn('aoe2maps', self.browser.title)
+
+    def test_login(self):
+        self.create_test_user('hscmi', 'password')
+        self.browser.get(self.live_server_url + reverse('login'))
+
+        username = self.browser.find_element_by_id('username')
+        password = self.browser.find_element_by_id('password')
+        loginbutton = self.browser.find_element_by_id('login')
+
+        username.send_keys("hscmi")
+        password.send_keys("password")
+
+        loginbutton.click()
+
+        self.assertIn('My Maps', self.browser.page_source)
+
+    @staticmethod
+    def create_test_user(username, password):
+        testuser = User()
+        testuser.username = username
+        testuser.password = make_password(password)
+        testuser.save()
+
+
+@override_settings(DEBUG=True)
+class SmokeTest(StaticLiveServerTestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.browser = WebDriver()
+        cls.browser.implicitly_wait(10)
+
+        versiontag = VersionTag()
+        versiontag.name = "Version Tag"
         versiontag.save()
 
-        name = "Random Everything Deluxe"
-        version = "v2"
-        description = "Random Everything Deluxe is a random map that contains everything and is deluxe"
-        url = "https://random.everything.deluxe"
-        filename = "REDv2.rms"
-        file = "map.rms"
+    @classmethod
+    def tearDownClass(cls):
+        cls.browser.quit()
+        super().tearDownClass()
 
-        rms = Rms(
-            name=name,
-            version=version,
-            description=description,
-            url=url,
-            filename=filename,
-            file=file
-        )
-        rms.save()
+    def test_smoke_test(self):
+        # 000_index_works
 
-        rms.tags.add(tag)
-        rms.versiontags.add(versiontag)
+        self.open_index_page()
 
-        assert rms.tags.count() == 1
-        assert rms.versiontags.count() == 1
+        # 001_open_login_page
 
-        assert rms.tags.get(id=tag.id).name == "sample tag"
-        assert rms.versiontags.get(id=versiontag.id).name == "sample version tag"
-        assert rms.file == file
-        assert rms.name == name
-        assert rms.version == version
-        assert rms.description == description
-        assert rms.url == url
-        assert rms.filename == filename
-        assert rms.file == file
+        self.click_page_link('nav-link-login', 'Login')
+
+        # 002_open_registration_page
+
+        self.click_page_link('a-register', 'Register')
+
+        # 003_register_without_email
+
+        self.fill_field('id_username', "hscmi")
+        self.fill_field('id_password1', "password")
+        self.fill_field('id_password2', "password")
+        self.click_to_login('register')
+
+        # 004_logout
+
+        self.click_to_logout('user-nav-logout')
+
+        # 005_open_login_page
+
+        self.click_page_link('nav-link-login', 'Login')
+
+        # 006_login
+
+        self.fill_field('username', "hscmi")
+        self.fill_field('password', "password")
+        self.click_to_login('login')
+
+        # 007_open_new_map_page
+
+        self.click_page_link('user-nav-new-map', 'New Map')
+
+        # 008_create_new_map
+
+        self.fill_field('id_file', os.path.abspath("mapsapp/testdata/relic_nothing.rms"))
+        self.fill_field('id_name', 'Map Name')
+        self.fill_field('id_version', 'Map Version')
+        self.fill_field('id_authors', 'Map Authors')
+        self.fill_field('id_description', 'Map Description')
+        self.fill_field('id_information', 'Map Information')
+        self.fill_field('id_url', 'map_url')
+        self.fill_field('id_tags', 'map,tags')
+        self.click('id_versiontags_0')
+        self.fill_field('id_images', os.path.abspath("mapsapp/testdata/relic_nothing.png"))
+        self.click_page_link('upload', 'Your Map has been created!')
+
+        # 009_open_mymaps_page_and_find_map
+
+        self.click_page_link('user-nav-my-maps', 'My Maps')
+        self.assertIn('Map Name', self.browser.page_source)
+
+        # 010_open_maps_page_and_find_map
+
+        self.click_page_link('nav-link-maps', '<img src="/static/mapsapp/images/map.svg" style="height:1em;"> Maps')
+        self.assertIn('Map Name', self.browser.page_source)
+
+        # 099_logout
+
+        logout = self.browser.find_element_by_id('user-nav-logout')
+
+        logout.click()
+
+        self.assertLoggedOut()
+
+    def open_index_page(self):
+        self.browser.get(self.live_server_url)
+        self.assertIn('aoe2maps', self.browser.title)
+
+    def click_to_logout(self, element_id):
+        self.click(element_id)
+        self.assertLoggedOut()
+
+    def click_to_login(self, element_id):
+        self.click(element_id)
+        self.assertLoggedIn()
+
+    def click(self, element_id):
+        button = self.browser.find_element_by_id(element_id)
+        button.click()
+
+    def fill_field(self, element_id, content):
+        field = self.browser.find_element_by_id(element_id)
+        field.send_keys(content)
+
+    def click_page_link(self, element_id, content):
+        link = self.browser.find_element_by_id(element_id)
+        link.click()
+        self.assertIn(content, self.browser.page_source)
+
+    def assertLoggedIn(self):
+        self.browser.find_element_by_id('user-nav-username')
+
+    def assertLoggedOut(self):
+        self.assertNotIn('user-nav-username', self.browser.page_source)

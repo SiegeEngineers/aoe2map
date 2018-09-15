@@ -9,19 +9,9 @@ window.addEventListener("drop", function (e) {
 
 function dropHandler(ev) {
     ev.preventDefault();
-
-    if (ev.dataTransfer.items) {
-        for (var i = 0; i < ev.dataTransfer.items.length; i++) {
-            if (ev.dataTransfer.items[i].kind === 'file') {
-                var file = ev.dataTransfer.items[i].getAsFile();
-                handleRmsFile(file);
-            }
-        }
-    } else {
-        for (var i = 0; i < ev.dataTransfer.files.length; i++) {
-            let file = ev.dataTransfer.files[i];
-            handleRmsFile(file);
-        }
+    for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+        let file = ev.dataTransfer.files[i];
+        handleRmsFile(file);
     }
     removeDragData(ev)
 }

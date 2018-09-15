@@ -59,7 +59,7 @@ class EditRmsForm(ModelForm):
                                                    widget=CheckboxSelectMultiple,
                                                    help_text="Check all images that you want to <b>remove</b>")
 
-    add_images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}), required=False,
+    images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}), required=False, label='Add images',
                                  help_text="Images get resized to 600x311 px, so you probably want to upload only pictures of that size or aspect ratio")
 
     class Meta:

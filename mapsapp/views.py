@@ -355,7 +355,7 @@ def editmap(request, rms_id):
             for image_instance in form.cleaned_data['remove_images']:
                 image_instance.delete()
 
-            imagefiles = request.FILES.getlist('add_images')
+            imagefiles = request.FILES.getlist('images')
             for image in imagefiles:
                 img = Image()
                 img.file = image

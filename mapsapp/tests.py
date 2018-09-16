@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.test import TestCase, override_settings
 from django.urls import resolve, reverse
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.webdriver import WebDriver
 
 from mapsapp.models import VersionTag
@@ -129,6 +130,7 @@ class SmokeTest(StaticLiveServerTestCase):
         self.click('id_versiontags_0')
         self.fill_field('id_images', os.path.abspath("mapsapp/testdata/relic_nothing.png"))
         self.click_page_link('upload', 'Your Map has been created!')
+        new_map_uuid = self.get_new_map_uuid()
 
         # 009_open_mymaps_page_and_find_map
 
@@ -140,6 +142,30 @@ class SmokeTest(StaticLiveServerTestCase):
         self.click_page_link('nav-link-maps', '<img src="/static/mapsapp/images/map.svg" style="height:1em;"> Maps')
         self.assertIn('Map Name', self.browser.page_source)
 
+        # 011_open_create_collection_page
+
+        self.click_page_link('user-nav-new-collection', 'Create Collection')
+
+        # 012_create_new_collection
+
+        self.fill_field('id_name', 'Collection Name')
+        self.fill_field('id_authors', 'Collection Authors')
+        self.fill_field('id_description', 'Collection Description')
+        self.fill_field('id_rms', new_map_uuid)
+        self.click_page_link('save', 'Collection created successfully')
+
+        # 013_open_collections_page_and_find_collection
+
+        self.click_page_link('nav-link-map-collections',
+                             '<img src="/static/mapsapp/images/maps.svg" style="height:1.1em;"> Map Collections')
+        self.assertIn('Collection Name', self.browser.page_source)
+
+        # 014_open_collection_page_and_find_map
+
+        self.click_page_link_text('Collection Name', 'Collection Description')
+        sleep(1)
+        self.assertIn('Map Name', self.browser.page_source)
+
         # 099_logout
 
         logout = self.browser.find_element_by_id('user-nav-logout')
@@ -147,6 +173,10 @@ class SmokeTest(StaticLiveServerTestCase):
         logout.click()
 
         self.assertLoggedOut()
+
+    def get_new_map_uuid(self):
+        href = self.browser.find_element_by_class_name('a-goto-created-map').get_attribute('href')
+        return href.split('/')[-1]
 
     def open_index_page(self):
         self.browser.get(self.live_server_url)
@@ -170,8 +200,18 @@ class SmokeTest(StaticLiveServerTestCase):
 
     def click_page_link(self, element_id, content):
         link = self.browser.find_element_by_id(element_id)
+        self.scroll_to(link)
         link.click()
         self.assertIn(content, self.browser.page_source)
+
+    def click_page_link_text(self, link_text, content):
+        link = self.browser.find_element_by_partial_link_text(link_text)
+        self.scroll_to(link)
+        link.click()
+        self.assertIn(content, self.browser.page_source)
+
+    def scroll_to(self, link):
+        self.browser.execute_script("arguments[0].scrollIntoView();", link)
 
     def assertLoggedIn(self):
         self.browser.find_element_by_id('user-nav-username')

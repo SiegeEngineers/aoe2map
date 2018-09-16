@@ -200,8 +200,9 @@ def newmap(request, rms_id=None, created_rms_id=None):
             raise Http404
     if created_rms_id:
         context['messages'].append({'class': 'success',
-                                    'text': '''Your Map has been created! Click <a href="{}">here</a> to view it, 
-                                    or <a href="{}">here</a> to edit it further.'''.format(
+                                    'text': '''Your Map has been created! Click 
+                                    <a href="{}" class="a-goto-created-map">here</a> to view it, or 
+                                    <a href="{}" class="a-goto-edit-created-map">here</a> to edit it further.'''.format(
                                         reverse('map', kwargs={'rms_id': created_rms_id}),
                                         reverse('editmap', kwargs={'rms_id': created_rms_id})
                                     )})

@@ -3,6 +3,36 @@
 
 This is a Django application.
 
+## Changelog
+
+### 18.9.4
+
+- The images in the map preview cards are now also a link to the respective map page
+- Added OpenGraph tags to map pages, this creates pretty previews when a link to a map
+  is shared on social media
+
+### 18.9.3
+
+- Rms files and images can now be drag+dropped into the new map and edit map forms. 
+  You can unfortunately only drop one rms file _or_ one or multiple images at once, 
+  not both at the same time. 
+- Tags are now also copied from a map to the form when uploading a newer map version.
+
+### 18.9.2
+
+- Images can now be added and removed when editing a map
+- Rms file input form input got moved to the top of form
+- Alerts improved
+
+### 18.9.1
+
+- Map generator: Reject ZR maps
+- Images now must be 600x311 px (was 600x315 px)
+
+### 18.9.0
+
+Initial public version.
+
 ## Development setup
 
 Let's assume you are on linux.

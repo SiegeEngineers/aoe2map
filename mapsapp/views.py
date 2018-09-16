@@ -35,7 +35,9 @@ def rms(request, rms_id):
     rms_instance = get_object_or_404(Rms, pk=rms_id)
     context = {
         API_URL: reverse('api:rms', kwargs={'rms_id': rms_id}),
-        "rms": rms_instance}
+        "rms": rms_instance,
+        "top_url": djangosettings.DJANGO_TOP_URL,
+        "page_url": reverse('map', kwargs={'rms_id': rms_id})}
     return render(request, 'mapsapp/map.html', context)
 
 

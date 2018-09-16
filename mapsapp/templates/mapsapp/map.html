@@ -1,6 +1,28 @@
 {% extends "mapsapp/base.html" %}
 {% load static %}
 
+{% block additionalheader %}
+    <!-- Facebook Open Graph -->
+    <meta property="og:locale" content="en_GB"/>
+    <meta property="og:site_name" content="aoe2map.net"/>
+    <meta property="og:title" content="{{ rms.name }}{% if rms.version %} {{ rms.version }}{% endif %}"/>
+    <meta property="og:url" content="{{ top_url }}{{ page_url }}"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:description" content="{{ rms.description }}"/>
+    <meta property="og:image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{{ top_url }}{{ rms.image_set.all.0.file.url }}{% endif %}"/>
+    <!-- Google+ / Schema.org -->
+    <meta itemprop="name" content="{{ rms.name }}"/>
+    <meta itemprop="headline" content="{{ rms.name }}{% if rms.version %} {{ rms.version }}{% endif %}"/>
+    <meta itemprop="description" content="{{ rms.description }}"/>
+    <meta itemprop="image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{{ top_url }}{{ rms.image_set.all.0.file.url }}{% endif %}"/>
+    <meta itemprop="author" content="{{ rms.authors }}"/>
+    <!-- Twitter Cards -->
+    <meta name="twitter:title" content="{{ rms.name }}{% if rms.version %} {{ rms.version }}{% endif %}"/>
+    <meta name="twitter:url" content="{{ top_url }}{{ page_url }}"/>
+    <meta name="twitter:description" content="{{ rms.description }}"/>
+    <meta name="twitter:image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{{ top_url }}{{ rms.image_set.all.0.file.url }}{% endif %}"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+{% endblock %}
 
 {% block subtitle %}
     <div class="offset-md-1 col-md-10 col-12 singlemap-area">

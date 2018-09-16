@@ -89,8 +89,10 @@
                         <p>
                             <a href="{{ rms.file.url }}" class="card-link btn btn-secondary map-download">Download
                                 map</a>
-                            <a href="{{ rms.url }}" class="card-link btn btn-outline-secondary"
-                               target="_blank">Website</a>
+                            {% if rms.url %}
+                                <a href="{{ rms.url }}" class="card-link btn btn-outline-secondary"
+                                   target="_blank">Website</a>
+                            {% endif %}
                         </p>
                     </div>
                 </div>

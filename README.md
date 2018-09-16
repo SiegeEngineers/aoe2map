@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 18.9.5
+
+- The `Website` button is now only displayed if a url has been added
+
 ### 18.9.4
 
 - The images in the map preview cards are now also a link to the respective map page

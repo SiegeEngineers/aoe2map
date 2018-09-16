@@ -33,6 +33,11 @@ $(function () {
                     <a href="' + map.newer_version + '" class="alert-link">Check it out!</a>\
                     </div>'
                     }
+                    let url = '';
+                    if(map.url){
+                        url = '<a href="' + map.url + '" class="card-link btn btn-outline-secondary" target="_blank">Website</a>';
+                    }
+
                     $('<div class="col-lg-4 col-md-6 col-12"> \
                 <div class="card"> \
                     <a href="' + map.pageurl + '">\
@@ -45,7 +50,7 @@ $(function () {
                             <p class="card-text font-italic">' + map.description + '</p>\
                             <p>\
                                 <a href="' + map.fileurl + '" class="card-link btn btn-secondary map-download">Download map</a>\
-                                <a href="' + map.url + '" class="card-link btn btn-outline-secondary" target="_blank">Website</a>\
+                                ' + url + '\
                             </p>\
                             <div class="tags">Tags: \
                             ' + getTags(map.tags) + '\

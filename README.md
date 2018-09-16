@@ -30,7 +30,7 @@ This is a Django application.
 
 ### 18.9.1
 
-- Map generator: Reject ZR maps
+- Mappack Creator: Reject ZR maps
 - Images now must be 600x311 px (was 600x315 px)
 
 ### 18.9.0

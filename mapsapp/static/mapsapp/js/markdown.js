@@ -1,5 +1,5 @@
 var md = window.markdownit({breaks: true})
-    .disable(['link', 'image']);
+    .disable(['image']);
 $('.markdown-text').each(
     function (nr, it) {
         let it_select = $(it);

@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 18.9.6
+
+- Links are now allowed in the description field. Use `[link text](https://example.org)` to create a link.
+
 ### 18.9.5
 
 - The `Website` button is now only displayed if a url has been added

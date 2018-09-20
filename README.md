@@ -8,6 +8,7 @@ This is a Django application.
 ### 18.9.6
 
 - Links are now allowed in the description field. Use `[link text](https://example.org)` to create a link.
+- Made form field descriptions even more descriptive
 
 ### 18.9.5
 

@@ -9,6 +9,43 @@ from django.forms import Textarea, ModelForm, CheckboxSelectMultiple
 
 from mapsapp.models import VersionTag, Rms, Collection, Image
 
+FORM_HELP_COLLECTION_RMS = "Type the names of the maps you want to add and select the desired map from proposed values!"
+
+FORM_HELP_COLLECTION_NAME = "The name of the collection"
+
+FORM_HELP_COLLECTION_AUTHORS = '''The author(s) of the collection - usually the names of the map author(s) 
+or the name of this collection's curator'''
+
+FORM_HELP_COLLECTION_DESCRIPTION = '''Describe this collection: What kind of maps are contained, 
+                                   what is the overall theme of this collection, …'''
+
+FORM_HELP_REMOVE_IMAGES = "Check all images that you want to <b>remove</b>"
+
+FORM_HELP_VERSIONS = "The versions that this map works in"
+
+FORM_HELP_TAGS = 'Tag your map with up to seven suitable keywords, for example ›4v4‹, ›FFA‹, or ›Nothing‹'
+
+FORM_HELP_URL = "An (optional) url for this map"
+
+FORM_HELP_MAP_INFORMATION = '''All the information about the map. This will appear only on the single 
+map page. You can use some Markdown syntax in this field, like <b>**bold**</b>, 
+<i>_italic_</i>, ~~<del>strikethrough</del>~~, <tt>[Link](https://example.org)</tt> or <b># Header</b>'''
+
+FORM_HELP_MAP_DESCRIPTION = '''Briefly describe the map layout, the setting and/or the idea behind the 
+                                  map. This will appear on the map cards.'''
+
+FORM_HELP_MAP_AUTHORS = "Who made this map?"
+
+FORM_HELP_MAP_VERSION = "Optional version indicator like '1.1' or 'v2'"
+
+FORM_HELP_MAP_NAME = "The name of the map"
+
+FORM_HELP_IMAGES = '''<b>Images get resized to 600x311 px</b>, so upload only pictures of that size or aspect ratio. 
+You can also drag+drop images in here.<br>
+Want to include bigger images? You can upload them somewhere else and place links into the <tt>description</tt> field.'''
+
+FORM_HELP_FILE = "Choose the .rms file you want to share. You can also drag+drop it in here."
+
 
 def get_version_tag_choices():
     versiontags = []
@@ -22,24 +59,40 @@ def get_version_tag_choices():
 
 class NewRmsForm(forms.Form):
     file = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=['rms'])],
-                           help_text="Choose the .rms script you want to share")
-    name = forms.CharField(max_length=255, help_text="The name of the map")
-    version = forms.CharField(max_length=255, required=False, help_text="Optional version indicator like '1.1' or 'v2'")
-    authors = forms.CharField(max_length=255, help_text="Who made this map?")
+                           help_text=FORM_HELP_FILE)
+
+    images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}),
+                             required=False,
+                             help_text=FORM_HELP_IMAGES)
+
+    name = forms.CharField(max_length=255,
+                           help_text=FORM_HELP_MAP_NAME)
+
+    version = forms.CharField(max_length=255,
+                              required=False,
+                              help_text=FORM_HELP_MAP_VERSION)
+
+    authors = forms.CharField(max_length=255,
+                              help_text=FORM_HELP_MAP_AUTHORS)
+
     description = forms.CharField(widget=Textarea,
-                                  help_text="Briefly describe the map layout, the setting and/or the idea behind the map. This will appear on the map cards.")
-    information = forms.CharField(widget=Textarea, required=False,
-                                  help_text="""All the information about the map. This will appear only on the single 
-                                  map page. You can use some Markdown syntax in this field, like <b>**bold**</b>, 
-                                  <i>_italic_</i> or ~~<del>strikethrough</del>~~""")
-    url = forms.CharField(max_length=255, required=False, help_text="An (optional) url for this map")
+                                  help_text=FORM_HELP_MAP_DESCRIPTION)
+
+    url = forms.CharField(max_length=255,
+                          required=False,
+                          help_text=FORM_HELP_URL)
+
+    information = forms.CharField(widget=Textarea,
+                                  required=False,
+                                  help_text=FORM_HELP_MAP_INFORMATION)
+
     tags = forms.CharField(max_length=255,
-                           help_text="Tag your map with up to seven suitable keywords, for example ›4v4‹, ›FFA‹, or ›Nothing‹")
-    versiontags = forms.MultipleChoiceField(label="Versions", choices=[],
-                                            help_text="The versions that this map works in",
+                           help_text=FORM_HELP_TAGS)
+
+    versiontags = forms.MultipleChoiceField(label="Versions",
+                                            choices=[],
+                                            help_text=FORM_HELP_VERSIONS,
                                             widget=CheckboxSelectMultiple)
-    images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}), required=False,
-                             help_text="Images get resized to 600x311 px, so you probably want to upload only pictures of that size or aspect ratio")
 
     def clean_tags(self):
         tags = self.cleaned_data['tags']
@@ -53,19 +106,33 @@ class NewRmsForm(forms.Form):
 
 
 class EditRmsForm(ModelForm):
-    tags = forms.CharField(max_length=255, required=True, help_text="Tags tags tags!")
+    tags = forms.CharField(max_length=255,
+                           required=True)
 
-    remove_images = forms.ModelMultipleChoiceField(queryset=None, required=False,
-                                                   widget=CheckboxSelectMultiple,
-                                                   help_text="Check all images that you want to <b>remove</b>")
+    remove_images = forms.ModelMultipleChoiceField(queryset=None,
+                                                   required=False,
+                                                   widget=CheckboxSelectMultiple)
 
-    images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}), required=False, label='Add images',
-                                 help_text="Images get resized to 600x311 px, so you probably want to upload only pictures of that size or aspect ratio")
+    images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}),
+                             required=False,
+                             label='Add images')
 
     class Meta:
         model = Rms
-        fields = ['name', 'version', 'authors', 'description', 'information', 'url', 'tags', 'versiontags']
+        fields = ['name', 'version', 'authors', 'description', 'url', 'information', 'tags', 'versiontags']
         widgets = {'versiontags': CheckboxSelectMultiple}
+        help_texts = {
+            'name': FORM_HELP_MAP_NAME,
+            'version': FORM_HELP_MAP_VERSION,
+            'authors': FORM_HELP_MAP_AUTHORS,
+            'description': FORM_HELP_MAP_DESCRIPTION,
+            'url': FORM_HELP_URL,
+            'information': FORM_HELP_MAP_INFORMATION,
+            'tags': FORM_HELP_TAGS,
+            'versiontags': FORM_HELP_VERSIONS,
+            'remove_images': FORM_HELP_REMOVE_IMAGES,
+            'images': FORM_HELP_IMAGES
+        }
 
     def __init__(self, *args, **kwargs):
         super(EditRmsForm, self).__init__(*args, **kwargs)
@@ -80,11 +147,16 @@ class EditRmsForm(ModelForm):
 
 class CollectionForm(ModelForm):
     rms = forms.CharField(required=True,
-                          help_text="Type the names of the maps you want to add and select the desire map from proposed values!")
+                          help_text=FORM_HELP_COLLECTION_RMS)
 
     class Meta:
         model = Collection
         fields = ['name', 'authors', 'description', 'rms']
+        help_texts = {
+            'name': FORM_HELP_COLLECTION_NAME,
+            'authors': FORM_HELP_COLLECTION_AUTHORS,
+            'description': FORM_HELP_COLLECTION_DESCRIPTION
+        }
 
     def clean_rms(self):
         uuidstring = self.cleaned_data['rms']
@@ -96,7 +168,9 @@ class CollectionForm(ModelForm):
 
 
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField(max_length=254, help_text='A valid email address.', required=False)
+    email = forms.EmailField(max_length=254,
+                             help_text='A valid email address.',
+                             required=False)
 
     class Meta:
         model = User
@@ -104,7 +178,10 @@ class SignUpForm(UserCreationForm):
 
 
 class SettingsForm(forms.Form):
-    email = forms.EmailField(max_length=254, help_text='A valid email address.', required=False)
+    email = forms.EmailField(max_length=254,
+                             help_text='A valid email address.',
+                             required=False)
+
     new_password = forms.CharField(widget=forms.PasswordInput,
                                    help_text="Enter a new password if you want to change it. " +
                                              "If you want to keep your old password, leave this field blank.",

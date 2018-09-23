@@ -10,6 +10,7 @@ This is a Django application.
 - Added changelog field to maps. A changelog is displayed at the bottom of the map
   detail page if changelog text is available and/or if there are successive versions
   of the map (created via the 'Upload new version' functionality).
+- Maps you own now show an 'Edit Map' button when you are logged in
 
 ### 18.9.6
 

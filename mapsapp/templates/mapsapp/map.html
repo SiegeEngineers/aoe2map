@@ -93,6 +93,10 @@
                                 <a href="{{ rms.url }}" class="card-link btn btn-outline-secondary"
                                    target="_blank">Website</a>
                             {% endif %}
+                            {% if request.user and rms.owner == request.user %}
+                                <a href="{% url 'editmap' rms_id=rms.uuid %}"
+                                   class="card-link btn btn-outline-primary">Edit map</a>
+                            {% endif %}
                         </p>
                     </div>
                 </div>

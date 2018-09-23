@@ -5,6 +5,12 @@ This is a Django application.
 
 ## Changelog
 
+### 18.9.8
+
+- Long descriptions are now shortened in map previews. They can be expanded to full 
+  length by klicking/tapping on the description text.
+- Fixed an issue with tag names containing leading or trailing spaces
+
 ### 18.9.7
 
 - Added changelog field to maps. A changelog is displayed at the bottom of the map

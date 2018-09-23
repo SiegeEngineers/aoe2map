@@ -11,6 +11,7 @@ This is a Django application.
   length by klicking/tapping on the description text.
 - The mappack generator now generates the probabilities for each map more evenly
 - Fixed an issue with tag names containing leading or trailing spaces
+- Fix changelog field: Should be optional in new map form
 
 ### 18.9.7
 

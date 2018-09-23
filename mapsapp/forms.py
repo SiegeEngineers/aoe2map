@@ -76,6 +76,7 @@ class NewRmsForm(forms.Form):
                               help_text=FORM_HELP_MAP_VERSION)
 
     changelog = forms.CharField(widget=Textarea(attrs={'rows': 3}),
+                                required=False,
                                 help_text=FORM_HELP_MAP_CHANGELOG)
 
     authors = forms.CharField(max_length=255,

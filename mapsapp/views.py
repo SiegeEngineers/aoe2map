@@ -185,6 +185,7 @@ def get_tags(tagstring):
     tags = []
     items = tagstring.split(',')
     for item in items:
+        item = item.strip()
         (tag, created) = Tag.objects.get_or_create(name=item)
         tags.append(tag)
     return tags

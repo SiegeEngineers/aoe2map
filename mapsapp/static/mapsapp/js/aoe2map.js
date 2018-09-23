@@ -9,6 +9,10 @@ function partition(array, chunksize) {
     return retval;
 }
 
+function toggleMaxHeight(self){
+    $(self).toggleClass('full');
+}
+
 $(function () {
 
     $.getJSON(API_URL, function (data) {
@@ -34,7 +38,7 @@ $(function () {
                     </div>'
                     }
                     let url = '';
-                    if(map.url){
+                    if (map.url) {
                         url = '<a href="' + map.url + '" class="card-link btn btn-outline-secondary" target="_blank">Website</a>';
                     }
 
@@ -47,7 +51,7 @@ $(function () {
                             ' + alert + '\
                             <h5 class="card-title"><a href="' + map.pageurl + '">' + map.name + '</a><small class="text-muted"> ' + map.version + '</small></h5>\
                             <h6 class="card-subtitle mb-2 text-muted">by ' + map.authors + '</h6>\
-                            <p class="card-text font-italic">' + map.description + '</p>\
+                            <p class="card-text font-italic map-description" onclick="toggleMaxHeight(this)">' + map.description + '</p>\
                             <p>\
                                 <a href="' + map.fileurl + '" class="card-link btn btn-secondary map-download">Download map</a>\
                                 ' + url + '\

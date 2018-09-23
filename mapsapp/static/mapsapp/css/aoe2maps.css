@@ -97,3 +97,23 @@ ul.mapslist li:before {
 .dragging #drop-info {
     display: flex;
 }
+
+.map-description {
+    max-height: 9.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: max-height 0.3s ease-out;
+    margin-bottom: 0.5rem;
+    padding-bottom: 1rem;
+    position: relative;
+}
+
+.map-description:after{
+    content: "";
+    position: absolute; top: 0; bottom: 0; left: -1rem; right: -1rem;
+    box-shadow: inset #303030 0 -1rem 0.9rem;
+}
+
+.map-description.full {
+    max-height: none;
+}

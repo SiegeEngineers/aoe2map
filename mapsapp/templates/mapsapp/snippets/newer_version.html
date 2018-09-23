@@ -1,0 +1,5 @@
+{% if rms.newer_version %}
+    {% include "mapsapp/snippets/newer_version.html" with rms=rms.newer_version %}
+{% endif %}
+
+{% include "mapsapp/snippets/changelog_item.html" %}

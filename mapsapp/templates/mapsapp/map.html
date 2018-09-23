@@ -129,6 +129,26 @@
                 </div>
             </div>
         {% endif %}
+        {% if rms.changelog or rms.predecessors.exists or rms.newer_version %}
+            <hr style="width: 50%;">
+            <div class="row">
+                <div class="offset-xl-2 col-xl-8 offset-lg-1 col-lg-10 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            Changelog
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% if rms.newer_version %}
+                                {% include "mapsapp/snippets/newer_version.html" with rms=rms.newer_version %}
+                            {% endif %}
+
+                            {% include "mapsapp/snippets/older_versions.html" with rms=rms current=True %}
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 

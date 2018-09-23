@@ -1,0 +1,8 @@
+{% include "mapsapp/snippets/changelog_item.html" %}
+
+{% if rms.predecessors.exists %}
+    {% for predecessor in rms.predecessors.all %}
+        {% include "mapsapp/snippets/older_versions.html" with rms=predecessor current=False %}
+    {% endfor %}
+{% endif %}
+

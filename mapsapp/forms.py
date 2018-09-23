@@ -38,6 +38,9 @@ FORM_HELP_MAP_AUTHORS = "Who made this map?"
 
 FORM_HELP_MAP_VERSION = "Optional version indicator like '1.1' or 'v2'"
 
+FORM_HELP_MAP_CHANGELOG = '''Optional text describing the changes in this version of the map 
+compared to the previous version'''
+
 FORM_HELP_MAP_NAME = "The name of the map"
 
 FORM_HELP_IMAGES = '''<b>Images get resized to 600x311 px</b>, so upload only pictures of that size or aspect ratio. 
@@ -71,6 +74,9 @@ class NewRmsForm(forms.Form):
     version = forms.CharField(max_length=255,
                               required=False,
                               help_text=FORM_HELP_MAP_VERSION)
+
+    changelog = forms.CharField(widget=Textarea(attrs={'rows': 3}),
+                                help_text=FORM_HELP_MAP_CHANGELOG)
 
     authors = forms.CharField(max_length=255,
                               help_text=FORM_HELP_MAP_AUTHORS)
@@ -119,11 +125,16 @@ class EditRmsForm(ModelForm):
 
     class Meta:
         model = Rms
-        fields = ['name', 'version', 'authors', 'description', 'url', 'information', 'tags', 'versiontags']
-        widgets = {'versiontags': CheckboxSelectMultiple}
+        fields = ['name', 'version', 'authors', 'description', 'url', 'changelog', 'information', 'tags', 'versiontags']
+        widgets = {
+            'versiontags': CheckboxSelectMultiple,
+            'changelog': Textarea(attrs={'rows': 3}),
+            'description': Textarea(attrs={'rows': 3})
+        }
         help_texts = {
             'name': FORM_HELP_MAP_NAME,
             'version': FORM_HELP_MAP_VERSION,
+            'changelog': FORM_HELP_MAP_CHANGELOG,
             'authors': FORM_HELP_MAP_AUTHORS,
             'description': FORM_HELP_MAP_DESCRIPTION,
             'url': FORM_HELP_URL,

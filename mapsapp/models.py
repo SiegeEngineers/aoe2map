@@ -40,14 +40,16 @@ class Rms(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     version = models.CharField(max_length=255, blank=True)
+    changelog = models.TextField(blank=True, default='')
     authors = models.CharField(max_length=255)
     description = models.TextField()
-    information = models.TextField(blank=True, default=None)
+    information = models.TextField(blank=True, default='')
     url = models.CharField(max_length=255, blank=True)
     file = models.FileField(upload_to=rms_path)
     tags = models.ManyToManyField(Tag)
     versiontags = models.ManyToManyField(VersionTag)
-    newer_version = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, default=None)
+    newer_version = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, default=None,
+                                      related_name='predecessors')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

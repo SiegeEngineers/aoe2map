@@ -5,6 +5,12 @@ This is a Django application.
 
 ## Changelog
 
+### 18.9.7
+
+- Added changelog field to maps. A changelog is displayed at the bottom of the map
+  detail page if changelog text is available and/or if there are successive versions
+  of the map (created via the 'Upload new version' functionality).
+
 ### 18.9.6
 
 - Links are now allowed in the description field. Use `[link text](https://example.org)` to create a link.

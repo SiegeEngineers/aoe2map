@@ -9,6 +9,7 @@ This is a Django application.
 
 - Long descriptions are now shortened in map previews. They can be expanded to full 
   length by klicking/tapping on the description text.
+- The mappack generator now generates the probabilities for each map more evenly
 - Fixed an issue with tag names containing leading or trailing spaces
 
 ### 18.9.7

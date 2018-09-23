@@ -88,12 +88,14 @@ function getdata() {
 function getChances(amount) {
     let a = [];
     let sum = 0;
-    for (let i = 0; i < amount - 1; i++) {
+    for (let i = 0; i < amount; i++) {
         let percentage = Math.floor(100 / amount);
         a.push(percentage);
         sum += percentage;
     }
-    a.push(100 - sum);
+    for (let i = 0; i < 100 - sum; i++) {
+        a[i]++;
+    }
     return a;
 }
 

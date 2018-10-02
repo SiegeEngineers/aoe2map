@@ -1,15 +1,16 @@
+import itertools
 import os
 from time import sleep
 
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.urls import resolve, reverse
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.webdriver import WebDriver
 
-from mapsapp.models import VersionTag
+from mapsapp.models import VersionTag, Rms, Tag
 from mapsapp.views import index
 
 
@@ -18,6 +19,76 @@ class HomePageTest(TestCase):
     def test_root_url_resolves_to_index_view(self):
         found = resolve('/')
         self.assertEqual(found.func, index)
+
+
+class ChangelogTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.aTag = Tag.objects.create(name='tag-name')
+        cls.aVersion = VersionTag.objects.create(name='version-name')
+        cls.aUser = User.objects.create_user(username='username', password='password')
+        cls.counter = itertools.count()
+
+    def test_single_map_has_no_changelog(self):
+        rms = self.create_sample_map()
+        self.assertIn('map-name', rms.name)
+
+        self.assert_map_does_not_have_changelog(rms)
+
+    def test_single_map_with_changelog_text_has_changelog(self):
+        rms = self.create_sample_map(changelog='changelog')
+        self.assertIn('map-name', rms.name)
+        self.assertEqual('changelog', rms.changelog)
+
+        self.assert_map_has_changelog(rms)
+
+    def test_three_maps_all_have_changelog(self):
+        rms1 = self.create_sample_map()
+        rms2 = self.create_sample_map(parent=rms1)
+        rms3 = self.create_sample_map(parent=rms2)
+        self.assertIn('map-name', rms1.name)
+        self.assertIn('map-name', rms2.name)
+        self.assertIn('map-name', rms3.name)
+
+        self.assert_map_has_changelog(rms1)
+        self.assert_map_has_changelog(rms2)
+        self.assert_map_has_changelog(rms3)
+
+    def test_three_maps_with_changelog_text_all_have_changelog(self):
+        rms1 = self.create_sample_map(changelog='changelog')
+        rms2 = self.create_sample_map(parent=rms1, changelog='changelog')
+        rms3 = self.create_sample_map(parent=rms2, changelog='changelog')
+        self.assertIn('map-name', rms1.name)
+        self.assertIn('map-name', rms2.name)
+        self.assertIn('map-name', rms3.name)
+
+        self.assert_map_has_changelog(rms1)
+        self.assert_map_has_changelog(rms2)
+        self.assert_map_has_changelog(rms3)
+
+    def create_sample_map(self, changelog='', parent=None):
+        rms = Rms()
+        rms.owner = self.aUser
+        rms.name = "map-name-{}".format(next(self.counter))
+        rms.changelog = changelog
+        rms.authors = 'rms-authors'
+        rms.description = 'rms-description'
+        rms.file = SimpleUploadedFile('file-name', b'file-contents')
+        rms.newer_version = parent
+        rms.save()
+        rms.tags.add(self.aTag)
+        rms.versiontags.add(self.aVersion)
+        rms.save()
+        return rms
+
+    def assert_map_has_changelog(self, rms):
+        response = self.client.get(reverse('map', kwargs={'rms_id': rms.uuid}))
+        self.assertIn(b'Changelog', response.content)
+
+    def assert_map_does_not_have_changelog(self, rms):
+        response = self.client.get(reverse('map', kwargs={'rms_id': rms.uuid}))
+        self.assertNotIn(b'Changelog', response.content)
 
 
 class AuthenticationTest(StaticLiveServerTestCase):

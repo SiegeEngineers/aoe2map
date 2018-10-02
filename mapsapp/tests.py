@@ -94,9 +94,12 @@ class SmokeTest(StaticLiveServerTestCase):
 
         # 003_register_without_email
 
-        self.fill_field('id_username', "hscmi")
-        self.fill_field('id_password1', "password")
-        self.fill_field('id_password2', "password")
+        self.fill_fields({
+            'id_username': "hscmi",
+            'id_password1': "password",
+            'id_password2': "password"
+        })
+
         self.click_to_login('register')
 
         # 004_logout
@@ -109,8 +112,10 @@ class SmokeTest(StaticLiveServerTestCase):
 
         # 006_login
 
-        self.fill_field('username', "hscmi")
-        self.fill_field('password', "password")
+        self.fill_fields({
+            'username': "hscmi",
+            'password': "password",
+        })
         self.click_to_login('login')
 
         # 007_open_new_map_page
@@ -119,16 +124,18 @@ class SmokeTest(StaticLiveServerTestCase):
 
         # 008_create_new_map
 
-        self.fill_field('id_file', os.path.abspath("mapsapp/testdata/relic_nothing.rms"))
-        self.fill_field('id_name', 'Map Name')
-        self.fill_field('id_version', 'Map Version')
-        self.fill_field('id_authors', 'Map Authors')
-        self.fill_field('id_description', 'Map Description')
-        self.fill_field('id_information', 'Map Information')
-        self.fill_field('id_url', 'map_url')
-        self.fill_field('id_tags', 'map,tags')
+        self.fill_fields({
+            'id_file': os.path.abspath("mapsapp/testdata/relic_nothing.rms"),
+            'id_name': 'Map Name',
+            'id_version': 'Map Version',
+            'id_authors': 'Map Authors',
+            'id_description': 'Map Description',
+            'id_information': 'Map Information',
+            'id_url': 'map_url',
+            'id_tags': 'map,tags',
+            'id_images': os.path.abspath("mapsapp/testdata/relic_nothing.png")
+        })
         self.click('id_versiontags_0')
-        self.fill_field('id_images', os.path.abspath("mapsapp/testdata/relic_nothing.png"))
         self.click_page_link('upload', 'Your Map has been created!')
         new_map_uuid = self.get_new_map_uuid()
 
@@ -148,10 +155,12 @@ class SmokeTest(StaticLiveServerTestCase):
 
         # 012_create_new_collection
 
-        self.fill_field('id_name', 'Collection Name')
-        self.fill_field('id_authors', 'Collection Authors')
-        self.fill_field('id_description', 'Collection Description')
-        self.fill_field('id_rms', new_map_uuid)
+        self.fill_fields({
+            'id_name': 'Collection Name',
+            'id_authors': 'Collection Authors',
+            'id_description': 'Collection Description',
+            'id_rms': new_map_uuid
+        })
         self.click_page_link('save', 'Collection created successfully')
 
         # 013_open_collections_page_and_find_collection
@@ -193,6 +202,10 @@ class SmokeTest(StaticLiveServerTestCase):
     def click(self, element_id):
         button = self.browser.find_element_by_id(element_id)
         button.click()
+
+    def fill_fields(self, content):
+        for key, value in content.items():
+            self.fill_field(key, value)
 
     def fill_field(self, element_id, content):
         field = self.browser.find_element_by_id(element_id)

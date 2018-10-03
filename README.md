@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 18.10.1
+
+- Added link to full map list at the end of the index page
+
 ### 18.9.8
 
 - Long descriptions are now shortened in map previews. They can be expanded to full 

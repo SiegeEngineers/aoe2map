@@ -9,6 +9,14 @@
         {% endif %}</em></div>
 {% endblock %}
 
+
+{% block content %}
+    <div class="maps row">
+        {% include 'mapsapp/snippets/loading_animation.html' %}
+    </div>
+    <div class="text-center font-italic">Looking for more maps? Check out the <a href="{% url 'maps' %}">full list</a>.</div>
+{% endblock %}
+
 {% block js %}
     {% include 'mapsapp/snippets/maps_js_block.html' %}
 {% endblock %}

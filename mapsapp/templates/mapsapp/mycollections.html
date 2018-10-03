@@ -9,6 +9,8 @@
 {% block content %}
     <div class="col-md-6 offset-md-3">
         {% if collections %}
+            {% include 'mapsapp/snippets/filter.html' %}
+
             <ul class="mapslist">
                 {% for collection in collections %}
                     <li><a href="{% url 'collection' collection_id=collection.uuid %}">{{ collection.name }}
@@ -23,4 +25,8 @@
             </div>
         {% endif %}
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'mapsapp/js/list-filter.js' %}"></script>
 {% endblock %}

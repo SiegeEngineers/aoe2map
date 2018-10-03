@@ -8,6 +8,8 @@ This is a Django application.
 ### 18.10.1
 
 - Added link to full map list at the end of the index page.
+- Added filter input to maps and collections pages. Filter maps and collections 
+  by typing in the filter input, the lists get updated instantly.
 
 ### 18.9.8
 

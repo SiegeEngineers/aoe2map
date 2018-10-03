@@ -8,6 +8,8 @@
 
 {% block content %}
     <div class="col-md-6 offset-md-3">
+        {% include 'mapsapp/snippets/filter.html' %}
+
         <ul class="maplist">
             {% for rms in rmss %}
                 <li><a href="{% url 'map' rms_id=rms.uuid %}">{{ rms.name }}
@@ -16,4 +18,8 @@
             {% endfor %}
         </ul>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'mapsapp/js/list-filter.js' %}"></script>
 {% endblock %}

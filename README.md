@@ -7,7 +7,7 @@ This is a Django application.
 
 ### 18.10.1
 
-- Added link to full map list at the end of the index page
+- Added link to full map list at the end of the index page.
 
 ### 18.9.8
 

@@ -159,7 +159,8 @@ class EditRmsForm(ModelForm):
 
 class CollectionForm(ModelForm):
     rms = forms.CharField(required=True,
-                          help_text=FORM_HELP_COLLECTION_RMS)
+                          help_text=FORM_HELP_COLLECTION_RMS,
+                          label='Maps')
 
     class Meta:
         model = Collection

@@ -202,6 +202,7 @@ class SmokeTest(StaticLiveServerTestCase):
             'id_authors': 'Map Authors',
             'id_description': 'Map Description',
             'id_information': 'Map Information',
+            'id_changelog': 'Changelog Information',
             'id_url': 'map_url',
             'id_tags': 'map,tags',
             'id_images': os.path.abspath("mapsapp/testdata/relic_nothing.png")
@@ -219,6 +220,11 @@ class SmokeTest(StaticLiveServerTestCase):
 
         self.click_page_link('nav-link-maps', '<img src="/static/mapsapp/images/map.svg" style="height:1em;"> Maps')
         self.assertIn('Map Name', self.browser.page_source)
+
+        # 0101_open_map_page_and_find_changelog
+
+        self.browser.get(self.live_server_url + reverse('map', kwargs={'rms_id': new_map_uuid}))
+        self.assertIn('Changelog Information', self.browser.page_source)
 
         # 011_open_create_collection_page
 

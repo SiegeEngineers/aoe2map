@@ -219,6 +219,7 @@ def newmap(request, rms_id=None, created_rms_id=None):
             new_rms.authors = form.cleaned_data['authors']
             new_rms.description = form.cleaned_data['description']
             new_rms.information = form.cleaned_data['information']
+            new_rms.changelog = form.cleaned_data['changelog']
             new_rms.url = form.cleaned_data['url']
 
             fs = FileSystemStorage()

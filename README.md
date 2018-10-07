@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 18.10.2
+
+- Bugfix: When creating a new map, the changelog information is now actually saved.
+
 ### 18.10.1
 
 - Added link to full map list at the end of the index page.

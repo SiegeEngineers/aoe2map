@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
-from django.utils.html import escape
+from django.utils.html import escape, format_html
 
 from mapsapp.models import Rms, VersionTag, Tag, Image, Collection
 
@@ -57,6 +57,59 @@ def collection(request, collection_id):
     objects = maps2json(c.rms.all())
 
     return JsonResponse({"maps": objects})
+
+
+@login_required
+def modifycollection(request):
+    if 'action' not in request.POST:
+        return JsonResponse({"status": "ERROR", "message": "'action' is missing", "class": "danger"})
+
+    if request.POST['action'] not in ['add']:
+        return JsonResponse({"status": "ERROR", "message": "Invalid action", "class": "danger"})
+
+    if request.POST['action'] == 'add':
+        missing_properties = []
+        for prop in ['rms_id', 'collection_id']:
+            if prop not in request.POST:
+                missing_properties.append(prop)
+        if len(missing_properties) > 0:
+            return JsonResponse({
+                "status": "ERROR",
+                "message": "The following mandatory properties are missing: {}".format(missing_properties),
+                "class": "danger"
+            })
+
+        rms_id = request.POST['rms_id']
+        collection_id = request.POST['collection_id']
+        rms_instance = Rms.objects.filter(pk=rms_id).first()
+        collection_instance = Collection.objects.filter(pk=collection_id).first()
+
+        if rms_instance is None:
+            return JsonResponse({"status": "ERROR", "message": "Map not found", "class": "warning"})
+
+        if collection_instance is None:
+            return JsonResponse({"status": "ERROR", "message": "Collection not found", "class": "warning"})
+
+        if rms_instance.newer_version is not None:
+            return JsonResponse({
+                "status": "ERROR",
+                "message": "You can only add the latest version of a map to a collection",
+                "class": "warning"
+            })
+
+        collection_instance.rms.add(rms_instance)
+
+        return JsonResponse({
+            "status": "OK",
+            "message": format_html(
+                """The map <i>{mapname}</i> has been added
+                to your collection <a href='{collectionurl}'>{collectionname}</a>.""",
+                mapname=rms_instance.name, collectionname=collection_instance.name,
+                collectionurl=reverse('collection', kwargs={"collection_id": collection_instance.uuid})),
+            "class": "success"
+        })
+
+    return JsonResponse({"status": "ERROR", "message": "Unknown action", "class": "danger"})
 
 
 def maps2json(maps):

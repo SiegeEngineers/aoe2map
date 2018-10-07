@@ -5,6 +5,13 @@ This is a Django application.
 
 ## Changelog
 
+### 18.10.3
+
+- You can now add a map to one of your collections directly from the map page
+- You can now add a map to a new collection directly from the map page
+- Your collection pages now display an edit button
+- Made map list on collection edit page more blocky
+
 ### 18.10.2
 
 - Bugfix: When creating a new map, the changelog information is now actually saved.

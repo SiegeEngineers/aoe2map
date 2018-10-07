@@ -26,6 +26,7 @@ urlpatterns = [
     path('edit/<uuid:rms_id>', views.editmap, name='editmap'),
     path('editcollection/<uuid:collection_id>', views.editcollection, name='editcollection'),
     path('newcollection', views.editcollection, name='newcollection'),
+    path('newcollection/<uuid:rms_id>', views.editcollection, name='newcollection'),
     path('version/<version_name>', views.version, name='version'),
     re_path(r'^tags/(?P<url_fragment>(\d+/)*)$', views.tags, name='tags'),
     re_path(r'^tags/(?P<url_fragment>(\d+/)+)remove/(?P<id_to_remove>\d+)/$', views.tags_remove, name='tags_remove'),

@@ -30,14 +30,14 @@
     <div class="offset-md-1 col-md-10 col-12 singlemap-area">
         <div class="row">
 
-            {% if rms.newer_version %}
-                <div class="col-12 text-center">
+            <div class="col-12 text-center" id="alert-area">
+                {% if rms.newer_version %}
                     <div class="alert alert-info" role="alert">
                         A newer version of this map is available!
                         <a href="{% url 'map' rms_id=rms.newer_version.uuid %}" class="alert-link">Check it out!</a>
                     </div>
-                </div>
-            {% endif %}
+                {% endif %}
+            </div>
 
             <div class="col-md-6 col-12 text-center mapscreenshot-container">
                 {% if rms.image_set.count == 0 %}
@@ -85,19 +85,34 @@
                     </div>
                 </div>
                 <div class="row pt-5">
-                    <div class="col-12 text-center">
-                        <p>
-                            <a href="{{ rms.file.url }}" class="card-link btn btn-secondary map-download">Download
-                                map</a>
-                            {% if rms.url %}
-                                <a href="{{ rms.url }}" class="card-link btn btn-outline-secondary"
-                                   target="_blank">Website</a>
-                            {% endif %}
-                            {% if request.user and rms.owner == request.user %}
-                                <a href="{% url 'editmap' rms_id=rms.uuid %}"
-                                   class="card-link btn btn-outline-primary">Edit map</a>
-                            {% endif %}
-                        </p>
+                    <div class="col-12 justify-content-center form-inline mb-3">
+                        <a href="{{ rms.file.url }}" class="card-link btn btn-secondary map-download">Download
+                            map</a>
+                        {% if rms.url %}
+                            <a href="{{ rms.url }}" class="card-link btn btn-outline-secondary"
+                               target="_blank">Website</a>
+                        {% endif %}
+                        {% if request.user and rms.owner == request.user %}
+                            <a href="{% url 'editmap' rms_id=rms.uuid %}"
+                               class="card-link btn btn-outline-primary">Edit map</a>
+                        {% endif %}
+                        {% if request.user and request.user.is_authenticated %}
+                            <div class="input-group ml-4">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add to
+                                    collection…
+                                </button>
+                                <div class="dropdown-menu">
+                                    {% for collection in collections %}
+                                        <span class="dropdown-item"
+                                              onclick="addToCollection('{{ rms.uuid }}','{{ collection.uuid }}')">{{ collection.name }}</span>
+                                    {% endfor %}
+                                    <div role="separator" class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url 'newcollection' rms_id=rms.uuid %}">New Collection…</a>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row pt-1">
@@ -161,7 +176,12 @@
 
 {% block js %}
     <script src="{% static 'mapsapp/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'mapsapp/js/popper.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/markdown-it.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/markdown.js' %}"></script>
+    <script type="text/javascript">
+        var COLLECTION_ENDPOINT = "{% url 'api:modifycollection' %}";
+    </script>
+    <script src="{% static 'mapsapp/js/add-to-collection.js' %}"></script>
 {% endblock %}

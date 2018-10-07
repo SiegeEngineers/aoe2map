@@ -33,11 +33,16 @@ def maps(request):
 
 def rms(request, rms_id):
     rms_instance = get_object_or_404(Rms, pk=rms_id)
+    collections_for_user = []
+    if request.user.is_authenticated:
+        collections_for_user = Collection.objects.filter(owner=request.user).order_by('name')
     context = {
         API_URL: reverse('api:rms', kwargs={'rms_id': rms_id}),
         "rms": rms_instance,
         "top_url": djangosettings.DJANGO_TOP_URL,
-        "page_url": reverse('map', kwargs={'rms_id': rms_id})}
+        "page_url": reverse('map', kwargs={'rms_id': rms_id}),
+        "collections": collections_for_user
+    }
     return render(request, 'mapsapp/map.html', context)
 
 
@@ -263,7 +268,7 @@ def newmap(request, rms_id=None, created_rms_id=None):
 
 
 @login_required
-def editcollection(request, collection_id=None):
+def editcollection(request, collection_id=None, rms_id=None):
     context = {'messages': [], 'action': 'Create', 'rms_initial_data': []}
     verb = 'created'
     if collection_id:
@@ -289,35 +294,55 @@ def editcollection(request, collection_id=None):
                         {'name': rms_instance.name, 'authors': rms_instance.authors, 'uuid': str(rms_instance.uuid)}
                     )
                 context['rms_initial_data'] = rms_initial_data
-                context['messages'].append(
-                    {'class': 'success', 'text': 'Collection {} successfully. Hooray! <a href="{}">Show me</a>'.format(
-                        verb,
-                        reverse('collection', kwargs={'collection_id': instance.uuid})
-                    )})
+                context['messages'].append({
+                    'class': 'success',
+                    'text': '''Collection {} successfully –  
+                               <a class="alert-link" href="{}">Show collection</a>'''
+                        .format(verb,
+                                reverse('collection', kwargs={'collection_id': instance.uuid}),
+                                reverse('editcollection', kwargs={'collection_id': instance.uuid}))
+                })
 
             else:
                 form = CollectionForm()
-                context['messages'].append({'class': 'success',
-                                            'text': '''Collection {} successfully. 
-                                            Hooray! <a class="alert-link" href="{}">Forgot something? Click here to edit the collection.</a>'''
-                                           .format(verb,
-                                                   reverse('editcollection', kwargs={'collection_id': instance.uuid}))})
+                context['messages'].append({
+                    'class': 'success',
+                    'text': '''Collection {} successfully –  
+                               <a class="alert-link" href="{}">Show collection</a> 
+                               – <a class="alert-link" href="{}">Edit collection</a>'''
+                        .format(verb,
+                                reverse('collection', kwargs={'collection_id': instance.uuid}),
+                                reverse('editcollection', kwargs={'collection_id': instance.uuid}))
+                })
         else:
             context['messages'].append({'class': 'danger', 'text': 'That did not work…'})
     else:
         initial = {}
-        if collection_id:
-            collection_instance = get_object_or_404(Collection, pk=collection_id)
+        if collection_id or rms_id:
             rms_ids = []
             rms_initial_data = []
-            for rms_instance in collection_instance.rms.order_by('name'):
-                rms_ids.append(str(rms_instance.uuid))
-                rms_initial_data.append(
-                    {'name': rms_instance.name, 'authors': rms_instance.authors, 'uuid': str(rms_instance.uuid)}
-                )
-            initial['rms'] = ','.join(rms_ids)
-            context['rms_initial_data'] = rms_initial_data
-            form = CollectionForm(initial=initial, instance=collection_instance)
+            if rms_id:
+                initial_rms_instance = Rms.objects.filter(pk=rms_id).first()
+                if initial_rms_instance:
+                    rms_ids.append(str(initial_rms_instance.uuid))
+                    rms_initial_data.append(
+                        {'name': initial_rms_instance.name, 'authors': initial_rms_instance.authors,
+                         'uuid': str(initial_rms_instance.uuid)}
+                    )
+            if collection_id:
+                collection_instance = get_object_or_404(Collection, pk=collection_id)
+                for rms_instance in collection_instance.rms.order_by('name'):
+                    rms_ids.append(str(rms_instance.uuid))
+                    rms_initial_data.append(
+                        {'name': rms_instance.name, 'authors': rms_instance.authors, 'uuid': str(rms_instance.uuid)}
+                    )
+                initial['rms'] = ','.join(rms_ids)
+                context['rms_initial_data'] = rms_initial_data
+                form = CollectionForm(initial=initial, instance=collection_instance)
+            else:
+                initial['rms'] = ','.join(rms_ids)
+                context['rms_initial_data'] = rms_initial_data
+                form = CollectionForm(initial=initial)
         else:
             form = CollectionForm(initial=initial)
     context["form"] = form

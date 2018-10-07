@@ -10,7 +10,12 @@
         {{ collection.description|linebreaks }}
 
         <p class="text-center">
-            <button class="btn btn-outline-primary" id="download">Download Collection</button>
+            <button class="btn btn-secondary" id="download">Download Collection</button>
+
+            {% if request.user and collection.owner == request.user %}
+                <a href="{% url 'editcollection' collection_id=collection.uuid %}"
+                   class="card-link btn btn-outline-primary ml-3">Edit collection</a>
+            {% endif %}
         </p>
     </div>
 {% endblock %}

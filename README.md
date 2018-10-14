@@ -5,6 +5,22 @@ This is a Django application.
 
 ## Changelog
 
+### 18.10.4
+
+Uploaded images may now be at most 4200x4200 px in size. Images that are larger
+in width and/or height are automatically resized to fit within those dimensions.
+
+For each uploaded image, a preview image is automatically generated. 
+It will contain the greatest possible area with the aspect
+ratio of 600x311 from the center of the image. 
+That means that after resizing, an equal amount of pixel rows will be removed 
+either from the top and the bottom, or from the left and the right (if the image
+does not have an aspect ratio of 600x311 already).
+
+The website will display preview images. Clicking on a preview image on the
+map detail page will open the full size image in a new tab.
+
+
 ### 18.10.3
 
 - You can now add a map to one of your collections directly from the map page

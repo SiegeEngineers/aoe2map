@@ -9,20 +9,20 @@
     <meta property="og:url" content="{{ top_url }}{{ page_url }}"/>
     <meta property="og:type" content="article"/>
     <meta property="og:description" content="{{ rms.description }}"/>
-    <meta property="og:image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{{ top_url }}{{ rms.image_set.all.0.file.url }}{% endif %}"/>
+    <meta property="og:image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{{ top_url }}{% if rms.image_set.all.0.preview %}{{ rms.image_set.all.0.preview.url }}{% else %}{{ rms.image_set.all.0.file.url }}{% endif %}{% endif %}"/>
     <meta property="og:image:width" content="600"/>
     <meta property="og:image:height" content="311"/>
     <!-- Google+ / Schema.org -->
     <meta itemprop="name" content="{{ rms.name }}"/>
     <meta itemprop="headline" content="{{ rms.name }}{% if rms.version %} {{ rms.version }}{% endif %}"/>
     <meta itemprop="description" content="{{ rms.description }}"/>
-    <meta itemprop="image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{{ top_url }}{{ rms.image_set.all.0.file.url }}{% endif %}"/>
+    <meta itemprop="image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{{ top_url }}{% if rms.image_set.all.0.preview %}{{ rms.image_set.all.0.preview.url }}{% else %}{{ rms.image_set.all.0.file.url }}{% endif %}{% endif %}"/>
     <meta itemprop="author" content="{{ rms.authors }}"/>
     <!-- Twitter Cards -->
     <meta name="twitter:title" content="{{ rms.name }}{% if rms.version %} {{ rms.version }}{% endif %}"/>
     <meta name="twitter:url" content="{{ top_url }}{{ page_url }}"/>
     <meta name="twitter:description" content="{{ rms.description }}"/>
-    <meta name="twitter:image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{{ top_url }}{{ rms.image_set.all.0.file.url }}{% endif %}"/>
+    <meta name="twitter:image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{{ top_url }}{% if rms.image_set.all.0.preview %}{{ rms.image_set.all.0.preview.url }}{% else %}{{ rms.image_set.all.0.file.url }}{% endif %}{% endif %}"/>
     <meta name="twitter:card" content="summary_large_image"/>
 {% endblock %}
 
@@ -47,15 +47,32 @@
                 {% else %}
                     {% if rms.image_set.count == 1 %}
                         <div class="mapscreenshot">
-                            <img class="img-fluid" src="{{ rms.image_set.all.0.file.url }}"/>
+                            {% if rms.image_set.all.0.preview %}
+                                <a href="{{ rms.image_set.all.0.file.url }}" target="_blank">
+                                    <img class="img-fluid" src="{{ rms.image_set.all.0.preview.url }}"/>
+                                </a>
+                            {% else %}
+                                <a href="{{ rms.image_set.all.0.file.url }}" target="_blank">
+                                    <img class="img-fluid" src="{{ rms.image_set.all.0.file.url }}"/>
+                                </a>
+                            {% endif %}
                         </div>
                     {% else %}
                         <div id="imageCarousel" class="carousel slide mapscreenshot" data-ride="carousel">
                             <div class="carousel-inner">
                                 {% for i in rms.image_set.all %}
                                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                        <img class="d-block w-100" src="{{ i.file.url }}"
-                                             alt="Slide {{ forloop.counter }}">
+                                        {% if i.preview %}
+                                            <a href="{{ i.file.url }}" target="_blank">
+                                                <img class="d-block w-100" src="{{ i.preview.url }}"
+                                                     alt="Slide {{ forloop.counter }}">
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ i.file.url }}" target="_blank">
+                                                <img class="d-block w-100" src="{{ i.file.url }}"
+                                                     alt="Slide {{ forloop.counter }}">
+                                            </a>
+                                        {% endif %}
                                     </div>
                                 {% endfor %}
                             </div>
@@ -109,7 +126,8 @@
                                               onclick="addToCollection('{{ rms.uuid }}','{{ collection.uuid }}')">{{ collection.name }}</span>
                                     {% endfor %}
                                     <div role="separator" class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{% url 'newcollection' rms_id=rms.uuid %}">New Collection…</a>
+                                    <a class="dropdown-item" href="{% url 'newcollection' rms_id=rms.uuid %}">New
+                                        Collection…</a>
                                 </div>
                             </div>
                         {% endif %}

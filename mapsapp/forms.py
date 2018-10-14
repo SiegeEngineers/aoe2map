@@ -43,9 +43,9 @@ compared to the previous version'''
 
 FORM_HELP_MAP_NAME = "The name of the map"
 
-FORM_HELP_IMAGES = '''<b>Images get resized to 600x311 px</b>, so upload only pictures of that size or aspect ratio. 
-You can also drag+drop images in here.<br>
-Want to include bigger images? You can upload them somewhere else and place links into the <tt>description</tt> field.'''
+FORM_HELP_IMAGES = '''<b>Preview Images will be 600x311 px</b>, so you should preferrably upload pictures of that size 
+or aspect ratio. You can also drag+drop images in here.<br>
+Maximum image size is 4200x4200 px.'''
 
 FORM_HELP_FILE = "Choose the .rms file you want to share. You can also drag+drop it in here."
 

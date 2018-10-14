@@ -20,6 +20,9 @@ does not have an aspect ratio of 600x311 already).
 The website will display preview images. Clicking on a preview image on the
 map detail page will open the full size image in a new tab.
 
+Existing maps will use their existing images of 600x311 px as both main
+and preview images.
+
 
 ### 18.10.3
 

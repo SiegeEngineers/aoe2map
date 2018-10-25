@@ -105,6 +105,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 LOGIN_URL = '/login'
 
+FILE_UPLOAD_PERMISSIONS = 0o644
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 CSRF_TRUSTED_ORIGINS = ['aoe2map.uber.space', 'aoe2map.net', 'localhost']

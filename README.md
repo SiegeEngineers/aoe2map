@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 18.10.5
+
+Fixed an issue where maps that were uploaded together with large images could not
+be downloaded afterwards.
+
 ### 18.10.4
 
 Uploaded images may now be at most 4200x4200 px in size. Images that are larger

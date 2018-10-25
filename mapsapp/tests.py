@@ -107,7 +107,7 @@ class AuthenticationTest(StaticLiveServerTestCase):
     def test_index_works(self):
         self.browser.get(self.live_server_url)
 
-        self.assertIn('aoe2maps', self.browser.title)
+        self.assertIn('aoe2map', self.browser.title)
 
     def test_login(self):
         self.create_test_user('hscmi', 'password')
@@ -266,7 +266,7 @@ class SmokeTest(StaticLiveServerTestCase):
 
     def open_index_page(self):
         self.browser.get(self.live_server_url)
-        self.assertIn('aoe2maps', self.browser.title)
+        self.assertIn('aoe2map', self.browser.title)
 
     def click_to_logout(self, element_id):
         self.click(element_id)

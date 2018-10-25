@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 
-ALLOWED_HOSTS = ['aoe2maps.net', 'www.aoe2maps.net', 'aoe2maps.uber.space', 'localhost']
+ALLOWED_HOSTS = ['aoe2map.net', 'www.aoe2map.net', 'aoe2map.uber.space', 'localhost']
 
 # Application definition
 

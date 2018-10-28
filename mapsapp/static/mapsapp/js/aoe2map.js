@@ -42,10 +42,14 @@ $(function () {
                         url = '<a href="' + map.url + '" class="card-link btn btn-outline-secondary" target="_blank">Website</a>';
                     }
 
+                    let imageUrl = map.images[0].url;
+                    if (map.images[0].preview_url !== null) {
+                        imageUrl = map.images[0].preview_url;
+                    }
                     $('<div class="col-lg-4 col-md-6 col-12"> \
                 <div class="card"> \
                     <a href="' + map.pageurl + '">\
-                        <img class="card-img-top rounded" src="' + map.images[0].url + '" />\
+                        <img class="card-img-top rounded" src="' + imageUrl + '" />\
                     </a>\
                         <div class="card-body">\
                             ' + alert + '\

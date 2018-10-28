@@ -119,7 +119,17 @@ def maps2json(maps):
         tags = []
         versiontags = []
         for i in o.image_set.all():
-            images.append({"name": i.file.name, "url": i.file.url})
+            preview_name = None
+            preview_url = None
+            if i.preview:
+                preview_name = i.preview.name
+                preview_url = i.preview.url
+            images.append({
+                "name": i.file.name,
+                "url": i.file.url,
+                "preview_name": preview_name,
+                "preview_url": preview_url
+            })
         for t in o.tags.all():
             tags.append({"name": t.name, "id": t.id})
         for vt in o.versiontags.all():

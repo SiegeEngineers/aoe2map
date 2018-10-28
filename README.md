@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 18.10.6
+
+Map cards were using large images instead of the smaller preview images, leading to
+slower loading times and larger data usage. This has been fixed.
+
 ### 18.10.5
 
 Fixed an issue where maps that were uploaded together with large images could not

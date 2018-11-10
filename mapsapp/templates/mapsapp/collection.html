@@ -1,6 +1,7 @@
 {% extends "mapsapp/base.html" %}
 {% load static %}
 
+{% block pagetitle %}{{ collection.name }} – {% endblock %}
 {% block subtitle %}
     <h4 class="text-center"><span id="collection-name">{{ collection.name }}</span>
         <small class="text-muted">by {{ collection.authors }} ({{ collection.rms.count }} maps)</small>

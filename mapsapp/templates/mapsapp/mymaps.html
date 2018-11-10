@@ -1,10 +1,11 @@
 {% extends "mapsapp/base.html" %}
 {% load static %}
 
+{% block pagetitle %}My maps – {% endblock %}
+
 {% block subtitle %}
     <h4 class="text-center"><img src="{% static 'mapsapp/images/map.svg' %}" style="height:1em;"/> My maps</h4>
 {% endblock %}
-
 
 {% block content %}
     <div class="col-md-6 offset-md-3">

@@ -1,7 +1,11 @@
 {% extends "mapsapp/base.html" %}
+
+{% block pagetitle %}Versions – {% endblock %}
+
 {% block subtitle %}
     <h4 class="text-center">Maps compatible with version ›{{ version_name }}‹</h4>
 {% endblock %}
+
 {% block content %}
     <div class="row allversions">
         <div class="col-md-8 offset-md-2">

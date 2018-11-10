@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 18.11.0
+
+Page titles are now more verbose.
+
 ### 18.10.6
 
 Map cards were using large images instead of the smaller preview images, leading to

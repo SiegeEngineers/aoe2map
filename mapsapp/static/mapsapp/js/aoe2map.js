@@ -28,7 +28,7 @@ $(function () {
             setTimeout(function () {
                 for (let map of part.data) {
                     if (map.images.length === 0) {
-                        map.images.push({"url": "/static/mapsapp/images/empty.png"});
+                        map.images.push({"url": "/static/mapsapp/images/empty.png", "preview_url": null});
                     }
                     let alert = '';
                     if (map.newer_version !== null) {

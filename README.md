@@ -9,6 +9,10 @@ This is a Django application.
 
 Page titles are now more verbose.
 
+Maps without image did not display the placeholder image properly in search results. This
+has been fixed.
+
+
 ### 18.10.6
 
 Map cards were using large images instead of the smaller preview images, leading to

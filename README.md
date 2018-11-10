@@ -7,7 +7,9 @@ This is a Django application.
 
 ### 18.11.1
 
-The mappack creator now allows to individually configure the probability for each map to be chosen.
+- The mappack creator now allows to individually configure the probability for each map to be chosen.
+
+- The `api/version` call now actually outputs useful information.
 
 
 ### 18.11.0

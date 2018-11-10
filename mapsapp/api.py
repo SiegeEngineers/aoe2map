@@ -1,14 +1,22 @@
+import subprocess
+
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.html import escape, format_html
+from django.views.decorators.cache import cache_page
 
 from mapsapp.models import Rms, VersionTag, Tag, Image, Collection
 
 
+@cache_page(60 * 60 * 24)
 def version(request):
-    return JsonResponse({"version": "0.1"})
+    try:
+        label = subprocess.check_output(["git", "describe", "--tags"]).decode('utf-8').strip()
+    except subprocess.CalledProcessError:
+        label = 'undefined'
+    return JsonResponse({"version": label})
 
 
 def status(request):

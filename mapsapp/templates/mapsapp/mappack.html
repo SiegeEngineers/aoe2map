@@ -33,17 +33,17 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-md-6 offset-md-3">
+    <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
         <p>A mappack is a random map script that contains multiple other random map scripts and generates a random one
             of them each time it is played. The contained map scripts can get chosen with equal or different
             probabilities, depending on how the mappack is designed.</p>
         <p>When you generate a mappack using this generator, the selection part will be at the very top of the file.
-            You can easily adapt the probability for each map that you added after downloading the mappack and opening
-            it with a text editor.</p>
+            Once you added all maps you want, you can easily adapt the probability for each map before generating
+            the mappack.</p>
         <p>You can only use "plain" <code>.rms</code> files here,
             <a href="{% url 'info' %}#zr-maps"><code>ZR@</code> maps</a> will not work.</p>
     </div>
-    <div class="col-md-6 offset-md-3">
+    <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
         <label for="fileInput">
             <div class="dropzone">
                 <div class="card" id="target" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);"

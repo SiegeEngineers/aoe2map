@@ -22,6 +22,14 @@ function handleFiles(filelist) {
     }
 }
 
+function recalculatePercentages() {
+    let percentages = $('.percentage');
+    let chances = getChances(percentages.length);
+    for (let i = 0; i < percentages.length; i++) {
+        $(percentages[i]).val(chances[i]);
+    }
+}
+
 function handleRmsFile(file) {
     if (file.name.endsWith(".rms")) {
         let reader = new FileReader();
@@ -44,11 +52,25 @@ function handleRmsFile(file) {
                         <ul><li>" + warnings.join("</li>\n<li>") + "</li></ul>";
                 }
                 $('<li class="list-group-item map">\
-                        <h5 class="mapname">' + file.name + '</h5>\
-                        <p class="text-' + clazz + '">' + text + '</p>\
+                        <div class="row">\
+                        <div class="col-9">\
+                            <h5 class="mapname">' + file.name + '</h5>\
+                            <p class="text-' + clazz + '">' + text + '</p>\
+                        </div>\
+                        <div class="col-3">\
+                        <label>Probability</label>\
+                            <div class="input-group mb-3">\
+                                <input type="number" class="form-control percentage">\
+                                <div class="input-group-append">\
+                                    <span class="input-group-text">%</span>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        </div>\
                     </li>').appendTo('#filelist').data('map', contents);
             }
-        }
+            recalculatePercentages();
+        };
         reader.readAsText(file);
     } else {
         $('#filelist').append('<li class="list-group-item">' + file.name + " is not a .rms file</li>");
@@ -58,12 +80,25 @@ function handleRmsFile(file) {
 function getdata() {
     let allButtons = $('.map');
     let startData = 'start_random\n';
-    let chances = getChances(allButtons.length);
+    let percentage_sum = 0;
     for (let i = 0; i < allButtons.length; i++) {
         let prefix = "M" + i + "_";
-        startData += "percent_chance " + chances[i] + " #define " + marker(prefix, $(allButtons.get(i)).find('.mapname').text()) + "\n"
+        let mapname = $(allButtons.get(i)).find('.mapname').text();
+        let percentage = parseInt($(allButtons.get(i)).find('.percentage').val());
+        if (!isNaN(percentage)) {
+            percentage_sum += percentage;
+        } else {
+            alert("Error: Percentage for map '" + mapname + "' is not a number");
+            return;
+        }
+        startData += "percent_chance " + percentage + " #define " + marker(prefix, mapname) + "\n"
     }
     startData += 'end_random\n';
+
+    if (percentage_sum !== 100) {
+        alert("Error: Sum of all percentages should be 100, but is " + percentage_sum);
+        return;
+    }
 
 
     let constLines = [];

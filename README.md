@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 18.11.1
+
+The mappack creator now allows to individually configure the probability for each map to be chosen.
+
+
 ### 18.11.0
 
 - Added link to snippets page.

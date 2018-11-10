@@ -7,10 +7,12 @@ This is a Django application.
 
 ### 18.11.0
 
-Page titles are now more verbose.
+- Added link to snippets page.
 
-Maps without image did not display the placeholder image properly in search results. This
-has been fixed.
+- Page titles are now more verbose.
+
+- Maps without image did not display the placeholder image properly in search results
+  and on the main page. This has been fixed.
 
 
 ### 18.10.6

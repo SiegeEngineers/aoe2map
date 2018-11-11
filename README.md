@@ -11,6 +11,8 @@ This is a Django application.
 
 - The `api/version` call now actually outputs useful information.
 
+- Added `api/allmaps` call, which returns a list containing uuid, name, authors
+  and version of all current maps.
 
 ### 18.11.0
 

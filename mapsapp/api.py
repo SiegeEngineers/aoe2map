@@ -30,6 +30,20 @@ def status(request):
     })
 
 
+def allmaps(request):
+    retval = []
+    map_objects = Rms.objects.filter(newer_version=None)
+    for map_object in map_objects:
+        retval.append({
+            'uuid': map_object.uuid,
+            'name': map_object.name,
+            'authors': map_object.authors,
+            'version': map_object.version
+        })
+
+    return JsonResponse({"allmaps": retval})
+
+
 def maps(request):
     objects = maps2json(Rms.objects.filter(newer_version=None).order_by('?')[0:12])
 

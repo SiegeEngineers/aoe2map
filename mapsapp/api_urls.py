@@ -7,6 +7,7 @@ urlpatterns = [
     path('version', api.version, name='version'),
     path('status', api.status, name='status'),
     path('maps', api.maps, name='maps'),
+    path('allmaps', api.allmaps, name='allmaps'),
     path('mymaps', api.mymaps, name='mymaps'),
     path('alltags', api.alltags, name='alltags'),
     path('mapsbyname', api.mapsbyname, name='mapsbyname'),

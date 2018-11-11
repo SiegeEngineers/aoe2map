@@ -9,6 +9,8 @@ This is a Django application.
 
 - The mappack creator now allows to individually configure the probability for each map to be chosen.
 
+- Improved the map normalisation in the mappack creator.
+
 - The `api/version` call now actually outputs useful information.
 
 - Added `api/allmaps` call, which returns a list containing uuid, name, authors

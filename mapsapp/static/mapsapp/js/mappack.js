@@ -149,16 +149,31 @@ function normalizeConstant(name) {
 
 function normalizeMap(mapcontent, prefix) {
     mapcontent = mapcontent.replace(/#include_drs\s+random_map.def/g, "#include_drsrandom_mapdef");
+    let commentMatches = mapcontent.match(/\n?\/\*.*?\*\//g);
+    if (commentMatches !== null) {
+        for (let i = 0; i < commentMatches.length; i++) {
+            mapcontent = mapcontent.replace(commentMatches[i], `§comment§${i}§`);
+        }
+    }
     mapcontent = mapcontent.replace(/\r?\n/g, " ");
-    mapcontent = mapcontent.replace(/\/\*.*?\*\//g, "");
     mapcontent = mapcontent.replace(/\s+/g, " ");
     mapcontent = mapcontent.replace(/\s([a-z_]+)/g, "\n$1");
-    mapcontent = mapcontent.replace(/</g, "\n<");
     mapcontent = mapcontent.replace(/#/g, "\n#");
     mapcontent = mapcontent.replace(/\{/g, "\n{");
     mapcontent = mapcontent.replace(/\}/g, "\n}\n");
+    if (commentMatches !== null) {
+        for (let i = 0; i < commentMatches.length; i++) {
+            mapcontent = mapcontent.replace(`§comment§${i}§`, commentMatches[i]);
+        }
+    }
+    mapcontent = mapcontent.replace(/\s+\*\//g, " */");
     mapcontent = mapcontent.replace(/ \n/g, "\n");
     mapcontent = mapcontent.replace(/#include_drsrandom_mapdef/g, "#include_drs random_map.def");
+    mapcontent = mapcontent.replace(/\s+\n/g, "\n");
+    mapcontent = mapcontent.replace(/</g, "\n\n<");
+    mapcontent = mapcontent.replace(/\n\/\*/g, "\n\n/*");
+    mapcontent = mapcontent.replace(/\*\/\n\s*\n\/\*/g, "*/\n/*");
+    mapcontent = mapcontent.replace(/^\n+/g, "");
     return mapcontent;
 }
 
@@ -200,6 +215,8 @@ function restructureMap(mapcontent, prefix, constLines, warnings) {
     let mapLines = [];
     let indent = 0;
     let lineNr = 0;
+    let lineInError = 0;
+    let latestIndent = 0;
     for (let line of lines) {
         lineNr++;
         line = addPrefixesToConsts(line, prefix, declaredConsts);
@@ -208,9 +225,20 @@ function restructureMap(mapcontent, prefix, constLines, warnings) {
         } else {
             let indentBefore = getIndentBefore(line);
             let indentAfter = getIndentAfter(line);
+            if (lineInError < 1 && indent + indentBefore < 0) {
+                lineInError = lineNr;
+            }
             mapLines.push(getIndent(indent + indentBefore) + line);
             indent += indentAfter;
+            latestIndent = indent;
         }
+    }
+    if (lineInError < 1 && latestIndent !== 0) {
+        lineInError = lineNr;
+    }
+
+    if (lineInError > 0) {
+        warnings.push("The indentation revealed issues with your brackets or if/else statements.");
     }
 
     return mapLines.join("\n");

@@ -1,5 +1,6 @@
 function normalizeName(name) {
-    return name.replace(/[^A-Za-z0-9\-_ ()\[\].+]/g, "_");
+    name =  name.replace(/%40/g, "@");
+    return name.replace(/[^@A-Za-z0-9\-_ ()\[\].+]/g, "_");
 }
 
 $('#download').click(function () {

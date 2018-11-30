@@ -12,6 +12,9 @@ This is a Django application.
 
 - Descriptions of Collections may now also contain markdown formatting.
 
+- Bugfix: The names of `ZR@` maps do not get butchered anymore when downloading a
+  Collection.
+
 ### 18.11.1
 
 - The mappack creator now allows to individually configure the probability for each map to be chosen.

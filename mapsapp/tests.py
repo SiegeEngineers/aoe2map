@@ -8,6 +8,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
 from django.urls import resolve, reverse
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.webdriver import WebDriver
 
 from mapsapp.models import VersionTag, Rms, Tag
@@ -96,7 +97,9 @@ class AuthenticationTest(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.browser = WebDriver()
+        options = Options()
+        options.headless = True
+        cls.browser = WebDriver(options=options)
         cls.browser.implicitly_wait(10)
 
     @classmethod
@@ -138,7 +141,9 @@ class SmokeTest(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.browser = WebDriver()
+        options = Options()
+        options.headless = True
+        cls.browser = WebDriver(options=options)
         cls.browser.implicitly_wait(10)
 
         versiontag = VersionTag()

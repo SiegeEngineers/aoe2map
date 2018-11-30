@@ -259,7 +259,7 @@ def newmap(request, rms_id=None, created_rms_id=None):
     else:
         initial = {}
         if old_rms:
-            for key in ('name', 'authors', 'description', 'url'):
+            for key in ('name', 'authors', 'description', 'url', 'information'):
                 initial[key] = getattr(old_rms, key)
             initial['tags'] = get_tagstring(old_rms.tags.all())
         form = NewRmsForm(initial=initial)

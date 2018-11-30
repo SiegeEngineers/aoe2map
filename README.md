@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 18.11.2
+
+- When uploading a new version of a map, the `information` field is now also
+  pre-filled with the text from the previous map version.
+
 ### 18.11.1
 
 - The mappack creator now allows to individually configure the probability for each map to be chosen.

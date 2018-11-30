@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 18.11.3
+
+- Bugfix: Remove automatic linebreaks from Collection description so markdown
+  formatting works better.
+
 ### 18.11.2
 
 - When uploading a new version of a map, the `information` field is now also

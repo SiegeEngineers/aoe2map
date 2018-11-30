@@ -8,8 +8,7 @@
     </h4>
     <hr>
     <div class="col-md-6 offset-md-3 col-12">
-        {{ collection.description|linebreaks }}
-
+        <div class="markdown-text">{{ collection.description|linebreaks }}</div>
         <p class="text-center">
             <button class="btn btn-secondary" id="download">Download Collection</button>
 
@@ -26,4 +25,6 @@
     <script src="{% static 'mapsapp/js/jszip.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/FileSaver.js' %}"></script>
     <script src="{% static 'mapsapp/js/collection.js' %}"></script>
+    <script src="{% static 'mapsapp/js/markdown-it.min.js' %}"></script>
+    <script src="{% static 'mapsapp/js/markdown.js' %}"></script>
 {% endblock %}

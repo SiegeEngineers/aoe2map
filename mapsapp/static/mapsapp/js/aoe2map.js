@@ -34,7 +34,7 @@ $(function () {
                     if (map.newer_version !== null) {
                         alert = '<div class="alert alert-info" role="alert">\
                       A newer version of this map is available! \
-                    <a href="' + map.newer_version + '" class="alert-link">Check it out!</a>\
+                    <a href="' + map.latest_version + '" class="alert-link">Check it out!</a>\
                     </div>'
                     }
                     let url = '';

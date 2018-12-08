@@ -6,8 +6,9 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase, override_settings
+from django.test import TestCase, override_settings, Client
 from django.urls import resolve, reverse
+from django.utils.encoding import smart_text
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.webdriver import WebDriver
 
@@ -46,8 +47,8 @@ class ChangelogTest(TestCase):
 
     def test_three_maps_all_have_changelog(self):
         rms1 = self.create_sample_map()
-        rms2 = self.create_sample_map(parent=rms1)
-        rms3 = self.create_sample_map(parent=rms2)
+        rms2 = self.create_sample_map(newer_version=rms1)
+        rms3 = self.create_sample_map(newer_version=rms2)
         self.assertIn('map-name', rms1.name)
         self.assertIn('map-name', rms2.name)
         self.assertIn('map-name', rms3.name)
@@ -58,8 +59,8 @@ class ChangelogTest(TestCase):
 
     def test_three_maps_with_changelog_text_all_have_changelog(self):
         rms1 = self.create_sample_map(changelog='changelog')
-        rms2 = self.create_sample_map(parent=rms1, changelog='changelog')
-        rms3 = self.create_sample_map(parent=rms2, changelog='changelog')
+        rms2 = self.create_sample_map(newer_version=rms1, changelog='changelog')
+        rms3 = self.create_sample_map(newer_version=rms2, changelog='changelog')
         self.assertIn('map-name', rms1.name)
         self.assertIn('map-name', rms2.name)
         self.assertIn('map-name', rms3.name)
@@ -68,7 +69,22 @@ class ChangelogTest(TestCase):
         self.assert_map_has_changelog(rms2)
         self.assert_map_has_changelog(rms3)
 
-    def create_sample_map(self, changelog='', parent=None):
+    def test_new_version_link_from_third_map_leads_to_first_map(self):
+        rms1 = self.create_sample_map()
+        rms2 = self.create_sample_map(newer_version=rms1)
+        rms3 = self.create_sample_map(newer_version=rms2)
+        self.assertIn('map-name', rms1.name)
+        self.assertIn('map-name', rms2.name)
+        self.assertIn('map-name', rms3.name)
+
+        c = Client()
+        response = c.get(reverse('map', kwargs={'rms_id': rms3.uuid}))
+        self.assertEquals(rms3.newer_version, rms2)
+        self.assertIn('A newer version of this map is available!', smart_text(response.content))
+        self.assertIn('<a href="/map/{uuid}" class="alert-link">Check it out!</a>'.format(uuid=rms1.uuid),
+                      smart_text(response.content))
+
+    def create_sample_map(self, changelog='', newer_version=None):
         rms = Rms()
         rms.owner = self.aUser
         rms.name = "map-name-{}".format(next(self.counter))
@@ -76,7 +92,7 @@ class ChangelogTest(TestCase):
         rms.authors = 'rms-authors'
         rms.description = 'rms-description'
         rms.file = SimpleUploadedFile('file-name', b'file-contents')
-        rms.newer_version = parent
+        rms.newer_version = newer_version
         rms.save()
         rms.tags.add(self.aTag)
         rms.versiontags.add(self.aVersion)

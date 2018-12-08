@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 18.12.0
+
+- The link in the "A newer version is available" alerts now directly leads
+  to the newest version.
+
 ### 18.11.3
 
 - Bugfix: Remove automatic linebreaks from Collection description so markdown

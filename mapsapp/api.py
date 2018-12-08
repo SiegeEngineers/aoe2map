@@ -157,8 +157,10 @@ def maps2json(maps):
         for vt in o.versiontags.all():
             versiontags.append(vt.name)
         newer_version = None
+        latest_version = None
         if o.newer_version:
             newer_version = reverse('map', kwargs={'rms_id': o.newer_version.uuid})
+            latest_version = reverse('map', kwargs={'rms_id': get_latest_version(o.newer_version).uuid})
         objects.append({
             "uuid": o.uuid,
             "name": escape(o.name),
@@ -167,6 +169,7 @@ def maps2json(maps):
             "description": escape(o.description),
             "pageurl": reverse('map', kwargs={'rms_id': o.uuid}),
             "newer_version": newer_version,
+            "latest_version": latest_version,
             "url": escape(o.url),
             "file": o.file.name,
             "fileurl": o.file.url,
@@ -175,6 +178,17 @@ def maps2json(maps):
             "images": images,
         })
     return objects
+
+
+def get_latest_version(map_version, depth=100):
+    if depth < 0:
+        return map_version
+    else:
+        depth -= 1
+        if map_version.newer_version is None:
+            return map_version
+        else:
+            return get_latest_version(map_version.newer_version, depth)
 
 
 def tags(request, url_fragment):

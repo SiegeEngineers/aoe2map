@@ -1,0 +1,8 @@
+{% if rms.newer_version %}
+    {% include "mapsapp/snippets/latest_version_alert.html" with rms=rms.newer_version %}
+{% else %}
+    <div class="alert alert-info" role="alert">
+        A newer version of this map is available!
+        <a href="{% url 'map' rms_id=rms.uuid %}" class="alert-link">Check it out!</a>
+    </div>
+{% endif %}

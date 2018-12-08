@@ -34,10 +34,7 @@
 
             <div class="col-12 text-center" id="alert-area">
                 {% if rms.newer_version %}
-                    <div class="alert alert-info" role="alert">
-                        A newer version of this map is available!
-                        <a href="{% url 'map' rms_id=rms.newer_version.uuid %}" class="alert-link">Check it out!</a>
-                    </div>
+                    {% include 'mapsapp/snippets/latest_version_alert.html' %}
                 {% endif %}
             </div>
 

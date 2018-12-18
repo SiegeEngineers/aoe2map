@@ -9,6 +9,10 @@
 {% block pagetitle %}New Map – {% endblock %}
 {% block subtitle %}
     <h4 class="text-center">New Map</h4>
+    {% if old_rms %}
+        <p class="text-center font-italic">You are currently uploading a new version of
+            <a href="{% url 'map' rms_id=old_rms.uuid %}">{{ old_rms.name }}</a></p>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

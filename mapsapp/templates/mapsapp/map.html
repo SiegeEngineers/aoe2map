@@ -112,6 +112,10 @@
                             <a href="{% url 'editmap' rms_id=rms.uuid %}"
                                class="card-link btn btn-outline-primary">Edit map</a>
                         {% endif %}
+                        {% if request.user and rms.owner == request.user and not rms.newer_version %}
+                            <a href="{% url 'newmap_newer_version' rms_id=rms.uuid %}"
+                               class="card-link btn btn-outline-primary">Upload new version</a>
+                        {% endif %}
                         {% if request.user and request.user.is_authenticated %}
                             <div class="input-group ml-4">
                                 {% csrf_token %}

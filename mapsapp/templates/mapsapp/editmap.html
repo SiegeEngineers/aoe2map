@@ -12,6 +12,10 @@
 {% endblock %}
 
 {% block content %}
+    {% if not rms.newer_version %}
+        <p class="text-center font-italic">Hej! If you want to upload a new version of your map,
+            <a href="{% url 'newmap_newer_version' rms_id=rms.uuid %}">click here</a>!</p>
+    {% endif %}
     <div id="drop-info">
         <span>Drop image(s) here!</span>
     </div>

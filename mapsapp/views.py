@@ -198,10 +198,11 @@ def get_tags(tagstring):
 
 @login_required
 def newmap(request, rms_id=None, created_rms_id=None):
-    context = {'messages': []}
+    context = {'messages': [], 'old_rms': None}
     old_rms = None
     if rms_id:
         old_rms = get_object_or_404(Rms, pk=rms_id)
+        context['old_rms'] = old_rms
         if old_rms.newer_version:
             raise Http404
     if created_rms_id:

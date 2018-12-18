@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 18.12.1
+
+- The "Upload new version" link was quite hidden. It appears now also on the main
+  map page and at the top of the "Edit map" page.
+
 ### 18.12.0
 
 - The link in the "A newer version is available" alerts now directly leads

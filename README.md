@@ -5,20 +5,25 @@ This is a Django application.
 
 ## Changelog
 
+### 18.12.2
+
+Maps now store the original filename separately. This field can be queried 
+by the new api endpoint `api/rms/file/<filename>`.
+
 ### 18.12.1
 
-- The "Upload new version" link was quite hidden. It appears now also on the main
-  map page and at the top of the "Edit map" page.
+The "Upload new version" link was quite hidden. It appears now also on the main
+map page and at the top of the "Edit map" page.
 
 ### 18.12.0
 
-- The link in the "A newer version is available" alerts now directly leads
-  to the newest version.
+The link in the "A newer version is available" alerts now directly leads
+to the newest version.
 
 ### 18.11.3
 
-- Bugfix: Remove automatic linebreaks from Collection description so markdown
-  formatting works better.
+Bugfix: Remove automatic linebreaks from Collection description so markdown
+formatting works better.
 
 ### 18.11.2
 

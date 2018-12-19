@@ -52,6 +52,7 @@ class Rms(models.Model):
     information = models.TextField(blank=True, default='')
     url = models.CharField(max_length=255, blank=True)
     file = models.FileField(upload_to=rms_path)
+    original_filename = models.CharField(max_length=255)
     tags = models.ManyToManyField(Tag)
     versiontags = models.ManyToManyField(VersionTag)
     newer_version = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, default=None,

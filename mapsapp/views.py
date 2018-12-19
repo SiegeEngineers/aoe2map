@@ -227,6 +227,7 @@ def newmap(request, rms_id=None, created_rms_id=None):
             new_rms.information = form.cleaned_data['information']
             new_rms.changelog = form.cleaned_data['changelog']
             new_rms.url = form.cleaned_data['url']
+            new_rms.original_filename = form.cleaned_data['file'].name
 
             fs = FileSystemStorage()
             filename = fs.save(os.path.join(str(new_rms.uuid), form.cleaned_data['file'].name),

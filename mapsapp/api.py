@@ -65,6 +65,13 @@ def rms_by_name(request, name):
     return JsonResponse({"maps": objects})
 
 
+def rms_by_file(request, filename):
+    rms = Rms.objects.filter(original_filename=filename)
+    objects = maps2json(rms)
+
+    return JsonResponse({"maps": objects})
+
+
 def mymaps(request):
     if not request.user.is_authenticated:
         return HttpResponseForbidden('You must be logged in to access this url')
@@ -172,6 +179,7 @@ def maps2json(maps):
             "latest_version": latest_version,
             "url": escape(o.url),
             "file": o.file.name,
+            "original_filename": o.original_filename,
             "fileurl": o.file.url,
             "tags": tags,
             "versiontags": versiontags,

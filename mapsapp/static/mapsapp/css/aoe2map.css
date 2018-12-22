@@ -117,3 +117,12 @@ ul.mapslist li:before {
 .map-description.full {
     max-height: none;
 }
+
+.thumbsup {
+    font-style: normal;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+.btn-secondary:hover .thumbsup {
+    color: #fc0;
+}

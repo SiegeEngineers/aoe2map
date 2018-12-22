@@ -41,9 +41,42 @@ def rms(request, rms_id):
         "rms": rms_instance,
         "top_url": djangosettings.DJANGO_TOP_URL,
         "page_url": reverse('map', kwargs={'rms_id': rms_id}),
-        "collections": collections_for_user
+        "collections": collections_for_user,
+        "votes": get_votes(rms_instance)
     }
     return render(request, 'mapsapp/map.html', context)
+
+
+def get_votes(rms_instance):
+    votes = 0
+    all_instances = get_all_rms_instances(rms_instance)
+    for instance in all_instances:
+        votes += instance.vote_set.count()
+    return votes
+
+
+def get_successors(rms_instance, predecessors):
+    if rms_instance.newer_version and rms_instance.newer_version not in predecessors:
+        predecessors.add(rms_instance.newer_version)
+        return get_successors(rms_instance)
+    else:
+        return predecessors
+
+
+def get_predecessors(rms_instance):
+    if rms_instance.predecessors.count() > 0:
+        predecessors = {rms_instance}
+        for predecessor in rms_instance.predecessors:
+            predecessors |= get_predecessors(predecessor)
+        return predecessors
+    else:
+        a = set()
+        a.add(rms_instance)
+        return a
+
+
+def get_all_rms_instances(rms_instance):
+    return get_successors(rms_instance, {rms_instance}) | get_predecessors(rms_instance)
 
 
 def map_search(request, name=None):

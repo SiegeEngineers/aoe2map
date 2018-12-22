@@ -140,7 +140,7 @@
                     <div class="col-12 align-self-end">
                         <div class="tags">Tags:
                             {% for tag in rms.tags.all %}
-                                <a href="{% url 'tags' url_fragment=tag.id|stringformat:"s/" %}" line
+                                <a href="{% url 'tags' url_fragment=tag.id|stringformat:"s/" %}"
                                    class="badge badge-secondary">{{ tag.name }}</a>
                             {% endfor %}
                         </div>

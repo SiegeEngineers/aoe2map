@@ -147,6 +147,7 @@ def maps2json(maps):
         images = []
         tags = []
         versiontags = []
+        collections = []
         for i in o.image_set.all():
             preview_name = None
             preview_url = None
@@ -163,6 +164,8 @@ def maps2json(maps):
             tags.append({"name": t.name, "id": t.id})
         for vt in o.versiontags.all():
             versiontags.append(vt.name)
+        for c in o.collection_set.all():
+            collections.append(c.uuid)
         newer_version = None
         latest_version = None
         if o.newer_version:
@@ -183,6 +186,7 @@ def maps2json(maps):
             "fileurl": o.file.url,
             "tags": tags,
             "versiontags": versiontags,
+            "collections": collections,
             "images": images,
         })
     return objects

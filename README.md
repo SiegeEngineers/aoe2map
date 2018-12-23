@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 18.12.3
+
+Added the `collections` field to maps in the api. It lists the ids of all collections that contain the map.
+
 ### 18.12.2
 
 Maps now store the original filename separately. This field can be queried 

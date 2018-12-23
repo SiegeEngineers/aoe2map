@@ -151,8 +151,8 @@ def maps2json(maps):
     objects = []
     for o in maps:
         images = []
-        tags = []
-        versiontags = []
+        map_tags = []
+        version_tags = []
         collections = []
         for i in o.image_set.all():
             preview_name = None
@@ -167,9 +167,9 @@ def maps2json(maps):
                 "preview_url": preview_url
             })
         for t in o.tags.all():
-            tags.append({"name": t.name, "id": t.id})
+            map_tags.append({"name": escape(t.name), "id": t.id})
         for vt in o.versiontags.all():
-            versiontags.append(vt.name)
+            version_tags.append(vt.name)
         for c in o.collection_set.all():
             collections.append(c.uuid)
         newer_version = None
@@ -190,8 +190,8 @@ def maps2json(maps):
             "file": o.file.name,
             "original_filename": o.original_filename,
             "fileurl": o.file.url,
-            "tags": tags,
-            "versiontags": versiontags,
+            "tags": map_tags,
+            "versiontags": version_tags,
             "collections": collections,
             "images": images,
         })

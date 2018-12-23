@@ -5,6 +5,13 @@ This is a Django application.
 
 ## Changelog
 
+### 18.12.4
+
+- The api url for collections has been changed from `api/collection/<uuid>/maps` to `api/collection/<uuid>`.
+- `api/collection/<uuid>/maps` is deprecated and will be removed in 2019.
+- The api url for collections now returns the collection's metadata next to the maps.
+- The tag names are now escaped in json output to prevent injection of custom html by users.
+
 ### 18.12.3
 
 Added the `collections` field to maps in the api. It lists the ids of all collections that contain the map.

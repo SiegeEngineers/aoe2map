@@ -85,7 +85,13 @@ def collection(request, collection_id):
     c = get_object_or_404(Collection, pk=collection_id)
     objects = maps2json(c.rms.all())
 
-    return JsonResponse({"maps": objects})
+    return JsonResponse({
+        "maps": objects,
+        "uuid": c.uuid,
+        "name": escape(c.name),
+        "description": escape(c.description),
+        "authors": escape(c.authors)
+    })
 
 
 @login_required

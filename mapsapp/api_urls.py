@@ -16,6 +16,7 @@ urlpatterns = [
     path('rms/s/<name>', api.rms_by_name, name='rms_by_name'),
     path('rms/file/<filename>', api.rms_by_file, name='rms_by_file'),
     path('collection/<uuid:collection_id>/maps', api.collection, name='collection'),
+    path('collection/<uuid:collection_id>', api.collection, name='collection'),
     path('modifycollection/', api.modifycollection, name='modifycollection'),
     path('version/<version_name>', api.versiontag, name='version'),
     re_path(r'^tags/(?P<url_fragment>(\d+/)*)$', api.tags, name='tags'),

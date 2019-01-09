@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 19.1.0
+
+Added the option to display a map script directly instead of downloading it as a file.
+With syntax highlighting!
+
 ### 18.12.4
 
 - The api url for collections has been changed from `api/collection/<uuid>/maps` to `api/collection/<uuid>`.

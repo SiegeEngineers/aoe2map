@@ -1,6 +1,10 @@
 {% extends "mapsapp/base.html" %}
 {% load static %}
 
+{% block additionalcss %}
+    <link rel="stylesheet" href="{% static 'mapsapp/css/railscasts.css' %}">
+{% endblock %}
+
 {% block additionalheader %}
     <!-- Facebook Open Graph -->
     <meta property="og:locale" content="en_GB"/>
@@ -29,6 +33,17 @@
 {% block pagetitle %}{{ rms.name }} – {% endblock %}
 
 {% block subtitle %}
+    <div class="modal fade bd-example-modal-xl" id="showCodeModal" tabindex="-1" role="dialog"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <pre><code id="codearea"></code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="offset-md-1 col-md-10 col-12 singlemap-area">
         <div class="row">
 
@@ -102,8 +117,18 @@
                 </div>
                 <div class="row pt-5">
                     <div class="col-12 justify-content-center form-inline mb-3">
-                        <a href="{{ rms.file.url }}" class="card-link btn btn-secondary map-download">Download
-                            map</a>
+                        <div class="btn-group mr-3">
+                            <a href="{{ rms.file.url }}" class="card-link btn btn-secondary map-download"
+                               id="downloadButton">Download map</a>
+                            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" id="viewCodeButton">View rms code</button>
+                            </div>
+                        </div>
+
                         {% if rms.url %}
                             <a href="{{ rms.url }}" class="card-link btn btn-outline-secondary"
                                target="_blank">Website</a>
@@ -201,6 +226,10 @@
     <script src="{% static 'mapsapp/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/markdown-it.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/markdown.js' %}"></script>
+    <script src="{% static 'mapsapp/js/highlight.js' %}"></script>
+    <script src="{% static 'mapsapp/js/highlight.js-rms.js' %}"></script>
+    <script src="{% static 'mapsapp/js/highlightjs-line-numbers.min.js' %}"></script>
+    <script src="{% static 'mapsapp/js/view-code.js' %}"></script>
     <script type="text/javascript">
         var COLLECTION_ENDPOINT = "{% url 'api:modifycollection' %}";
     </script>

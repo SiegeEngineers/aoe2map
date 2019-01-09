@@ -117,3 +117,13 @@ ul.mapslist li:before {
 .map-description.full {
     max-height: none;
 }
+
+.modal-xl {
+    max-width: 1140px;
+}
+
+.hljs-ln td.hljs-ln-numbers {
+    text-align: right;
+    padding-right: 1rem;
+    color: gray;
+}

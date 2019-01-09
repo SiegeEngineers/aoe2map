@@ -2,9 +2,17 @@ $(function () {
     hljs.registerLanguage('rmslanguage', rmslanguage);
     $('#viewCodeButton').click(function () {
         let url = $('#downloadButton').attr('href');
-        $.get(url, function (data) {
-            console.log(data);
-            showRmsCode(data);
+        $.ajax({
+            url: url,
+            beforeSend: function (xhr) {
+                xhr.overrideMimeType("text/plain; charset=x-user-defined");
+            }
+        }).done(function (data) {
+            if (data.startsWith('PK\x03\x04')) {
+                extractAndShowRmsFromZr(data);
+            } else {
+                showRmsCode(data);
+            }
         }).fail(function () {
             alert("Oops! Could not download rms script.");
         });
@@ -17,4 +25,21 @@ function showRmsCode(content) {
     hljs.highlightBlock(codearea);
     hljs.lineNumbersBlock(codearea, {singleLine: true});
     $('#showCodeModal').modal('show');
+}
+
+function extractAndShowRmsFromZr(data) {
+    JSZip.loadAsync(data).then(function (d) {
+        for (let filename in d.files) {
+            if (d.files.hasOwnProperty(filename)) {
+                if (filename.endsWith('.rms')) {
+                    currentRmsFileName = filename;
+                    d.file(filename).async('text').then(function (content) {
+                        showRmsCode(content);
+                    });
+                    return;
+                }
+            }
+        }
+        alert("No .rms file found inside the archive!");
+    });
 }

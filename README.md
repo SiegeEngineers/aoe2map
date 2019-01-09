@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 19.1.1
+
+The map script display functionality now extracts the `.rms` file from `ZR@` files and displays
+it instead of trying to display the `ZR@` file directly.
+
 ### 19.1.0
 
 Added the option to display a map script directly instead of downloading it as a file.

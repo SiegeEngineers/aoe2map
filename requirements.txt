@@ -1,0 +1,5 @@
+Django==2.1.5
+django-widget-tweaks==1.4.3
+Pillow==5.4.1
+pytz==2018.9
+uuid==1.30

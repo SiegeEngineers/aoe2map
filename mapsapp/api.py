@@ -1,7 +1,7 @@
 import subprocess
 
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponseForbidden
+from django.http import JsonResponse, HttpResponseForbidden, Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.html import escape, format_html
@@ -258,3 +258,10 @@ def mapsbyname(request, searchstring=None):
 def namebyid(request, rms_id):
     rms_instance = get_object_or_404(Rms, pk=rms_id)
     return JsonResponse({"name": rms_instance.name, "authors": rms_instance.authors})
+
+
+def latest_rms(request, amount):
+    if amount < 0:
+        raise Http404
+    objects = Rms.objects.order_by('-updated')[:amount]
+    return JsonResponse({"maps": maps2json(objects)})

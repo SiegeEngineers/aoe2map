@@ -14,6 +14,7 @@ urlpatterns = [
     path('mapsbyname/<searchstring>', api.mapsbyname, name='mapsbyname'),
     path('rms/<uuid:rms_id>', api.rms, name='rms'),
     path('rms/s/<name>', api.rms_by_name, name='rms_by_name'),
+    path('rms/latest/<int:amount>', api.latest_rms, name='latest_rms'),
     path('rms/file/<filename>', api.rms_by_file, name='rms_by_file'),
     path('collection/<uuid:collection_id>/maps', api.collection, name='collection'),  # deprecated
     path('collection/<uuid:collection_id>', api.collection, name='collection'),

@@ -14,15 +14,21 @@ function toggleMaxHeight(self){
 }
 
 $(function () {
+    if (API_URL !== '') {
+        $.getJSON(API_URL, function (data) {
+            addAllMaps(data);
+        });
+    }
+    if (LATEST_MAPS_URL !== '') {
+        $.getJSON(LATEST_MAPS_URL, function (data) {
+            addAllMaps(data, '.latestmaps');
+        });
+    }
 
-    $.getJSON(API_URL, function (data) {
-        addAllMaps(data);
-    });
-
-    function addAllMaps(data) {
-        $('.maps').empty();
+    function addAllMaps(data, selector = '.maps') {
+        $(selector).empty();
         if (data.maps.length === 0) {
-            $('<div class="col-12 text-center">No result :-(</div>').appendTo('.maps');
+            $('<div class="col-12 text-center">No result :-(</div>').appendTo(selector);
         }
         for (let part of partition(data.maps, 10)) {
             setTimeout(function () {
@@ -68,7 +74,7 @@ $(function () {
                             </div>\
                         </div>\
                     </div>\
-            </div>').appendTo('.maps');
+            </div>').appendTo(selector);
                 }
             }, part.number * 100);
         }

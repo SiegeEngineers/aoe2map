@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 19.1.2
+
+The index page now shows the three maps that have been added last at the top.
+
+
 ### 19.1.1
 
 The map script display functionality now extracts the `.rms` file from `ZR@` files and displays

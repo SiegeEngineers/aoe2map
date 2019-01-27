@@ -19,10 +19,11 @@ from mapsapp.tokens import email_verification_token
 from .forms import NewRmsForm, SignUpForm, SettingsForm, EditRmsForm, CollectionForm
 
 API_URL = "API_URL"
+LATEST_MAPS_URL = "LATEST_MAPS_URL"
 
 
 def index(request):
-    context = {API_URL: reverse('api:maps')}
+    context = {API_URL: reverse('api:maps'), LATEST_MAPS_URL: reverse('api:latest_rms', kwargs={'amount': 3})}
     return render(request, 'mapsapp/index.html', context)
 
 

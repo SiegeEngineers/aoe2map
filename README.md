@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 19.1.3
+
+Added "how to upload a new version of a map" to the info section.
+
 ### 19.1.2
 
 The index page now shows the three maps that have been added last at the top.

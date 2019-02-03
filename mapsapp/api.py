@@ -1,13 +1,15 @@
 import subprocess
 
-from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseForbidden, Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.html import escape, format_html
 from django.views.decorators.cache import cache_page
+from django.views.decorators.http import require_POST
 
-from mapsapp.models import Rms, VersionTag, Tag, Image, Collection
+from mapsapp.decorators import ajax_login_required
+from mapsapp.helpers import count_voters, get_all_rms_instances, get_latest_version
+from mapsapp.models import Rms, VersionTag, Tag, Image, Collection, Vote
 
 
 @cache_page(60 * 60 * 24)
@@ -94,7 +96,7 @@ def collection(request, collection_id):
     })
 
 
-@login_required
+@ajax_login_required
 def modifycollection(request):
     if 'action' not in request.POST:
         return JsonResponse({"status": "ERROR", "message": "'action' is missing", "class": "danger"})
@@ -194,19 +196,9 @@ def maps2json(maps):
             "versiontags": version_tags,
             "collections": collections,
             "images": images,
+            "votes": count_voters(o)
         })
     return objects
-
-
-def get_latest_version(map_version, depth=100):
-    if depth < 0:
-        return map_version
-    else:
-        depth -= 1
-        if map_version.newer_version is None:
-            return map_version
-        else:
-            return get_latest_version(map_version.newer_version, depth)
 
 
 def tags(request, url_fragment):
@@ -265,3 +257,22 @@ def latest_rms(request, amount):
         raise Http404
     objects = Rms.objects.order_by('-updated')[:amount]
     return JsonResponse({"maps": maps2json(objects)})
+
+
+@ajax_login_required
+@require_POST
+def add_vote(request, rms_id):
+    rms_instance = get_object_or_404(Rms, pk=rms_id)
+    Vote.objects.get_or_create(rms=rms_instance, user=request.user)
+    return JsonResponse({"votes": count_voters(rms_instance), "self_voted": True})
+
+
+@ajax_login_required
+@require_POST
+def remove_vote(request, rms_id):
+    rms_instance = get_object_or_404(Rms, pk=rms_id)
+    all_instances = get_all_rms_instances(rms_instance)
+    for instance in all_instances:
+        Vote.objects.filter(rms=instance, user=request.user).delete()
+    return JsonResponse({"votes": count_voters(rms_instance), "self_voted": False})
+

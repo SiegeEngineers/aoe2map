@@ -1,3 +1,4 @@
+import logging
 import os
 
 from django.conf import settings as djangosettings
@@ -14,12 +15,15 @@ from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
+from mapsapp.helpers import count_voters, has_self_voted
 from mapsapp.models import Rms, Image, Collection, Tag, VersionTag, SiteSettings
 from mapsapp.tokens import email_verification_token
 from .forms import NewRmsForm, SignUpForm, SettingsForm, EditRmsForm, CollectionForm
 
 API_URL = "API_URL"
 LATEST_MAPS_URL = "LATEST_MAPS_URL"
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -35,14 +39,18 @@ def maps(request):
 def rms(request, rms_id):
     rms_instance = get_object_or_404(Rms, pk=rms_id)
     collections_for_user = []
+    self_voted = False
     if request.user.is_authenticated:
         collections_for_user = Collection.objects.filter(owner=request.user).order_by('name')
+        self_voted = has_self_voted(rms_instance, request.user.id)
     context = {
         API_URL: reverse('api:rms', kwargs={'rms_id': rms_id}),
         "rms": rms_instance,
         "top_url": djangosettings.DJANGO_TOP_URL,
         "page_url": reverse('map', kwargs={'rms_id': rms_id}),
-        "collections": collections_for_user
+        "collections": collections_for_user,
+        "votes": count_voters(rms_instance),
+        "self_voted": self_voted
     }
     return render(request, 'mapsapp/map.html', context)
 

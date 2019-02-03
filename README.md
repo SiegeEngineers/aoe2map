@@ -7,7 +7,12 @@ This is a Django application.
 
 ### 19.1.3
 
-Added "how to upload a new version of a map" to the info section.
+- Added "how to upload a new version of a map" to the info section.
+- When logged in, you can now express your affection towards a map by clicking the button with the :heart: icon,
+ turning the button yellow. You can also undo that expression of affection by clicking the button again, turning 
+ it back to grey. Hearts are shared between all versions of a map, meaning you can add your heart to version 1 
+ and then remove it again on version 3.
+
 
 ### 19.1.2
 

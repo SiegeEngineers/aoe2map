@@ -106,6 +106,15 @@ class SmokeTest(StaticLiveServerTestCase):
 
         self.browser.get(self.live_server_url + reverse('map', kwargs={'rms_id': new_map_uuid}))
         self.assertIn('Changelog Information', self.browser.page_source)
+        self.assertIn('<span class="votes">0</span>', self.browser.page_source)
+
+        # 0102_press_the_heart
+        self.click('vote-button')
+        self.assertIn('<span class="votes">1</span>', self.browser.page_source)
+
+        # 0103_press_the_heart_again
+        self.click('vote-button')
+        self.assertIn('<span class="votes">0</span>', self.browser.page_source)
 
         # 011_open_create_collection_page
 

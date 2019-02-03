@@ -171,3 +171,11 @@ class SiteSettings(models.Model):
     def load(cls):
         obj, created = cls.objects.get_or_create(pk=1)
         return obj
+
+
+class Vote(models.Model):
+    rms = models.ForeignKey(Rms, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('rms', 'user',)

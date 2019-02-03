@@ -127,3 +127,12 @@ ul.mapslist li:before {
     padding-right: 1rem;
     color: gray;
 }
+
+.heart {
+    font-style: normal;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+.btn-secondary:hover .heart {
+    color: #fc0;
+}

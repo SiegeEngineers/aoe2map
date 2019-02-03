@@ -133,16 +133,11 @@
                             <a href="{{ rms.url }}" class="card-link btn btn-outline-secondary"
                                target="_blank">Website</a>
                         {% endif %}
-                        {% if request.user and rms.owner == request.user %}
-                            <a href="{% url 'editmap' rms_id=rms.uuid %}"
-                               class="card-link btn btn-outline-primary">Edit map</a>
-                        {% endif %}
-                        {% if request.user and rms.owner == request.user and not rms.newer_version %}
-                            <a href="{% url 'newmap_newer_version' rms_id=rms.uuid %}"
-                               class="card-link btn btn-outline-primary">Upload new version</a>
-                        {% endif %}
+                        <button class="btn {% if self_voted %}btn-outline-primary{% else %}btn-secondary{% endif %} ml-3" id="vote-button"><span class="votes">{{ votes }}</span>&numsp;<span
+                                class="heart">❤</span>
+                        </button>
                         {% if request.user and request.user.is_authenticated %}
-                            <div class="input-group ml-4">
+                            <div class="input-group ml-3">
                                 {% csrf_token %}
                                 <button class="btn btn-outline-primary dropdown-toggle" type="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add to
@@ -161,6 +156,18 @@
                         {% endif %}
                     </div>
                 </div>
+                {% if request.user and rms.owner == request.user %}
+                    <div class="row">
+                        <div class="col-12 justify-content-center form-inline mb-3">
+                            <a href="{% url 'editmap' rms_id=rms.uuid %}"
+                               class="card-link btn btn-outline-primary">Edit map</a>
+                            {% if not rms.newer_version %}
+                                <a href="{% url 'newmap_newer_version' rms_id=rms.uuid %}"
+                                   class="card-link btn btn-outline-primary">Upload new version</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
                 <div class="row pt-1">
                     <div class="col-12 align-self-end">
                         <div class="tags">Tags:
@@ -232,7 +239,12 @@
     <script src="{% static 'mapsapp/js/highlightjs-line-numbers.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/view-code.js' %}"></script>
     <script type="text/javascript">
-        var COLLECTION_ENDPOINT = "{% url 'api:modifycollection' %}";
+        const COLLECTION_ENDPOINT = "{% url 'api:modifycollection' %}";
+        const ADD_VOTE_URL = "{% url 'api:add_vote' rms_id=rms.uuid %}";
+        const REMOVE_VOTE_URL = "{% url 'api:remove_vote' rms_id=rms.uuid %}";
     </script>
     <script src="{% static 'mapsapp/js/add-to-collection.js' %}"></script>
+    {% if request.user.is_authenticated %}
+    <script src="{% static 'mapsapp/js/vote.js' %}"></script>
+    {% endif %}
 {% endblock %}

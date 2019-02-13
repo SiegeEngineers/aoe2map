@@ -5,7 +5,11 @@ This is a Django application.
 
 ## Changelog
 
-### 19.1.3
+### 19.2.1
+
+Upgraded Django.
+
+### 19.2.0
 
 - Added "how to upload a new version of a map" to the info section.
 - When logged in, you can now express your affection towards a map by clicking the button with the :heart: icon,

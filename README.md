@@ -8,6 +8,8 @@ This is a Django application.
 ### 19.2.2
 
 - Redirected references to the Siege Engineers repository
+- Maps with newer versions no longer appear in the "Latest additions & updates" section and the corresponding api call results.
+
 ### 19.2.1
 
 Upgraded Django.

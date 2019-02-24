@@ -20,6 +20,9 @@ class ApiTest(AbstractAoe2mapTest):
         third = self.create_sample_map()
         third.created = datetime.datetime(2018, 12, 3, 1, 1, 1, tzinfo=pytz.utc)
         masking.append(self.mask_uuid(third))
+        third_predecessor = self.create_sample_map(newer_version=third)
+        third_predecessor.created = datetime.datetime(2018, 12, 2, 2, 1, 1, tzinfo=pytz.utc)
+        masking.append(self.mask_uuid(third_predecessor))
 
         c = Client()
 

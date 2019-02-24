@@ -5,6 +5,9 @@ This is a Django application.
 
 ## Changelog
 
+### 19.2.2
+
+- Redirected references to the Siege Engineers repository
 ### 19.2.1
 
 Upgraded Django.
@@ -219,7 +222,7 @@ git version 2.17.1
 Clone this repository into a folder of your choice, 
 this will create the `aoe2map` folder with all the relevant files:
 ```
-git clone https://github.com/HSZemi/aoe2map.git
+git clone https://github.com/SiegeEngineers/aoe2map.git
 ```
 Now we set up a virtual python environment inside that folder
 ```

@@ -22,9 +22,12 @@ $('#download').click(function () {
             (function () {
                 let url = mapUrl.href;
                 let name = filename;
-                return $.get(url, function (data) {
-                    zip.file(name, data);
-                });
+                return fetch(url)
+                    .then(response => response.arrayBuffer())
+                    .then(buffer => {
+                        zip.file(name, buffer);
+                    })
+                    .catch(err => console.error(err));
             })()
         );
     }

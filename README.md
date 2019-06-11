@@ -5,6 +5,18 @@ This is a Django application.
 
 ## Changelog
 
+### 19.6.0
+
+Upgraded Django to 2.1.9
+
+### 19.5.1
+
+We are now properly handleing binary data when assembling map collection downloads
+
+### 19.5.0
+
+Fixed arrows on images for small screen sizes
+
 ### 19.2.2
 
 - Redirected references to the Siege Engineers repository

@@ -1,4 +1,5 @@
 {% load widget_tweaks %}
+{% load not_empty_choices %}
 {% if messages %}
     {% for message in messages %}
         <div class="alert alert-{{ message.class }}" role="alert">
@@ -19,6 +20,7 @@
 {% endif %}
 
 {% for field in form.visible_fields %}
+    {% if field.field|not_empty_choices %}
     <div class="form-group">
         <label for="{{ field.auto_id }}">
             {{ field.label }}{% if field.field.required %} (required){% endif %}
@@ -43,4 +45,5 @@
             {% render_field field class="form-control" %}
         {% endif %}
     </div>
+        {% endif %}
 {% endfor %}

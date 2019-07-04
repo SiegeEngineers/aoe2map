@@ -49,6 +49,8 @@ Maximum image size is 4200x4200 px.'''
 
 FORM_HELP_FILE = "Choose the .rms file you want to share. You can also drag+drop it in here."
 
+FORM_HELP_IMAGES_TO_COPY = "Select the image files you want to copy to your new map."
+
 
 def get_version_tag_choices():
     versiontags = []
@@ -101,6 +103,10 @@ class NewRmsForm(forms.Form):
                                             help_text=FORM_HELP_VERSIONS,
                                             widget=CheckboxSelectMultiple)
 
+    images_to_copy = forms.MultipleChoiceField(label="Copy Images",
+                                               help_text=FORM_HELP_IMAGES_TO_COPY,
+                                               widget=CheckboxSelectMultiple)
+
     def clean_tags(self):
         tags = self.cleaned_data['tags']
         if len(tags.split(',')) > 8:
@@ -110,6 +116,8 @@ class NewRmsForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(NewRmsForm, self).__init__(*args, **kwargs)
         self.fields['versiontags'].choices = get_version_tag_choices()
+        if 'initial' in kwargs and 'images_to_copy' in kwargs['initial']:
+            self.fields['images_to_copy'].choices = kwargs['initial']['images_to_copy']
 
 
 class EditRmsForm(ModelForm):

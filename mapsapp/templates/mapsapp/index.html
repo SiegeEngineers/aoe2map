@@ -6,7 +6,8 @@
     <div class="text-center"><em>Welcome!
         aoe2map.net is a place to share your random map scripts (rms) for Age of Empires II.
         {% if not request.user.is_authenticated %}
-            <a href="{% url 'login' %}">Login</a> to upload a new rms file.
+            <a href="{% url 'login' %}">Login</a> to upload a new rms file
+            (or <a href="{% url 'register' %}">register</a> first).
         {% endif %}</em></div>
 {% endblock %}
 

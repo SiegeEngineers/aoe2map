@@ -10,6 +10,7 @@ This is a Django application.
 - When uploading a new version of a map, you can now select images from the previous
 version that shall be copied over.
 - Staff users can now see the username of who uploaded a map on the map details page.
+- Added "register" link to welcome message.
 
 ### 19.7.0
 

@@ -56,6 +56,17 @@ def rms(request, rms_id):
     return render(request, 'mapsapp/map.html', context)
 
 
+@login_required
+def rms_archive(request, rms_id):
+    rms_instance = get_object_or_404(Rms, pk=rms_id, owner=request.user, archived=False)
+    context = {"rms": rms_instance}
+    if request.POST and 'confirm_archive' in request.POST:
+        rms_instance.archived = True
+        rms_instance.save()
+        return redirect('map', rms_id=rms_instance.uuid)
+    return render(request, 'mapsapp/map_archive.html', context)
+
+
 def map_search(request, name=None):
     if name is None and request.method == "POST" and "searchterm" in request.POST:
         name = request.POST["searchterm"]

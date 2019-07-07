@@ -9,6 +9,7 @@ urlpatterns = [
     path('info', views.info, name='info'),
     path('maps', views.maps, name='maps'),
     path('map/<uuid:rms_id>', views.rms, name='map'),
+    path('map/<uuid:rms_id>/archive', views.rms_archive, name='map_archive'),
     path('map/s/<name>', views.map_search, name='map_search'),
     path('map/s/', views.map_search, name='map_search_post'),
     path('collections', views.collections, name='collections'),
@@ -38,3 +39,4 @@ urlpatterns = [
          name='password_reset_confirm'),
     path('password_reset/complete', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]
+

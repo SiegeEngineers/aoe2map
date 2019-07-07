@@ -172,6 +172,8 @@
                                 <a href="{% url 'newmap_newer_version' rms_id=rms.uuid %}"
                                    class="card-link btn btn-outline-primary">Upload new version</a>
                             {% endif %}
+                                <a href="{% url 'map_archive' rms_id=rms.uuid %}"
+                                   class="card-link btn btn-outline-danger">Remove/archive</a>
                         </div>
                     </div>
                 {% endif %}

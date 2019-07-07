@@ -1,0 +1,46 @@
+{% extends "mapsapp/base.html" %}
+{% load static %}
+
+{% block pagetitle %}Remove/archive {{ rms.name }} – {% endblock %}
+
+{% block subtitle %}<h4 class="text-center">Confirm remove/archive</h4>{% endblock %}
+
+{% block content %}
+    <div class="col-md-6 offset-md-3 col-12">
+        <form method="post">{% csrf_token %}
+            <p class="lead">Are you sure you want to remove/archive the map "{{ rms.name }}"?</p>
+            <p>This means:</p>
+            <ul>
+                <li>The map will no longer be randomly presented on the main page.</li>
+                <li>The map will no longer show up in searches or lists of maps.</li>
+                <li>The map will no longer show up in your list of your own maps.</li>
+                <li>Nobody will be able to add the map to collections.</li>
+                <li>You will no longer be able to edit the map.</li>
+                <li>Users will no longer be able to express their arrection towards the map.</li>
+                <li><strong>You will not be able to remove the "archived" status from your map again.</strong></li>
+            </ul>
+            <p>However:</p>
+            <ul>
+                <li>The map will remain accessible directly via its url, but a giant "archived" warning will greet each
+                    visitor.
+                </li>
+                <li>The map will remain part of any collection it is currently a part of, until it is removed from the
+                    collection.
+                </li>
+                <li>The map will still be displayed in the changelog of other versions of this map.</li>
+            </ul>
+
+            <p>
+                <strong>We might actually delete archived maps that look to us like they were uploaded
+                    errorneously.</strong>
+                Marking maps as archived is a relatively new feature, and its functionality is due to change.
+            </p>
+
+            <p class="font-italic">Now that you know what you are doing, do you really want to remove/archive the map
+                "{{ rms.name }}"?</p>
+
+            <button class="btn btn-danger" name="confirm_archive">Remove/Archive</button>
+            <a href="{% url 'map' rms_id=rms.uuid %}" class="btn btn-primary">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

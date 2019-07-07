@@ -28,3 +28,21 @@ class ApiTest(AbstractAoe2mapTest):
 
         response = c.get(reverse('api:latest_rms', kwargs={'amount': 3}))
         self.compareJsonWithValidationFile(response.json(), masking=masking)
+
+    def test_archived_rms(self):
+        rms = self.create_sample_map()
+        self.assertFalse(rms.archived)
+
+        c = Client()
+
+        response = c.get(reverse('api:latest_rms', kwargs={'amount': 1}))
+        self.assertEquals(1, len(response.json()['maps']))
+
+        rms.archived = True
+        rms.save()
+
+        response = c.get(reverse('api:latest_rms', kwargs={'amount': 1}))
+        self.assertEquals(0, len(response.json()['maps']))
+
+        response = c.get(reverse('api:rms', kwargs={'rms_id': rms.uuid}))
+        self.assertEquals(1, len(response.json()['maps']))

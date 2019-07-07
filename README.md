@@ -11,6 +11,7 @@ This is a Django application.
 version that shall be copied over.
 - Staff users can now see the username of who uploaded a map on the map details page.
 - Added "register" link to welcome message.
+- Introduced the option to archive maps (see [#19](https://github.com/SiegeEngineers/aoe2map/issues/19))
 
 ### 19.7.0
 

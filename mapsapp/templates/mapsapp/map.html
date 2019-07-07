@@ -51,6 +51,9 @@
                 {% if rms.newer_version %}
                     {% include 'mapsapp/snippets/latest_version_alert.html' %}
                 {% endif %}
+                {% if rms.archived %}
+                    {% include 'mapsapp/snippets/archived_alert.html' %}
+                {% endif %}
             </div>
 
             <div class="col-md-6 col-12 text-center mapscreenshot-container">
@@ -135,10 +138,12 @@
                             <a href="{{ rms.url }}" class="card-link btn btn-outline-secondary"
                                target="_blank">Website</a>
                         {% endif %}
-                        <button class="btn {% if self_voted %}btn-outline-primary{% else %}btn-secondary{% endif %} ml-3" id="vote-button"><span class="votes">{{ votes }}</span>&numsp;<span
-                                class="heart">❤</span>
+                        <button class="btn {% if self_voted %}btn-outline-primary{% else %}btn-secondary{% endif %} ml-3"
+                                id="vote-button"
+                                {% if not request.user or not request.user.is_authenticated or rms.archived %}disabled{% endif %}>
+                            <span class="votes">{{ votes }}</span>&numsp;<span class="heart">❤</span>
                         </button>
-                        {% if request.user and request.user.is_authenticated %}
+                        {% if request.user and request.user.is_authenticated and not rms.archived %}
                             <div class="input-group ml-3">
                                 {% csrf_token %}
                                 <button class="btn btn-outline-primary dropdown-toggle" type="button"
@@ -158,7 +163,7 @@
                         {% endif %}
                     </div>
                 </div>
-                {% if request.user and rms.owner == request.user %}
+                {% if request.user and rms.owner == request.user and not rms.archived %}
                     <div class="row">
                         <div class="col-12 justify-content-center form-inline mb-3">
                             <a href="{% url 'editmap' rms_id=rms.uuid %}"

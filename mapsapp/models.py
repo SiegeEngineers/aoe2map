@@ -59,6 +59,7 @@ class Rms(models.Model):
                                       related_name='predecessors')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    archived = models.BooleanField(default=False)
 
     def __str__(self):
         return "{} ({})".format(self.name, self.version)

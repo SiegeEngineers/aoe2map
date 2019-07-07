@@ -33,7 +33,7 @@ def index(request):
 
 
 def maps(request):
-    context = {"rmss": Rms.objects.filter(newer_version=None).order_by('name')}
+    context = {"rmss": Rms.objects.filter(newer_version=None, archived=False).order_by('name')}
     return render(request, 'mapsapp/maps.html', context)
 
 
@@ -186,7 +186,7 @@ def logoutpage(request):
 
 @login_required
 def mymaps(request):
-    context = {"rmss": Rms.objects.filter(owner=request.user).order_by('-updated')}
+    context = {"rmss": Rms.objects.filter(owner=request.user, archived=False).order_by('-updated')}
     return render(request, 'mapsapp/mymaps.html', context)
 
 
@@ -228,7 +228,7 @@ def newmap(request, rms_id=None, created_rms_id=None):
     old_rms = None
     initial = {}
     if rms_id:
-        old_rms = get_object_or_404(Rms, pk=rms_id)
+        old_rms = get_object_or_404(Rms, pk=rms_id, archived=False)
         context['old_rms'] = old_rms
         if old_rms.newer_version:
             raise Http404
@@ -356,7 +356,7 @@ def editcollection(request, collection_id=None, rms_id=None):
             rms_ids = []
             rms_initial_data = []
             if rms_id:
-                initial_rms_instance = Rms.objects.filter(pk=rms_id).first()
+                initial_rms_instance = Rms.objects.filter(pk=rms_id, archived=False).first()
                 if initial_rms_instance:
                     rms_ids.append(str(initial_rms_instance.uuid))
                     rms_initial_data.append(
@@ -393,7 +393,7 @@ def get_tagstring(tags):
 @login_required
 def editmap(request, rms_id):
     context = {'messages': []}
-    rms = get_object_or_404(Rms, pk=rms_id)
+    rms = get_object_or_404(Rms, pk=rms_id, archived=False)
     if rms.owner != request.user:
         raise Http404
     if request.method == 'POST':

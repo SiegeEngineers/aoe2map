@@ -34,7 +34,7 @@ def status(request):
 
 def allmaps(request):
     retval = []
-    map_objects = Rms.objects.filter(newer_version=None)
+    map_objects = Rms.objects.filter(newer_version=None, archived=False)
     for map_object in map_objects:
         retval.append({
             'uuid': map_object.uuid,
@@ -47,28 +47,28 @@ def allmaps(request):
 
 
 def maps(request):
-    objects = maps2json(Rms.objects.filter(newer_version=None).order_by('?')[0:12])
+    objects = maps2json(Rms.objects.filter(newer_version=None, archived=False).order_by('?')[0:12])
 
     return JsonResponse({"maps": objects})
 
 
 def rms(request, rms_id):
-    rms = get_object_or_404(Rms, pk=rms_id)
-    objects = maps2json([rms])
+    rms_instance = get_object_or_404(Rms, pk=rms_id)
+    objects = maps2json([rms_instance])
 
     return JsonResponse({"maps": objects})
 
 
 def rms_by_name(request, name):
-    rms = Rms.objects.filter(newer_version=None).filter(name__icontains=name) | \
-          Rms.objects.filter(newer_version=None).filter(authors__icontains=name)
-    objects = maps2json(rms)
+    rms_objects = Rms.objects.filter(newer_version=None, archived=False, name__icontains=name) | \
+          Rms.objects.filter(newer_version=None, archived=False, authors__icontains=name)
+    objects = maps2json(rms_objects)
 
     return JsonResponse({"maps": objects})
 
 
 def rms_by_file(request, filename):
-    rms = Rms.objects.filter(original_filename=filename)
+    rms = Rms.objects.filter(original_filename=filename, archived=False)
     objects = maps2json(rms)
 
     return JsonResponse({"maps": objects})
@@ -78,7 +78,7 @@ def mymaps(request):
     if not request.user.is_authenticated:
         return HttpResponseForbidden('You must be logged in to access this url')
 
-    objects = maps2json(Rms.objects.filter(owner=request.user))
+    objects = maps2json(Rms.objects.filter(owner=request.user, archived=False))
 
     return JsonResponse({"maps": objects})
 
@@ -118,7 +118,7 @@ def modifycollection(request):
 
         rms_id = request.POST['rms_id']
         collection_id = request.POST['collection_id']
-        rms_instance = Rms.objects.filter(pk=rms_id).first()
+        rms_instance = Rms.objects.filter(pk=rms_id, archived=False).first()
         collection_instance = Collection.objects.filter(pk=collection_id).first()
 
         if rms_instance is None:
@@ -210,7 +210,7 @@ def tags(request, url_fragment):
     for item in items:
         if item.isnumeric():
             taglist.append(get_object_or_404(Tag, pk=int(item)))
-    resultset = Rms.objects.filter(newer_version=None)
+    resultset = Rms.objects.filter(newer_version=None, archived=False)
     for tag in taglist:
         resultset = resultset.filter(tags=tag)
     objects = maps2json(resultset)
@@ -220,7 +220,7 @@ def tags(request, url_fragment):
 
 def versiontag(request, version_name):
     versiontag_instance = get_object_or_404(VersionTag, name=version_name)
-    resultset = Rms.objects.filter(newer_version=None).filter(versiontags=versiontag_instance)
+    resultset = Rms.objects.filter(newer_version=None, archived=False, versiontags=versiontag_instance)
     objects = maps2json(resultset)
 
     return JsonResponse({"maps": objects})
@@ -236,9 +236,9 @@ def alltags(request):
 def mapsbyname(request, searchstring=None):
     maps = []
     if not searchstring:
-        rms_objects = Rms.objects.filter(newer_version=None).filter(owner=request.user).order_by('name')
+        rms_objects = Rms.objects.filter(newer_version=None, archived=False, owner=request.user).order_by('name')
     else:
-        rms_objects = Rms.objects.filter(newer_version=None).filter(name__icontains=searchstring)
+        rms_objects = Rms.objects.filter(newer_version=None, archived=False, name__icontains=searchstring)
     for rms_object in rms_objects:
         maps.append({
             'name': '{name} by {authors}'.format(name=rms_object.name, authors=rms_object.authors),
@@ -255,14 +255,14 @@ def namebyid(request, rms_id):
 def latest_rms(request, amount):
     if amount < 0:
         raise Http404
-    objects = Rms.objects.filter(newer_version=None).order_by('-updated')[:amount]
+    objects = Rms.objects.filter(newer_version=None, archived=False).order_by('-updated')[:amount]
     return JsonResponse({"maps": maps2json(objects)})
 
 
 @ajax_login_required
 @require_POST
 def add_vote(request, rms_id):
-    rms_instance = get_object_or_404(Rms, pk=rms_id)
+    rms_instance = get_object_or_404(Rms, pk=rms_id, archived=False)
     Vote.objects.get_or_create(rms=rms_instance, user=request.user)
     return JsonResponse({"votes": count_voters(rms_instance), "self_voted": True})
 
@@ -270,7 +270,7 @@ def add_vote(request, rms_id):
 @ajax_login_required
 @require_POST
 def remove_vote(request, rms_id):
-    rms_instance = get_object_or_404(Rms, pk=rms_id)
+    rms_instance = get_object_or_404(Rms, pk=rms_id, archived=False)
     all_instances = get_all_rms_instances(rms_instance)
     for instance in all_instances:
         Vote.objects.filter(rms=instance, user=request.user).delete()

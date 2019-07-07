@@ -23,7 +23,7 @@ Upgraded Django to 2.1.9
 
 ### 19.5.1
 
-We are now properly handleing binary data when assembling map collection downloads
+We are now properly handling binary data when assembling map collection downloads
 
 ### 19.5.0
 

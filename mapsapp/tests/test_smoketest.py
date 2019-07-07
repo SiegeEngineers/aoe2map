@@ -142,6 +142,30 @@ class SmokeTest(StaticLiveServerTestCase):
         sleep(1)
         self.assertIn('Map Name', self.browser.page_source)
 
+        # 015_open_map
+
+        self.click_page_link_text('Map Name', 'Upload new version')
+
+        # 016_click_upload_new_version
+
+        self.click_page_link_text('Upload new version', 'You are currently uploading a new version of')
+
+        # 017_fill_fields
+
+        self.fill_fields({
+            'id_file': os.path.join(script_file_path, 'testdata', 'relic_nothing.rms'),
+            'id_changelog': 'Changelog Information: New Version'
+        })
+        self.click('id_versiontags_0')
+        self.click('id_images_to_copy_0')
+        self.click_page_link('upload', 'Your Map has been created!')
+
+        # 018_open_mymaps_page_and_find_map
+
+        self.click_page_link('a-goto-created-map', 'Map Name')
+        self.assertIn('Changelog Information: New Version', self.browser.page_source)
+        self.assertIn('relic_nothing.png', self.browser.page_source)
+
         # 099_logout
 
         logout = self.browser.find_element_by_id('user-nav-logout')
@@ -151,7 +175,7 @@ class SmokeTest(StaticLiveServerTestCase):
         self.assertLoggedOut()
 
     def get_new_map_uuid(self):
-        href = self.browser.find_element_by_class_name('a-goto-created-map').get_attribute('href')
+        href = self.browser.find_element_by_id('a-goto-created-map').get_attribute('href')
         return href.split('/')[-1]
 
     def open_index_page(self):

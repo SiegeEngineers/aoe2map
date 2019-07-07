@@ -2,13 +2,14 @@ import logging
 import os
 
 from django.conf import settings as djangosettings
+from aoe2map import settings as aoe2mapsettings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.auth.views import PasswordResetView
 from django.core.files.storage import FileSystemStorage
-from django.http import Http404
+from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -205,28 +206,53 @@ def get_tags(tagstring):
     return tags
 
 
+class InvalidImageError(Exception):
+    pass
+
+
+def get_images_to_copy_or_throw(input_paths):
+    retval = []
+    for path in input_paths:
+        abspath = os.path.abspath(os.path.join(aoe2mapsettings.MEDIA_ROOT, path))
+        media_root_abspath = os.path.abspath(aoe2mapsettings.MEDIA_ROOT)
+        if abspath.startswith(media_root_abspath) and os.path.isfile(abspath):
+            retval.append(abspath)
+        else:
+            raise InvalidImageError
+    return retval
+
+
 @login_required
 def newmap(request, rms_id=None, created_rms_id=None):
     context = {'messages': [], 'old_rms': None}
     old_rms = None
+    initial = {}
     if rms_id:
         old_rms = get_object_or_404(Rms, pk=rms_id)
         context['old_rms'] = old_rms
         if old_rms.newer_version:
             raise Http404
+        for key in ('name', 'authors', 'description', 'url', 'information'):
+            initial[key] = getattr(old_rms, key)
+        initial['images_to_copy'] = [(img.file, img) for img in Image.objects.filter(rms=old_rms)]
+        initial['tags'] = get_tagstring(old_rms.tags.all())
     if created_rms_id:
         context['messages'].append({'class': 'success',
                                     'text': '''Your Map has been created! Click 
-                                    <a href="{}" class="a-goto-created-map">here</a> to view it, or 
-                                    <a href="{}" class="a-goto-edit-created-map">here</a> to edit it further.'''.format(
+                                    <a href="{}" id="a-goto-created-map">here</a> to view it, or 
+                                    <a href="{}" id="a-goto-edit-created-map">here</a> to edit it further.'''.format(
                                         reverse('map', kwargs={'rms_id': created_rms_id}),
                                         reverse('editmap', kwargs={'rms_id': created_rms_id})
                                     )})
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = NewRmsForm(request.POST, request.FILES)
+        form = NewRmsForm(request.POST, request.FILES, initial=initial)
         # check whether it's valid:
         if form.is_valid():
+            try:
+                images_to_copy = get_images_to_copy_or_throw(form.cleaned_data['images_to_copy'])
+            except InvalidImageError:
+                return HttpResponseBadRequest('Error: Images not found.')
             new_rms = Rms()
             new_rms.name = form.cleaned_data['name']
             new_rms.owner = request.user
@@ -258,22 +284,18 @@ def newmap(request, rms_id=None, created_rms_id=None):
             new_rms.tags.add(*tags)
 
             imagefiles = request.FILES.getlist('images')
+            imagefiles.extend(images_to_copy)
             for image in imagefiles:
-                img = Image()
-                img.file = image
-                img.rms = new_rms
-                img.save()
+                if str(image)[-4:].lower() in ['.png', '.jpg', 'jpeg', '.bmp']:
+                    img = Image()
+                    img.file = image
+                    img.rms = new_rms
+                    img.save()
             return redirect('newmap_created', created_rms_id=new_rms.uuid)
         else:
             context['messages'].append({'class': 'danger', 'text': 'That did not work…'})
         # if a GET (or any other method) we'll create a blank form
     else:
-        initial = {}
-        if old_rms:
-            for key in ('name', 'authors', 'description', 'url', 'information'):
-                initial[key] = getattr(old_rms, key)
-            initial['images_to_copy'] = [(False, img) for img in Image.objects.filter(rms=old_rms)]
-            initial['tags'] = get_tagstring(old_rms.tags.all())
         form = NewRmsForm(initial=initial)
     context["form"] = form
     return render(request, 'mapsapp/newmap.html', context=context)

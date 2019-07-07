@@ -45,7 +45,8 @@ FORM_HELP_MAP_NAME = "The name of the map"
 
 FORM_HELP_IMAGES = '''<b>Preview Images will be 600x311 px</b>, so you should preferrably upload pictures of that size 
 or aspect ratio. You can also drag+drop images in here.<br>
-Maximum image size is 4200x4200 px.'''
+Maximum image size is 4200x4200 px, allowed image formats are png, jpg, and bmp. Images not in one of those formats will
+be skipped.'''
 
 FORM_HELP_FILE = "Choose the .rms file you want to share. You can also drag+drop it in here."
 
@@ -104,6 +105,7 @@ class NewRmsForm(forms.Form):
                                             widget=CheckboxSelectMultiple)
 
     images_to_copy = forms.MultipleChoiceField(label="Copy Images",
+                                               required=False,
                                                help_text=FORM_HELP_IMAGES_TO_COPY,
                                                widget=CheckboxSelectMultiple)
 

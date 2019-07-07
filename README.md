@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 19.7.1
+
+When uploading a new version of a map, you can now select images from the previous
+version that shall be copied over.
+
 ### 19.7.0
 
 Upgraded Django to 2.1.10

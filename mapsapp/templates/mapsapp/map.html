@@ -112,7 +112,9 @@
                         </h4>
                         <h5 class="card-subtitle mb-2 text-muted">by {{ rms.authors }}</h5>
                         <p class="card-text font-italic">{{ rms.description }}</p>
-
+                        {% if request.user and request.user.is_staff %}
+                            <div class="text-muted">Uploaded by: <code>{{ rms.owner.username }}</code></div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row pt-5">

@@ -255,7 +255,7 @@ def namebyid(request, rms_id):
 def latest_rms(request, amount):
     if amount < 0:
         raise Http404
-    objects = Rms.objects.filter(newer_version=None, archived=False).order_by('-updated')[:amount]
+    objects = Rms.objects.filter(newer_version=None, archived=False).order_by('-created')[:amount]
     return JsonResponse({"maps": maps2json(objects)})
 
 

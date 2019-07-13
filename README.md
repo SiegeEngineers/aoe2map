@@ -5,6 +5,12 @@ This is a Django application.
 
 ## Changelog
 
+### 19.7.2
+
+The latest maps on the start page are now sorted by their creation time instead of the
+time of their last modification. This is to prevent maps that got for example a typo
+fixed from jumping to the front of the list again.
+
 ### 19.7.1
 
 - When uploading a new version of a map, you can now select images from the previous

@@ -1,5 +1,5 @@
 function normalizeName(name) {
-    name =  name.replace(/%40/g, "@");
+    name = name.replace(/%40/g, "@");
     return name.replace(/[^@A-Za-z0-9\-_ ()\[\].+]/g, "_");
 }
 
@@ -40,6 +40,25 @@ $('#download').click(function () {
     }).fail(function () {
         alert('Download failed due to technical reasons. Sorry!');
     });
+});
 
+$('.roll-random-item').click(function () {
+    $('#modal-scouting').slideDown(500);
+    $('#modal-result').slideUp(500);
+    $('#random_choice_modal .modal-footer').hide();
 
+    $('#random_choice_modal').modal();
+
+    setTimeout(() => {
+        const maps = $('.maps .card');
+        const index = Math.floor(Math.random() * maps.length);
+        $('#modal-result .image').empty();
+        $('#modal-result .description').empty();
+        $($(maps[index]).find('a').get(0)).clone().appendTo('#modal-result .image');
+        $(maps[index]).find('.card-body').clone().appendTo('#modal-result .description');
+
+        $('#modal-scouting').slideUp(500);
+        $('#modal-result').slideDown(500);
+        $('#random_choice_modal .modal-footer').slideDown(500);
+    }, 3000);
 });

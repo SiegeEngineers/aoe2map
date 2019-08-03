@@ -1,6 +1,35 @@
 {% extends "mapsapp/base.html" %}
 {% load static %}
 
+{% block modal %}
+    <div class="modal fade" id="random_choice_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Random selection</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body container">
+                    <div id="modal-scouting" class="text-center">
+                        <img src="{% static 'mapsapp/images/load.gif' %}" alt="Loading…"> Just a second!
+                        We are scouting for the perfect map for you…
+                    </div>
+                    <div id="modal-result" class="row">
+                        <div class="image col-md-6 col-12"></div>
+                        <div class="description col-md-6 col-12"></div>
+                    </div>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary roll-random-item">Re-roll</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block pagetitle %}{{ collection.name }} – {% endblock %}
 {% block subtitle %}
     <h4 class="text-center"><span id="collection-name">{{ collection.name }}</span>
@@ -11,6 +40,7 @@
         <div class="markdown-text">{{ collection.description }}</div>
         <p class="text-center">
             <button class="btn btn-secondary" id="download">Download Collection</button>
+            <button class="btn btn-secondary roll-random-item" id="random_choice">Random Choice</button>
 
             {% if request.user and collection.owner == request.user %}
                 <a href="{% url 'editcollection' collection_id=collection.uuid %}"
@@ -23,6 +53,7 @@
 {% block js %}
     {% include 'mapsapp/snippets/maps_js_block.html' %}
     <script src="{% static 'mapsapp/js/jszip.min.js' %}"></script>
+    <script src="{% static 'mapsapp/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/FileSaver.js' %}"></script>
     <script src="{% static 'mapsapp/js/collection.js' %}"></script>
     <script src="{% static 'mapsapp/js/markdown-it.min.js' %}"></script>

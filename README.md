@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 19.8.0
+
+You can now have a random map from a collection selected for you by clicking the 
+"Random Choice" button on the collection page. 
+
 ### 19.7.2
 
 The latest maps on the start page are now sorted by their creation time instead of the

@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 19.8.1
+
+Upgraded Django to 2.1.11
+
 ### 19.8.0
 
 You can now have a random map from a collection selected for you by clicking the 

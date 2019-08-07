@@ -1,4 +1,4 @@
-Django==2.1.10
+Django==2.1.11
 django-widget-tweaks==1.4.3
 Pillow==5.4.1
 pytz==2018.9

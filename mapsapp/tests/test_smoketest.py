@@ -1,16 +1,23 @@
 import os
+import re
 from time import sleep
 
+from django.conf import settings
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.test import override_settings
-from django.urls import reverse
+from django.urls import reverse, re_path
+from django.views.static import serve
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.webdriver import WebDriver
 
+from aoe2map.urls import urlpatterns as base_patterns
 from mapsapp.models import VersionTag
 
+urlpatterns = base_patterns + [re_path(r'^{}(?P<path>.*)$'.format(re.escape(settings.IMAGE_URL.lstrip('/'))),
+                                       serve, kwargs={'document_root': settings.IMAGE_ROOT})]
 
-@override_settings(DEBUG=True)
+
+@override_settings(ROOT_URLCONF=__name__)
 class SmokeTest(StaticLiveServerTestCase):
 
     @classmethod

@@ -224,8 +224,8 @@ class InvalidImageError(Exception):
 def get_images_to_copy_or_throw(input_paths):
     retval = []
     for path in input_paths:
-        abspath = os.path.abspath(os.path.join(aoe2mapsettings.MEDIA_ROOT, path))
-        media_root_abspath = os.path.abspath(aoe2mapsettings.MEDIA_ROOT)
+        abspath = os.path.abspath(os.path.join(aoe2mapsettings.IMAGE_ROOT, path))
+        media_root_abspath = os.path.abspath(aoe2mapsettings.IMAGE_ROOT)
         if abspath.startswith(media_root_abspath) and os.path.isfile(abspath):
             retval.append(abspath)
         else:

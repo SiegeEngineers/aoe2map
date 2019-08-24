@@ -15,6 +15,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 STATIC_ROOT = 'mapsapp/static'
 MEDIA_ROOT = 'media'
+IMAGE_ROOT = 'images'
+IMAGE_URL = '/images/'
+IMAGE_STORAGE = FileSystemStorage(location=IMAGE_ROOT, base_url=IMAGE_URL)
 #SECURE_SSL_REDIRECT = True
 #CSRF_COOKIE_SECURE = True
 #SESSION_COOKIE_SECURE = True

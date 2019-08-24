@@ -3,6 +3,7 @@ output/
 *.bak
 .idea
 media/*
+images/*
 aoe2map/deployment.py
 
 # Byte-compiled / optimized / DLL files

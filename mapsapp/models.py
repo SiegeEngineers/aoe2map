@@ -1,11 +1,11 @@
 import math
+import os
 import sys
 import uuid as uuid
-import os
 from io import BytesIO
+
 from PIL import Image as PilImage
 from django.contrib.auth.models import User
-
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 from django.db.models.signals import post_save, post_delete
@@ -67,8 +67,8 @@ class Rms(models.Model):
 
 class Image(models.Model):
     rms = models.ForeignKey(Rms, on_delete=models.CASCADE)
-    file = models.ImageField(upload_to=rms_image_path)
-    preview = models.ImageField(upload_to=rms_image_path, null=True, blank=True)
+    file = models.ImageField(upload_to=rms_image_path, storage=settings.IMAGE_STORAGE)
+    preview = models.ImageField(upload_to=rms_image_path, storage=settings.IMAGE_STORAGE, null=True, blank=True)
 
     def save(self):
         # Opening the uploaded image

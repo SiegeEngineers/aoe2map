@@ -5,6 +5,13 @@ This is a Django application.
 
 ## Changelog
 
+### 19.8.2
+
+- Separated the image storage from the rms storage to prepare for storing the images externally.
+- Updated the info page with recently added functionality.
+- Staff users can now see the username of the owner of a collection.
+- Staff users can now see the `created` and `last updated` timestamps of maps.
+
 ### 19.8.1
 
 Upgraded Django to 2.1.11

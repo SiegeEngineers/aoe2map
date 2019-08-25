@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.urls import path, include
 
+from . import imagestorage
 from aoe2map import settings
 
 urlpatterns = [
     path('', include('mapsapp.urls')),
     path('api/', include('mapsapp.api_urls')),
     path('admin/', admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.IMAGE_URL, document_root=settings.IMAGE_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.IMAGE_URL, document_root=imagestorage.IMAGE_ROOT)

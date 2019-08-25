@@ -10,11 +10,12 @@ from django.views.static import serve
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.webdriver import WebDriver
 
+import imagestorage
 from aoe2map.urls import urlpatterns as base_patterns
 from mapsapp.models import VersionTag
 
 urlpatterns = base_patterns + [re_path(r'^{}(?P<path>.*)$'.format(re.escape(settings.IMAGE_URL.lstrip('/'))),
-                                       serve, kwargs={'document_root': settings.IMAGE_ROOT})]
+                                       serve, kwargs={'document_root': imagestorage.IMAGE_ROOT})]
 
 
 @override_settings(ROOT_URLCONF=__name__)

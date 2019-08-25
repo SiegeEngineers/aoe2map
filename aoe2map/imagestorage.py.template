@@ -1,0 +1,16 @@
+from django.core.files.storage import FileSystemStorage
+from storages.backends.azure_storage import AzureStorage
+
+# # # # # # # # # #
+# local config    #
+# # # # # # # # # #
+IMAGE_URL = '/images/'  # attention, also configure this in settings.py!
+IMAGE_ROOT = 'images'
+IMAGE_STORAGE = FileSystemStorage(location=IMAGE_ROOT, base_url=IMAGE_URL)
+
+
+# # # # # # # # # #
+# remote config   #
+# # # # # # # # # #
+# IMAGE_ROOT = 'images'
+# IMAGE_STORAGE = AzureStorage()

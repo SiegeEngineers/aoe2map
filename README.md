@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 19.8.3
+
+The application can now be configured to store uploaded images in an Azure blob storage.
+
 ### 19.8.2
 
 - Separated the image storage from the rms storage to prepare for storing the images externally.
@@ -296,11 +300,12 @@ We also want to install the development dependencies from `development.txt`:
 pip install -r development.txt
 ```
 
-Before we can start the application, we have to add a configuration file. 
-We copy the template in the aoe2map _subfolder_, but for development, 
+Before we can start the application, we have to add configuration files. 
+We copy the templates in the aoe2map _subfolder_, but for development, 
 we do not have to edit anything inside.
 ```
 cp aoe2map/deployment.py.template aoe2map/deployment.py
+cp aoe2map/imagestorage.py.template aoe2map/imagestorage.py
 ```
 
 
@@ -344,7 +349,7 @@ Further useful information:
 
 ## License
 aoe2map.net  
-Copyright © 2018 hszemi
+Copyright © 2018-2019 hszemi
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

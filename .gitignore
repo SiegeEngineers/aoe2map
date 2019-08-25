@@ -5,6 +5,7 @@ output/
 media/*
 images/*
 aoe2map/deployment.py
+aoe2map/imagestorage.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

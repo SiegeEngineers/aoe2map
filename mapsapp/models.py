@@ -12,6 +12,7 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from aoe2map import settings
+from aoe2map import imagestorage
 
 MAX_IMAGE_WIDTH = 4200
 MAX_IMAGE_HEIGHT = 4200
@@ -67,8 +68,8 @@ class Rms(models.Model):
 
 class Image(models.Model):
     rms = models.ForeignKey(Rms, on_delete=models.CASCADE)
-    file = models.ImageField(upload_to=rms_image_path, storage=settings.IMAGE_STORAGE)
-    preview = models.ImageField(upload_to=rms_image_path, storage=settings.IMAGE_STORAGE, null=True, blank=True)
+    file = models.ImageField(upload_to=rms_image_path, storage=imagestorage.IMAGE_STORAGE)
+    preview = models.ImageField(upload_to=rms_image_path, storage=imagestorage.IMAGE_STORAGE, null=True, blank=True)
 
     def save(self):
         # Opening the uploaded image

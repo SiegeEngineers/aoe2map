@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.forms',
     'widget_tweaks',
+    'storages'
 ]
 
 MIDDLEWARE = [

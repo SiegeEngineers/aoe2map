@@ -15,9 +15,21 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 STATIC_ROOT = 'mapsapp/static'
 MEDIA_ROOT = 'media'
-IMAGE_ROOT = 'images'
-IMAGE_URL = '/images/'
-IMAGE_STORAGE = FileSystemStorage(location=IMAGE_ROOT, base_url=IMAGE_URL)
-#SECURE_SSL_REDIRECT = True
-#CSRF_COOKIE_SECURE = True
-#SESSION_COOKIE_SECURE = True
+# # # # # # # # # #
+# local config    #
+# # # # # # # # # #
+IMAGE_URL = '/images/'  # attention, also configure this in imagestorage.py!
+
+# # # # # # # # # #
+# azure config   #
+# # # # # # # # # #
+# AZURE_ACCOUNT_NAME = ''<your_azure_account_name>'
+# AZURE_ACCOUNT_KEY = '<your_azure_account_key>'
+# AZURE_CONTAINER = '<your_azure_container_name>'
+# AZURE_URL_EXPIRATION_SECS = None
+# AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+# IMAGE_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{AZURE_CONTAINER}/'
+
+# SECURE_SSL_REDIRECT = True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True

@@ -116,7 +116,17 @@
                         <h5 class="card-subtitle mb-2 text-muted">by {{ rms.authors }}</h5>
                         <p class="card-text font-italic">{{ rms.description }}</p>
                         {% if request.user and request.user.is_staff %}
-                            <div class="text-muted">Uploaded by: <code>{{ rms.owner.username }}</code></div>
+                            <div class="text-muted">
+                                Uploaded by: <code>{{ rms.owner.username }}</code>
+                                <br>
+                                created:
+                                <time datetime="{{ rms.created|date:"c" }}"
+                                      title="{{ rms.created|date:"r" }}">{{ rms.created|date:"Y-m-d" }}</time>
+                                <br>
+                                last updated:
+                                <time datetime="{{ rms.updated|date:"c" }}"
+                                      title="{{ rms.updated|date:"r" }}">{{ rms.updated|date:"Y-m-d" }}</time>
+                            </div>
                         {% endif %}
                     </div>
                 </div>

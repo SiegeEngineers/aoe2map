@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 19.8.4
+
+Improved search results. Whatever you enter into the search bar is now split along spaces 
+into words, and each word must either be part of the map name or the author names.
+
 ### 19.8.3
 
 The application can now be configured to store uploaded images in an Azure blob storage.

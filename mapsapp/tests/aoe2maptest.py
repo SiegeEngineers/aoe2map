@@ -25,12 +25,12 @@ class AbstractAoe2mapTest(TestCase):
         cls.aUser = User.objects.create_user(username='username', password='password')
         cls.counter = itertools.count()
 
-    def create_sample_map(self, changelog='', newer_version=None):
+    def create_sample_map(self, changelog='', newer_version=None, name=None, authors=None):
         rms = Rms()
         rms.owner = self.aUser
-        rms.name = "map-name-{}".format(next(self.counter))
+        rms.name = "map-name-{}".format(next(self.counter)) if name is None else name
         rms.changelog = changelog
-        rms.authors = 'rms-authors'
+        rms.authors = 'rms-authors' if authors is None else authors
         rms.description = 'rms-description'
         rms.file = SimpleUploadedFile('file-name', b'file-contents')
         rms.newer_version = newer_version

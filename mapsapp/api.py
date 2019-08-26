@@ -1,5 +1,6 @@
 import subprocess
 
+from django.db.models import Q
 from django.http import JsonResponse, HttpResponseForbidden, Http404
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -60,8 +61,11 @@ def rms(request, rms_id):
 
 
 def rms_by_name(request, name):
-    rms_objects = Rms.objects.filter(newer_version=None, archived=False, name__icontains=name) | \
-          Rms.objects.filter(newer_version=None, archived=False, authors__icontains=name)
+    items = name.split(' ')
+    query = Q(name__icontains=items[0]) | Q(authors__icontains=items[0])
+    for item in items[1:]:
+        query &= (Q(name__icontains=item) | Q(authors__icontains=item))
+    rms_objects = Rms.objects.filter(query, newer_version=None, archived=False)
     objects = maps2json(rms_objects)
 
     return JsonResponse({"maps": objects})

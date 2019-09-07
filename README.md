@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 19.9.0
+
+Fixed the URLs of preview images when using Azure storage.
+
 ### 19.8.4
 
 Improved search results. Whatever you enter into the search bar is now split along spaces 

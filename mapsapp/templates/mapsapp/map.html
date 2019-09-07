@@ -1,5 +1,6 @@
 {% extends "mapsapp/base.html" %}
 {% load static %}
+{% load startswith %}
 
 {% block additionalcss %}
     <link rel="stylesheet" href="{% static 'mapsapp/css/railscasts.css' %}">
@@ -13,20 +14,20 @@
     <meta property="og:url" content="{{ top_url }}{{ page_url }}"/>
     <meta property="og:type" content="article"/>
     <meta property="og:description" content="{{ rms.description }}"/>
-    <meta property="og:image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{{ top_url }}{% if rms.image_set.all.0.preview %}{{ rms.image_set.all.0.preview.url }}{% else %}{{ rms.image_set.all.0.file.url }}{% endif %}{% endif %}"/>
+    <meta property="og:image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{% if rms.image_set.all.0.preview %}{% if not rms.image_set.all.0.preview.url|startswith:'http' %}{{ top_url }}{% endif %}{{ rms.image_set.all.0.preview.url }}{% else %}{% if not rms.image_set.all.0.file.url|startswith:'http' %}{{ top_url }}{% endif %}{{ rms.image_set.all.0.file.url }}{% endif %}{% endif %}"/>
     <meta property="og:image:width" content="600"/>
     <meta property="og:image:height" content="311"/>
     <!-- Google+ / Schema.org -->
     <meta itemprop="name" content="{{ rms.name }}"/>
     <meta itemprop="headline" content="{{ rms.name }}{% if rms.version %} {{ rms.version }}{% endif %}"/>
     <meta itemprop="description" content="{{ rms.description }}"/>
-    <meta itemprop="image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{{ top_url }}{% if rms.image_set.all.0.preview %}{{ rms.image_set.all.0.preview.url }}{% else %}{{ rms.image_set.all.0.file.url }}{% endif %}{% endif %}"/>
+    <meta itemprop="image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{% if rms.image_set.all.0.preview %}{% if not rms.image_set.all.0.preview.url|startswith:'http' %}{{ top_url }}{% endif %}{{ rms.image_set.all.0.preview.url }}{% else %}{% if not rms.image_set.all.0.file.url|startswith:'http' %}{{ top_url }}{% endif %}{{ rms.image_set.all.0.file.url }}{% endif %}{% endif %}"/>
     <meta itemprop="author" content="{{ rms.authors }}"/>
     <!-- Twitter Cards -->
     <meta name="twitter:title" content="{{ rms.name }}{% if rms.version %} {{ rms.version }}{% endif %}"/>
     <meta name="twitter:url" content="{{ top_url }}{{ page_url }}"/>
     <meta name="twitter:description" content="{{ rms.description }}"/>
-    <meta name="twitter:image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{{ top_url }}{% if rms.image_set.all.0.preview %}{{ rms.image_set.all.0.preview.url }}{% else %}{{ rms.image_set.all.0.file.url }}{% endif %}{% endif %}"/>
+    <meta name="twitter:image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{% if rms.image_set.all.0.preview %}{% if not rms.image_set.all.0.preview.url|startswith:'http' %}{{ top_url }}{% endif %}{{ rms.image_set.all.0.preview.url }}{% else %}{% if not rms.image_set.all.0.file.url|startswith:'http' %}{{ top_url }}{% endif %}{{ rms.image_set.all.0.file.url }}{% endif %}{% endif %}"/>
     <meta name="twitter:card" content="summary_large_image"/>
 {% endblock %}
 

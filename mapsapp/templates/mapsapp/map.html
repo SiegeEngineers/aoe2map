@@ -116,19 +116,6 @@
                         </h4>
                         <h5 class="card-subtitle mb-2 text-muted">by {{ rms.authors }}</h5>
                         <p class="card-text font-italic">{{ rms.description }}</p>
-                        {% if request.user and request.user.is_staff %}
-                            <div class="text-muted">
-                                Uploaded by: <code>{{ rms.owner.username }}</code>
-                                <br>
-                                created:
-                                <time datetime="{{ rms.created|date:"c" }}"
-                                      title="{{ rms.created|date:"r" }}">{{ rms.created|date:"Y-m-d" }}</time>
-                                <br>
-                                last updated:
-                                <time datetime="{{ rms.updated|date:"c" }}"
-                                      title="{{ rms.updated|date:"r" }}">{{ rms.updated|date:"Y-m-d" }}</time>
-                            </div>
-                        {% endif %}
                     </div>
                 </div>
                 <div class="row pt-5">
@@ -189,6 +176,19 @@
                     </div>
                 {% endif %}
                 <div class="row pt-1">
+                    <div class="col-12 text-center text-muted small">
+                        This upload is managed by: <span class="text-monospace">{{ rms.owner.username }}</span>
+                        {% if request.user and request.user.is_staff %}
+                            <br>
+                            created:
+                            <time datetime="{{ rms.created|date:"c" }}"
+                                  title="{{ rms.created|date:"r" }}">{{ rms.created|date:"Y-m-d" }}</time>
+                            <br>
+                            last updated:
+                            <time datetime="{{ rms.updated|date:"c" }}"
+                                  title="{{ rms.updated|date:"r" }}">{{ rms.updated|date:"Y-m-d" }}</time>
+                        {% endif %}
+                    </div>
                     <div class="col-12 align-self-end">
                         <div class="tags">Tags:
                             {% for tag in rms.tags.all %}

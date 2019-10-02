@@ -5,6 +5,11 @@ This is a Django application.
 
 ## Changelog
 
+### 19.10.0
+
+- Maps and Collections now display the username of the user who manages
+  the map / collection
+
 ### 19.9.0
 
 Fixed the URLs of preview images when using Azure storage.

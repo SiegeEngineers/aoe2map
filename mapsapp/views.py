@@ -18,7 +18,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from mapsapp.helpers import count_voters, has_self_voted
-from mapsapp.models import Rms, Image, Collection, Tag, VersionTag, SiteSettings
+from mapsapp.models import Rms, Image, Collection, Tag, VersionTag, SiteSettings, RmsCollection
 from mapsapp.tokens import email_verification_token
 from .forms import NewRmsForm, SignUpForm, SettingsForm, EditRmsForm, CollectionForm
 
@@ -285,9 +285,8 @@ def newmap(request, rms_id=None, created_rms_id=None):
                 old_rms.save()
 
                 for related_collection in old_rms.collection_set.all():
-                    related_collection.rms.add(new_rms)
-                    related_collection.rms.remove(old_rms)
-                    related_collection.save()
+                    RmsCollection.objects.create(rms=new_rms, collection=related_collection)
+                    RmsCollection.objects.filter(rms=old_rms, collection=related_collection).delete()
 
             new_rms.versiontags.set(form.cleaned_data['versiontags'])
             tags = get_tags(form.cleaned_data['tags'])
@@ -330,7 +329,8 @@ def editcollection(request, collection_id=None, rms_id=None):
             instance = form.save(commit=False)
             instance.owner = request.user
             instance.save()
-            instance.rms.set(form.cleaned_data['rms'])
+            for rms_instance in form.cleaned_data['rms']:
+                RmsCollection.objects.create(rms=rms_instance, collection=instance)
             if collection_id:
                 rms_initial_data = []
                 for rms_instance in instance.rms.order_by('name'):

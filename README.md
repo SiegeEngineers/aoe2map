@@ -9,6 +9,8 @@ This is a Django application.
 
 - Maps and Collections now display the username of the user who manages
   the map / collection
+- Maps in collections are now sorted by name by default
+- A custom order can be defined by a staff member, this is useful for example for map contest results
 
 ### 19.9.0
 

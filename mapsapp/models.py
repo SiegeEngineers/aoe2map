@@ -138,10 +138,19 @@ class Collection(models.Model):
     name = models.CharField(max_length=255)
     authors = models.CharField(max_length=255)
     description = models.TextField()
-    rms = models.ManyToManyField(Rms, blank=True)
+    rms = models.ManyToManyField(Rms, through='RmsCollection', blank=True)
 
     def __str__(self):
         return self.name
+
+
+class RmsCollection(models.Model):
+    collection = models.ForeignKey(Collection, on_delete=models.CASCADE)
+    rms = models.ForeignKey(Rms, on_delete=models.CASCADE)
+    order = models.IntegerField(default=0)
+
+    def __str__(self):
+        return '{}-{}-{}'.format(self.collection.name, self.rms.name, self.order)
 
 
 class Profile(models.Model):

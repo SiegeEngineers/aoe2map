@@ -89,7 +89,7 @@ def mymaps(request):
 
 def collection(request, collection_id):
     c = get_object_or_404(Collection, pk=collection_id)
-    objects = maps2json(c.rms.all())
+    objects = maps2json(c.rms.order_by('rmscollection__order', 'rmscollection__rms__name'))
 
     return JsonResponse({
         "maps": objects,

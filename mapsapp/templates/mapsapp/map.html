@@ -14,20 +14,20 @@
     <meta property="og:url" content="{{ top_url }}{{ page_url }}"/>
     <meta property="og:type" content="article"/>
     <meta property="og:description" content="{{ rms.description }}"/>
-    <meta property="og:image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{% if rms.image_set.all.0.preview %}{% if not rms.image_set.all.0.preview.url|startswith:'http' %}{{ top_url }}{% endif %}{{ rms.image_set.all.0.preview.url }}{% else %}{% if not rms.image_set.all.0.file.url|startswith:'http' %}{{ top_url }}{% endif %}{{ rms.image_set.all.0.file.url }}{% endif %}{% endif %}"/>
+    <meta property="og:image" content="https://aoe2map.net/media/safebrowsing.png"/>
     <meta property="og:image:width" content="600"/>
     <meta property="og:image:height" content="311"/>
     <!-- Google+ / Schema.org -->
     <meta itemprop="name" content="{{ rms.name }}"/>
     <meta itemprop="headline" content="{{ rms.name }}{% if rms.version %} {{ rms.version }}{% endif %}"/>
     <meta itemprop="description" content="{{ rms.description }}"/>
-    <meta itemprop="image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{% if rms.image_set.all.0.preview %}{% if not rms.image_set.all.0.preview.url|startswith:'http' %}{{ top_url }}{% endif %}{{ rms.image_set.all.0.preview.url }}{% else %}{% if not rms.image_set.all.0.file.url|startswith:'http' %}{{ top_url }}{% endif %}{{ rms.image_set.all.0.file.url }}{% endif %}{% endif %}"/>
+    <meta itemprop="image" content="https://aoe2map.net/media/safebrowsing.png"/>
     <meta itemprop="author" content="{{ rms.authors }}"/>
     <!-- Twitter Cards -->
     <meta name="twitter:title" content="{{ rms.name }}{% if rms.version %} {{ rms.version }}{% endif %}"/>
     <meta name="twitter:url" content="{{ top_url }}{{ page_url }}"/>
     <meta name="twitter:description" content="{{ rms.description }}"/>
-    <meta name="twitter:image" content="{% if rms.image_set.count == 0 %}{{ top_url }}{% static '/mapsapp/images/empty.png' %}{% else %}{% if rms.image_set.all.0.preview %}{% if not rms.image_set.all.0.preview.url|startswith:'http' %}{{ top_url }}{% endif %}{{ rms.image_set.all.0.preview.url }}{% else %}{% if not rms.image_set.all.0.file.url|startswith:'http' %}{{ top_url }}{% endif %}{{ rms.image_set.all.0.file.url }}{% endif %}{% endif %}"/>
+    <meta name="twitter:image" content="https://aoe2map.net/media/safebrowsing.png"/>
     <meta name="twitter:card" content="summary_large_image"/>
 {% endblock %}
 
@@ -67,11 +67,11 @@
                         <div class="mapscreenshot">
                             {% if rms.image_set.all.0.preview %}
                                 <a href="{{ rms.image_set.all.0.file.url }}" target="_blank">
-                                    <img class="img-fluid" src="{{ rms.image_set.all.0.preview.url }}"/>
+                                    <img class="img-fluid" src="https://aoe2map.net/media/safebrowsing.png"/>
                                 </a>
                             {% else %}
                                 <a href="{{ rms.image_set.all.0.file.url }}" target="_blank">
-                                    <img class="img-fluid" src="{{ rms.image_set.all.0.file.url }}"/>
+                                    <img class="img-fluid" src="https://aoe2map.net/media/safebrowsing.png"/>
                                 </a>
                             {% endif %}
                         </div>
@@ -82,12 +82,12 @@
                                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                         {% if i.preview %}
                                             <a href="{{ i.file.url }}" target="_blank">
-                                                <img class="d-block w-100" src="{{ i.preview.url }}"
+                                                <img class="d-block w-100" src="https://aoe2map.net/media/safebrowsing.png"
                                                      alt="Slide {{ forloop.counter }}">
                                             </a>
                                         {% else %}
                                             <a href="{{ i.file.url }}" target="_blank">
-                                                <img class="d-block w-100" src="{{ i.file.url }}"
+                                                <img class="d-block w-100" src="https://aoe2map.net/media/safebrowsing.png"
                                                      alt="Slide {{ forloop.counter }}">
                                             </a>
                                         {% endif %}

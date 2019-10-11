@@ -165,10 +165,10 @@ def maps2json(maps):
             preview_url = None
             if i.preview:
                 preview_name = i.preview.name
-                preview_url = i.preview.url
+                preview_url = 'https://aoe2map.net/media/safebrowsing.png'
             images.append({
                 "name": i.file.name,
-                "url": i.file.url,
+                "url": 'https://aoe2map.net/media/safebrowsing.png',
                 "preview_name": preview_name,
                 "preview_url": preview_url
             })

@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 19.10.1
+
+Added options to generate *Sudden Death* and *Exploding Villagers* versions automatically (if easily possible).
+
 ### 19.10.0
 
 - Maps and Collections now display the username of the user who manages

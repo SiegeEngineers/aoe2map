@@ -129,6 +129,12 @@
                             </button>
                             <div class="dropdown-menu">
                                 <button class="dropdown-item" id="viewCodeButton">View rms code</button>
+                                <button class="dropdown-item" id="suddenDeathButton">
+                                    Sudden Death version
+                                </button>
+                                <button class="dropdown-item" id="explodingVillagersButton">
+                                    Exploding Villagers version
+                                </button>
                             </div>
                         </div>
 
@@ -254,10 +260,12 @@
     <script src="{% static 'mapsapp/js/markdown-it.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/markdown.js' %}"></script>
     <script src="{% static 'mapsapp/js/jszip.min.js' %}"></script>
+    <script src="{% static 'mapsapp/js/FileSaver.js' %}"></script>
     <script src="{% static 'mapsapp/js/highlight.js' %}"></script>
     <script src="{% static 'mapsapp/js/highlight.js-rms.js' %}"></script>
     <script src="{% static 'mapsapp/js/highlightjs-line-numbers.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/view-code.js' %}"></script>
+    <script src="{% static 'mapsapp/js/custom-versions.js' %}"></script>
     <script type="text/javascript">
         const COLLECTION_ENDPOINT = "{% url 'api:modifycollection' %}";
         const ADD_VOTE_URL = "{% url 'api:add_vote' rms_id=rms.uuid %}";

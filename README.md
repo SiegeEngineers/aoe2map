@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 19.10.2
+
+Upgraded Django to 2.2.6.
+
 ### 19.10.1
 
 Added options to generate *Sudden Death* and *Exploding Villagers* versions automatically (if easily possible).

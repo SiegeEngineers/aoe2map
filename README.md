@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 19.12.0
+
+Upgraded Django to 2.2.8.
+
 ### 19.10.2
 
 Upgraded Django to 2.2.6.

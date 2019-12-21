@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 19.12.1
+
+Fixed a bug in the registration code that prevented users from registering an account.
+
 ### 19.12.0
 
 Upgraded Django to 2.2.8.

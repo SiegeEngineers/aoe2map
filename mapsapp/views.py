@@ -164,7 +164,7 @@ def send_verification_email(request, user):
     message = render_to_string('email_verification_email.html', {
         'user': user,
         'django_top_url': djangosettings.DJANGO_TOP_URL,
-        'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
         'token': email_verification_token.make_token(user),
     })
     user.email_user(subject, message)

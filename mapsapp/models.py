@@ -62,6 +62,9 @@ class Rms(models.Model):
     updated = models.DateTimeField(auto_now=True)
     archived = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ["-updated"]
+
     def __str__(self):
         return "{} ({})".format(self.name, self.version)
 

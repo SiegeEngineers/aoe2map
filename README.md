@@ -5,6 +5,9 @@ This is a Django application.
 
 ## Changelog
 
+### 20.2.0
+
+- Added a default sort order for Rms objects
 ### 20.1.0
 
 Upgraded Django to 2.2.9.

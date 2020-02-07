@@ -8,6 +8,8 @@ This is a Django application.
 ### 20.2.0
 
 - Added a default sort order for Rms objects
+- Added path for DE rms scripts to the info page
+
 ### 20.1.0
 
 Upgraded Django to 2.2.9.

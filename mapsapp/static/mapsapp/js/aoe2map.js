@@ -34,7 +34,15 @@ $(function () {
             setTimeout(function () {
                 for (let map of part.data) {
                     if (map.images.length === 0) {
-                        map.images.push({"url": "/static/mapsapp/images/empty.png", "preview_url": null});
+                        if (map.versiontags.includes("DE")) {
+                            const number = Math.floor(Math.random() * 2);
+                            map.images.push({
+                                "url": `/static/mapsapp/images/empty-de-${number}.png`,
+                                "preview_url": null
+                            });
+                        } else {
+                            map.images.push({"url": "/static/mapsapp/images/empty.png", "preview_url": null});
+                        }
                     }
                     let alert = '';
                     if (map.newer_version !== null) {

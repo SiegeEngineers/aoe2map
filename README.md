@@ -5,10 +5,14 @@ This is a Django application.
 
 ## Changelog
 
+### 20.2.1
+
+Added custom default images for DE maps without image.
+
 ### 20.2.0
 
-- Added a default sort order for Rms objects
-- Added path for DE rms scripts to the info page
+- Added a default sort order for Rms objects.
+- Added path for DE rms scripts to the info page.
 
 ### 20.1.0
 

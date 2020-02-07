@@ -45,6 +45,7 @@ def rms(request, rms_id):
     if request.user.is_authenticated:
         collections_for_user = Collection.objects.filter(owner=request.user).order_by('name')
         self_voted = has_self_voted(rms_instance, request.user.id)
+    de_map = rms_instance.versiontags.filter(name="DE")
     context = {
         API_URL: reverse('api:rms', kwargs={'rms_id': rms_id}),
         "rms": rms_instance,
@@ -52,7 +53,8 @@ def rms(request, rms_id):
         "page_url": reverse('map', kwargs={'rms_id': rms_id}),
         "collections": collections_for_user,
         "votes": count_voters(rms_instance),
-        "self_voted": self_voted
+        "self_voted": self_voted,
+        "de_map": len(de_map)
     }
     return render(request, 'mapsapp/map.html', context)
 

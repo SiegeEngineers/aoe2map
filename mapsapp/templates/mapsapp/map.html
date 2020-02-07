@@ -60,7 +60,11 @@
             <div class="col-md-6 col-12 text-center mapscreenshot-container">
                 {% if rms.image_set.count == 0 %}
                     <div class="mapscreenshot">
-                        <img class="img-fluid" src="{% static '/mapsapp/images/empty.png' %}"/>
+                        {% if de_map %}
+                            <img class="img-fluid" src="{% static '/mapsapp/images/empty-de-1.png' %}"/>
+                        {% else %}
+                            <img class="img-fluid" src="{% static '/mapsapp/images/empty.png' %}"/>
+                        {% endif %}
                     </div>
                 {% else %}
                     {% if rms.image_set.count == 1 %}

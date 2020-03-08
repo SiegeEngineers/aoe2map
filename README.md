@@ -5,6 +5,10 @@ This is a Django application.
 
 ## Changelog
 
+### 20.3.0
+
+Upgraded Django to 2.2.10.
+
 ### 20.2.1
 
 Added custom default images for DE maps without image.

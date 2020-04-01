@@ -87,7 +87,7 @@ cffi==1.12.3
 chardet==3.0.4
 Click==7.0
 cryptography==2.7
-Django==2.2.10
+Django==2.2.12
 django-storages==1.7.1
 django-widget-tweaks==1.4.3
 idna==2.8
@@ -95,7 +95,7 @@ isodate==0.6.0
 msrest==0.6.9
 msrestazure==0.6.1
 oauthlib==3.1.0
-Pillow==6.2.0
+Pillow==7.1.0
 pur==5.2.1
 pycparser==2.19
 PyJWT==1.7.1

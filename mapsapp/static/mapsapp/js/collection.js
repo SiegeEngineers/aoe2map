@@ -3,11 +3,13 @@ function normalizeName(name) {
     return name.replace(/[^@A-Za-z0-9\-_ ()\[\].+]/g, "_");
 }
 
-$('#download').click(function () {
+let collectionDownloadFunction = (folderPrefix, includeMetadataFile) => function () {
     let zip = new JSZip();
     let promises = [];
     let mapUrls = $('.map-download');
     let collectionName = $('#collection-name').text();
+    let authorNames = $('#author-names').text();
+    let description = $('#description').text();
     let i = 0;
     let names = new Set();
     for (let mapUrl of mapUrls) {
@@ -25,11 +27,14 @@ $('#download').click(function () {
                 return fetch(url)
                     .then(response => response.arrayBuffer())
                     .then(buffer => {
-                        zip.file(name, buffer);
+                        zip.file(folderPrefix + name, buffer);
                     })
                     .catch(err => console.error(err));
             })()
         );
+    }
+    if (includeMetadataFile) {
+        zip.file('info.json', JSON.stringify({Author: authorNames, Description: description, Title: collectionName}));
     }
 
     $.when.apply($, promises).done(function () {
@@ -40,7 +45,11 @@ $('#download').click(function () {
     }).fail(function () {
         alert('Download failed due to technical reasons. Sorry!');
     });
-});
+};
+
+$('#download').click(collectionDownloadFunction('', false));
+$('#deModButton').click(collectionDownloadFunction('resources/_common/random-map-scripts/', true));
+$('#wkVooblyModButton').click(collectionDownloadFunction('Voobly Mods/AOC/Data Mods/WololoKingdoms/Script.Rm/', false));
 
 $('.roll-random-item').click(function () {
     $('#modal-scouting').slideDown(500);

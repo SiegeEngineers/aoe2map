@@ -33,20 +33,32 @@
 {% block pagetitle %}{{ collection.name }} – {% endblock %}
 {% block subtitle %}
     <h4 class="text-center"><span id="collection-name">{{ collection.name }}</span>
-        <small class="text-muted">by {{ collection.authors }} ({{ collection.rms.count }} maps)</small>
+        <small class="text-muted">by <span id="author-names">{{ collection.authors }}</span> ({{ collection.rms.count }} maps)</small>
     </h4>
     <hr>
     <div class="col-md-6 offset-md-3 col-12">
-        <p class="markdown-text">{{ collection.description }}</p>
-        <p class="text-center">
-            <button class="btn btn-secondary" id="download">Download Collection</button>
+        <p class="markdown-text" id="description">{{ collection.description }}</p>
+        <div class="text-center">
+            <div class="btn-group mr-3">
+                <button class="card-link btn btn-secondary"
+                        id="download">Download Collection
+                </button>
+                <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                    <button class="dropdown-item" id="deModButton">Download ZIP for DE mod</button>
+                    <button class="dropdown-item" id="wkVooblyModButton">Download ZIP for WK Voobly mod</button>
+                </div>
+            </div>
             <button class="btn btn-secondary roll-random-item" id="random_choice">Random Choice</button>
 
             {% if request.user and collection.owner == request.user %}
                 <a href="{% url 'editcollection' collection_id=collection.uuid %}"
                    class="card-link btn btn-outline-primary ml-3">Edit collection</a>
             {% endif %}
-        </p>
+        </div>
         <p class="text-muted text-center small">This collection is managed by: <span
                             class="text-monospace">{{ collection.owner.username }}</span></p>
     </div>
@@ -55,6 +67,7 @@
 {% block js %}
     {% include 'mapsapp/snippets/maps_js_block.html' %}
     <script src="{% static 'mapsapp/js/jszip.min.js' %}"></script>
+    <script src="{% static 'mapsapp/js/popper.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/FileSaver.js' %}"></script>
     <script src="{% static 'mapsapp/js/collection.js' %}"></script>

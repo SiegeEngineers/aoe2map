@@ -13,8 +13,12 @@
 
 
 {% block content %}
-    <h5>Latest additions & updates <small class="text-muted">The latest and greatest maps from the map making community</small></h5>
+    <h5>Latest additions <small class="text-muted">The latest and greatest maps from the map making community</small></h5>
     <div class="latestmaps row">
+        {% include 'mapsapp/snippets/loading_animation.html' %}
+    </div>
+    <h5>Latest updates <small class="text-muted">It only keeps getting better</small></h5>
+    <div class="latestupdatedmaps row">
         {% include 'mapsapp/snippets/loading_animation.html' %}
     </div>
     <h5>Randomly selected maps <small class="text-muted">They are called 'random maps' after all, right?</small></h5>

@@ -24,12 +24,17 @@ from .forms import NewRmsForm, SignUpForm, SettingsForm, EditRmsForm, Collection
 
 API_URL = "API_URL"
 LATEST_MAPS_URL = "LATEST_MAPS_URL"
+LATEST_UPDATED_MAPS_URL = "LATEST_UPDATED_MAPS_URL"
 
 logger = logging.getLogger(__name__)
 
 
 def index(request):
-    context = {API_URL: reverse('api:maps'), LATEST_MAPS_URL: reverse('api:latest_rms', kwargs={'amount': 3})}
+    context = {
+        API_URL: reverse('api:maps'),
+        LATEST_MAPS_URL: reverse('api:latest_rms', kwargs={'amount': 3}),
+        LATEST_UPDATED_MAPS_URL: reverse('api:latest_updated_rms', kwargs={'amount': 3})
+    }
     return render(request, 'mapsapp/index.html', context)
 
 

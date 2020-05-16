@@ -24,6 +24,11 @@ $(function () {
             addAllMaps(data, '.latestmaps');
         });
     }
+    if (LATEST_UPDATED_MAPS_URL !== '') {
+        $.getJSON(LATEST_UPDATED_MAPS_URL, function (data) {
+            addAllMaps(data, '.latestupdatedmaps');
+        });
+    }
 
     function addAllMaps(data, selector = '.maps') {
         $(selector).empty();

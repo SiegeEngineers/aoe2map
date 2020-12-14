@@ -28,7 +28,7 @@ class AbstractAoe2mapTest(TestCase):
     def create_sample_map(self, changelog='', newer_version=None, name=None, authors=None):
         rms = Rms()
         rms.owner = self.aUser
-        rms.name = "map-name-{}".format(next(self.counter)) if name is None else name
+        rms.name = f"map-name-{next(self.counter)}" if name is None else name
         rms.changelog = changelog
         rms.authors = 'rms-authors' if authors is None else authors
         rms.description = 'rms-description'
@@ -58,8 +58,8 @@ class AbstractAoe2mapTest(TestCase):
 
         for func in masking:
             output = func(output)
-        validation = "=== new file ===\n{}".format(output)
-        filename = "{}_{}.html".format(self._testMethodName, suffix)
+        validation = f"=== new file ===\n{output}"
+        filename = f"{self._testMethodName}_{suffix}.html"
         script_file_path = os.path.dirname(os.path.realpath(__file__))
         with open(os.path.join(script_file_path, "../tests/snapshots", "output", filename), "w") as f:
             print(output, file=f)
@@ -79,4 +79,4 @@ class AbstractAoe2mapTest(TestCase):
 
     @staticmethod
     def mask_uuid(rms):
-        return lambda x: x.replace(str(rms.uuid), '[{}_UUID]'.format(rms.name))
+        return lambda x: x.replace(str(rms.uuid), f'[{rms.name}_UUID]')

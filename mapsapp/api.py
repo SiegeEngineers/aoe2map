@@ -116,7 +116,7 @@ def modifycollection(request):
         if len(missing_properties) > 0:
             return JsonResponse({
                 "status": "ERROR",
-                "message": "The following mandatory properties are missing: {}".format(missing_properties),
+                "message": f"The following mandatory properties are missing: {missing_properties}",
                 "class": "danger"
             })
 
@@ -245,7 +245,7 @@ def mapsbyname(request, searchstring=None):
         rms_objects = Rms.objects.filter(newer_version=None, archived=False, name__icontains=searchstring)
     for rms_object in rms_objects:
         maps.append({
-            'name': '{name} by {authors}'.format(name=rms_object.name, authors=rms_object.authors),
+            'name': f'{rms_object.name} by {rms_object.authors}',
             'uuid': rms_object.uuid
         })
     return JsonResponse({"maps": maps})

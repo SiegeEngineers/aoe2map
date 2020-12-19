@@ -66,7 +66,7 @@ class Rms(models.Model):
         ordering = ["-updated"]
 
     def __str__(self):
-        return "{} ({})".format(self.name, self.version)
+        return f"{self.name} ({self.version})"
 
 
 class Image(models.Model):
@@ -98,7 +98,7 @@ class Image(models.Model):
         output.seek(0)
 
         # change the image field value to be the newly modifed image value
-        self.file = InMemoryUploadedFile(output, 'ImageField', "{}.png".format(os.path.splitext(self.file.name)[0]),
+        self.file = InMemoryUploadedFile(output, 'ImageField', f"{os.path.splitext(self.file.name)[0]}.png",
                                          'image/png', sys.getsizeof(output), None)
 
         if uploaded_image.width != PREVIEW_WIDTH or uploaded_image.height != PREVIEW_HEIGHT:
@@ -125,7 +125,7 @@ class Image(models.Model):
 
     def __str__(self):
         items = self.file.name.split('/')
-        return "{}".format(items[-1])
+        return f"{items[-1]}"
 
 
 @receiver(post_delete, sender=Image)
@@ -153,7 +153,7 @@ class RmsCollection(models.Model):
     order = models.IntegerField(default=0)
 
     def __str__(self):
-        return '{}-{}-{}'.format(self.collection.name, self.rms.name, self.order)
+        return f'{self.collection.name}-{self.rms.name}-{self.order}'
 
 
 class Profile(models.Model):

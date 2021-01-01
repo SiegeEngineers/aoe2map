@@ -39,6 +39,11 @@
     <div class="col-md-6 offset-md-3 col-12">
         <p class="markdown-text" id="description">{{ collection.description }}</p>
         <div class="text-center">
+            {% if collection.mod_id %}
+                <a href="https://www.ageofempires.com/mods/details/{{ collection.mod_id }}/"
+                   class="card-link btn btn-outline-secondary mr-3"
+                   target="_blank">Go to Mod</a>
+            {% endif %}
             <div class="btn-group mr-3">
                 <button class="card-link btn btn-secondary"
                         id="download">Download Collection

@@ -16,6 +16,8 @@ FORM_HELP_COLLECTION_NAME = "The name of the collection"
 FORM_HELP_COLLECTION_AUTHORS = '''The author(s) of the collection - usually the names of the map author(s) 
 or the name of this collection's curator'''
 
+FORM_HELP_COLLECTION_MOD_ID = '''The ID of the in-game mod which contains the maps in this collection (optional)'''
+
 FORM_HELP_COLLECTION_DESCRIPTION = '''Describe this collection: What kind of maps are contained, 
                                    what is the overall theme of this collection, …'''
 
@@ -26,6 +28,8 @@ FORM_HELP_VERSIONS = "The versions that this map works in"
 FORM_HELP_TAGS = 'Tag your map with up to seven suitable keywords, for example ›4v4‹, ›FFA‹, or ›Nothing‹'
 
 FORM_HELP_URL = "An (optional) url for this map"
+
+FORM_HELP_MOD_ID = "The ID of the in-game mod which contains this map (optional)"
 
 FORM_HELP_MAP_INFORMATION = '''All the information about the map. This will appear only on the single 
 map page. You can use some Markdown syntax in this field, like <b>**bold**</b>, 
@@ -92,6 +96,10 @@ class NewRmsForm(forms.Form):
                           required=False,
                           help_text=FORM_HELP_URL)
 
+    mod_id = forms.IntegerField(label='Mod ID',
+                                required=False,
+                                help_text=FORM_HELP_MOD_ID)
+
     information = forms.CharField(widget=Textarea,
                                   required=False,
                                   help_text=FORM_HELP_MAP_INFORMATION)
@@ -136,7 +144,7 @@ class EditRmsForm(ModelForm):
 
     class Meta:
         model = Rms
-        fields = ['name', 'version', 'authors', 'description', 'url', 'changelog', 'information', 'tags', 'versiontags']
+        fields = ['name', 'version', 'authors', 'description', 'url', 'mod_id', 'changelog', 'information', 'tags', 'versiontags']
         widgets = {
             'versiontags': CheckboxSelectMultiple,
             'changelog': Textarea(attrs={'rows': 3}),
@@ -149,6 +157,7 @@ class EditRmsForm(ModelForm):
             'authors': FORM_HELP_MAP_AUTHORS,
             'description': FORM_HELP_MAP_DESCRIPTION,
             'url': FORM_HELP_URL,
+            'mod_id': FORM_HELP_MOD_ID,
             'information': FORM_HELP_MAP_INFORMATION,
             'tags': FORM_HELP_TAGS,
             'versiontags': FORM_HELP_VERSIONS,
@@ -174,10 +183,11 @@ class CollectionForm(ModelForm):
 
     class Meta:
         model = Collection
-        fields = ['name', 'authors', 'description', 'rms']
+        fields = ['name', 'authors', 'mod_id', 'description', 'rms']
         help_texts = {
             'name': FORM_HELP_COLLECTION_NAME,
             'authors': FORM_HELP_COLLECTION_AUTHORS,
+            'mod_id': FORM_HELP_COLLECTION_MOD_ID,
             'description': FORM_HELP_COLLECTION_DESCRIPTION
         }
 

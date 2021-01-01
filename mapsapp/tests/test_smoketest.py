@@ -93,6 +93,7 @@ class SmokeTest(StaticLiveServerTestCase):
             'id_information': 'Map Information',
             'id_changelog': 'Changelog Information',
             'id_url': 'map_url',
+            'id_mod_id': '1337',
             'id_tags': 'map,tags',
             'id_images': os.path.join(script_file_path, 'testdata', 'relic_nothing.png')
         })
@@ -114,6 +115,7 @@ class SmokeTest(StaticLiveServerTestCase):
 
         self.browser.get(self.live_server_url + reverse('map', kwargs={'rms_id': new_map_uuid}))
         self.assertIn('Changelog Information', self.browser.page_source)
+        self.assertIn('https://www.ageofempires.com/mods/details/1337/', self.browser.page_source)
         self.assertIn('<span class="votes">0</span>', self.browser.page_source)
 
         # 0102_press_the_heart
@@ -133,6 +135,7 @@ class SmokeTest(StaticLiveServerTestCase):
         self.fill_fields({
             'id_name': 'Collection Name',
             'id_authors': 'Collection Authors',
+            'id_mod_id': '42',
             'id_description': 'Collection Description',
             'id_rms': new_map_uuid
         })
@@ -147,6 +150,7 @@ class SmokeTest(StaticLiveServerTestCase):
         # 014_open_collection_page_and_find_map
 
         self.click_page_link_text('Collection Name', 'Collection Description')
+        self.assertIn('https://www.ageofempires.com/mods/details/42/', self.browser.page_source)
         sleep(1)
         self.assertIn('Map Name', self.browser.page_source)
 

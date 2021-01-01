@@ -146,6 +146,11 @@
                             <a href="{{ rms.url }}" class="card-link btn btn-outline-secondary"
                                target="_blank">Website</a>
                         {% endif %}
+                        {% if rms.mod_id %}
+                            <a href="https://www.ageofempires.com/mods/details/{{ rms.mod_id }}/"
+                               class="card-link btn btn-outline-secondary"
+                               target="_blank">Go to Mod</a>
+                        {% endif %}
                         <button class="btn {% if self_voted %}btn-outline-primary{% else %}btn-secondary{% endif %} ml-3"
                                 id="vote-button"
                                 {% if not request.user or not request.user.is_authenticated or rms.archived %}disabled{% endif %}>

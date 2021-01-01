@@ -52,6 +52,7 @@ class Rms(models.Model):
     description = models.TextField()
     information = models.TextField(blank=True, default='')
     url = models.CharField(max_length=255, blank=True)
+    mod_id = models.IntegerField(null=True, blank=True)
     file = models.FileField(upload_to=rms_path)
     original_filename = models.CharField(max_length=255)
     tags = models.ManyToManyField(Tag)
@@ -140,6 +141,7 @@ class Collection(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     authors = models.CharField(max_length=255)
+    mod_id = models.IntegerField(null=True, blank=True)
     description = models.TextField()
     rms = models.ManyToManyField(Rms, through='RmsCollection', blank=True)
 

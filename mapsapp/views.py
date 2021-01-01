@@ -337,6 +337,7 @@ def editcollection(request, collection_id=None, rms_id=None):
             instance = form.save(commit=False)
             instance.owner = request.user
             instance.save()
+            RmsCollection.objects.filter(collection=instance).delete()
             for rms_instance in form.cleaned_data['rms']:
                 RmsCollection.objects.create(rms=rms_instance, collection=instance)
             if collection_id:

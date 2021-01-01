@@ -115,7 +115,7 @@
             <div class="col-md-6 col-12">
                 <div class="row pt-5">
                     <div class="col-12 text-center">
-                        <h4 class="card-title"><a href="{% url 'map' rms_id=rms.uuid %}">{{ rms.name }}</a>
+                        <h4 class="card-title"><a href="{% url 'map' rms_id=rms.uuid %}" id="map-name">{{ rms.name }}</a>
                             <small class="text-muted"> {{ rms.version }}</small>
                         </h4>
                         <h5 class="card-subtitle mb-2 text-muted">by {{ rms.authors }}</h5>
@@ -133,6 +133,9 @@
                             </button>
                             <div class="dropdown-menu">
                                 <button class="dropdown-item" id="viewCodeButton">View rms code</button>
+                                <button class="dropdown-item" id="deModButton">Download ZIP for DE mod</button>
+                                <button class="dropdown-item" id="wkVooblyModButton">Download ZIP for WK Voobly mod
+                                </button>
                                 <button class="dropdown-item" id="suddenDeathButton">
                                     Sudden Death version
                                 </button>
@@ -275,6 +278,7 @@
     <script src="{% static 'mapsapp/js/highlightjs-line-numbers.min.js' %}"></script>
     <script src="{% static 'mapsapp/js/view-code.js' %}"></script>
     <script src="{% static 'mapsapp/js/custom-versions.js' %}"></script>
+    <script src="{% static 'mapsapp/js/collection.js' %}"></script>
     <script type="text/javascript">
         const COLLECTION_ENDPOINT = "{% url 'api:modifycollection' %}";
         const ADD_VOTE_URL = "{% url 'api:add_vote' rms_id=rms.uuid %}";

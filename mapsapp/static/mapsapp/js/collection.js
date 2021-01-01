@@ -7,7 +7,7 @@ let collectionDownloadFunction = (folderPrefix, includeMetadataFile) => function
     let zip = new JSZip();
     let promises = [];
     let mapUrls = $('.map-download');
-    let collectionName = $('#collection-name').text();
+    let collectionName = $('#collection-name').text() || $('#map-name').text();
     let authorNames = $('#author-names').text();
     let description = $('#description').text();
     let i = 0;

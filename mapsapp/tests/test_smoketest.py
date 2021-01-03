@@ -177,6 +177,7 @@ class SmokeTest(StaticLiveServerTestCase):
         self.click_page_link('a-goto-created-map', 'Map Name')
         self.assertIn('Changelog Information: New Version', self.browser.page_source)
         self.assertIn('relic_nothing.png', self.browser.page_source)
+        self.assertIn('https://www.ageofempires.com/mods/details/1337/', self.browser.page_source)
 
         # 099_logout
 

@@ -249,7 +249,7 @@ def newmap(request, rms_id=None, created_rms_id=None):
         context['old_rms'] = old_rms
         if old_rms.newer_version:
             raise Http404
-        for key in ('name', 'authors', 'description', 'url', 'information'):
+        for key in ('name', 'authors', 'description', 'url', 'mod_id', 'information'):
             initial[key] = getattr(old_rms, key)
         initial['images_to_copy'] = [(img.file, img) for img in Image.objects.filter(rms=old_rms)]
         initial['tags'] = get_tagstring(old_rms.tags.all())

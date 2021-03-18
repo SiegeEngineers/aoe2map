@@ -30,7 +30,7 @@ msrestazure==0.6.4
 oauthlib==3.1.0
 packaging==20.3
 pep517==0.8.2
-Pillow==8.0.1
+Pillow==8.1.1
 progress==1.5
 pur==5.3.0
 pycparser==2.20

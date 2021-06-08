@@ -111,3 +111,4 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 CSRF_TRUSTED_ORIGINS = ['aoe2map.uber.space', 'aoe2map.net', 'localhost']
 X_FRAME_OPTIONS = 'DENY'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

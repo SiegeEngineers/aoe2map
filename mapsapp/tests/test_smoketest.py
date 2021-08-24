@@ -57,7 +57,8 @@ class SmokeTest(StaticLiveServerTestCase):
         self.fill_fields({
             'id_username': "hscmi",
             'id_password1': "password",
-            'id_password2': "password"
+            'id_password2': "password",
+            'id_daut': "DauT"
         })
 
         self.click_to_login('register')

@@ -200,14 +200,24 @@ class CollectionForm(ModelForm):
         return Rms.objects.filter(uuid__in=uuids)
 
 
+def validate_daut(value):
+    if value != 'DauT':
+        raise ValidationError("DauT is the name of our Lord and Saviour")
+
+
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254,
                              help_text='A valid email address.',
                              required=False)
 
+    daut = forms.CharField(max_length=254,
+                           label='What is the name of our Lord and Saviour?',
+                           required=True,
+                           validators=[validate_daut])
+
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2',)
+        fields = ('username', 'email', 'password1', 'password2', 'daut',)
 
 
 class SettingsForm(forms.Form):

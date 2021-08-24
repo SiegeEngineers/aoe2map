@@ -1,7 +1,7 @@
-$(function () {
+function initViewCode() {
     hljs.registerLanguage('rmslanguage', rmslanguage);
-    $('#viewCodeButton').click(function () {
-        let url = $('#downloadButton').attr('href');
+    $('.viewCodeButton').unbind().click(function (event) {
+        let url = $(event.target).closest('.btn-group').find('.map-download').attr('href');
         $.ajax({
             url: url,
             beforeSend: function (xhr) {
@@ -17,7 +17,8 @@ $(function () {
             alert("Oops! Could not download rms script.");
         });
     });
-});
+}
+$(function (){initViewCode()});
 
 function showRmsCode(content) {
     let codearea = document.querySelector('#codearea');

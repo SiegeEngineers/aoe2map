@@ -1,6 +1,8 @@
-$(function () {
-    $('#256xTechButton').click(function () {
-        let url = $('#downloadButton').attr('href');
+$(function () {initCustomVersions();});
+function initCustomVersions() {
+    $('.x256TechButton').unbind().click(function (event) {
+        let url = $(event.target).closest('.btn-group').find('.map-download').attr('href');
+        let mapName = $(event.target).closest('.map-info').find('.card-title a').text();
         let filename = getFilename(url);
         $.ajax({
             url: url,
@@ -11,17 +13,18 @@ $(function () {
             if (data.startsWith('PK\x03\x04')) {
                 const items = filename.split('@', 2);
                 filename = items.length === 2 ? 'ZR@256x_' + items[1] : 'ZR@256x_' + items[0];
-                downloadPatchedZipFile(data, filename, patchWith256xTech);
+                downloadPatchedZipFile(data, filename, mapName, patchWith256xTech);
             } else {
-                downloadPatchedRmsFile(data, '256x_' + filename, patchWith256xTech);
+                downloadPatchedRmsFile(data, '256x_' + filename, mapName, patchWith256xTech);
             }
         }).fail(function () {
             alert("Oops! Could not download rms script.");
         });
     });
 
-    $('#explodingVillagersButton').click(function () {
-        let url = $('#downloadButton').attr('href');
+    $('.explodingVillagersButton').unbind().click(function (event) {
+        let url = $(event.target).closest('.btn-group').find('.map-download').attr('href');
+        let mapName = $(event.target).closest('.map-info').find('.card-title a').text();
         let filename = getFilename(url);
         $.ajax({
             url: url,
@@ -32,17 +35,18 @@ $(function () {
             if (data.startsWith('PK\x03\x04')) {
                 const items = filename.split('@', 2);
                 filename = items.length === 2 ? 'ZR@EV_' + items[1] : 'ZR@EV_' + items[0];
-                downloadPatchedZipFile(data, filename, patchWithExplodingVillagers);
+                downloadPatchedZipFile(data, filename, mapName, patchWithExplodingVillagers);
             } else {
-                downloadPatchedRmsFile(data, 'EV_' + filename, patchWithExplodingVillagers);
+                downloadPatchedRmsFile(data, 'EV_' + filename, mapName, patchWithExplodingVillagers);
             }
         }).fail(function () {
             alert("Oops! Could not download rms script.");
         });
     });
 
-    $('#suddenDeathButton').click(function () {
-        let url = $('#downloadButton').attr('href');
+    $('.suddenDeathButton').unbind().click(function (event) {
+        let url = $(event.target).closest('.btn-group').find('.map-download').attr('href');
+        let mapName = $(event.target).closest('.map-info').find('.card-title a').text();
         let filename = getFilename(url);
         $.ajax({
             url: url,
@@ -53,22 +57,22 @@ $(function () {
             if (data.startsWith('PK\x03\x04')) {
                 const items = filename.split('@', 2);
                 filename = items.length === 2 ? 'ZR@SD_' + items[1] : 'ZR@SD_' + items[0];
-                downloadPatchedZipFile(data, filename, patchWithSuddenDeath);
+                downloadPatchedZipFile(data, filename, mapName, patchWithSuddenDeath);
             } else {
-                downloadPatchedRmsFile(data, 'SD_' + filename, patchWithSuddenDeath);
+                downloadPatchedRmsFile(data, 'SD_' + filename, mapName, patchWithSuddenDeath);
             }
         }).fail(function () {
             alert("Oops! Could not download rms script.");
         });
     });
-});
+}
 
 function getFilename(url) {
     const items = url.split('/');
     return decodeURI(items[items.length - 1]).replace('%40', '@');
 }
 
-function patchWith256xTech(content) {
+function patchWith256xTech(content, mapName) {
     content = content.replace(/<PLAYER_SETUP>/g, `/* 256x tech patch part 1 of 2 start */
 #const GAAB_101_MIDDLE_AGE 101
 #const GAAB_102_FEUDAL_AGE 102
@@ -377,12 +381,12 @@ effect_amount MODIFY_TECH GAAB_90_TRACKING ATTR_SET_STACKING 1
 effect_amount MODIFY_TECH GAAB_93_BALLISTICS ATTR_SET_STACKING 1
 effect_amount MODIFY_TECH GAAB_9_SARACEN_ZEALOTRY ATTR_SET_STACKING 1
 /* 256x tech patch part 2 of 2 end */\n`);
-    content = '/* 256x tech ' + $('.card-title a').text() + ' */\n' +
+    content = '/* 256x tech ' + mapName + ' */\n' +
         '/* auto-generated on aoe2map.net */\n\n' + content;
     return content;
 }
 
-function patchWithSuddenDeath(content) {
+function patchWithSuddenDeath(content, mapName) {
     if (content.includes('guard_state')) {
         alert('This map already contains a guard_state command.\nSorry, we can\'t patch it automatically.');
         return null;
@@ -397,12 +401,12 @@ function patchWithSuddenDeath(content) {
 guard_state TOWN_CENTER AMOUNT_GOLD 0 1
 effect_amount ENABLE_TECH RI_TOWN_CENTER ATTR_DISABLE 187
 /* Sudden Death patch part 2 of 2 end */\n`);
-    content = '/* Sudden Death ' + $('.card-title a').text() + ' */\n' +
+    content = '/* Sudden Death ' + mapName + ' */\n' +
         '/* auto-generated on aoe2map.net */\n\n' + content;
     return content;
 }
 
-function patchWithExplodingVillagers(content) {
+function patchWithExplodingVillagers(content, mapName) {
     content = content.replace(/<PLAYER_SETUP>/g, `<PLAYER_SETUP>
 /* Exploding villagers patch start */
 effect_amount SET_ATTRIBUTE VILLAGER_CLASS ATTR_DEAD_ID 706
@@ -413,13 +417,17 @@ effect_amount SET_ATTRIBUTE SABOTEUR ATTR_ATTACK 512
 effect_amount SET_ATTRIBUTE SABOTEUR ATTR_MAX_RANGE 2
 effect_amount SET_ATTRIBUTE SABOTEUR ATTR_BLAST_LEVEL 1
 /* Exploding villagers patch end */\n`);
-    content = '/* Exploding Villagers ' + $('.card-title a').text() + ' */\n' +
+    content = '/* Exploding Villagers ' + mapName + ' */\n' +
         '/* auto-generated on aoe2map.net */\n\n' + content;
     return content;
 }
 
-function downloadPatchedRmsFile(content, filename, patch) {
-    content = patch(content);
+function getMapName(){
+    return $('.card-title a').text();
+}
+
+function downloadPatchedRmsFile(content, filename, mapName, patch) {
+    content = patch(content, mapName);
     if (content === null) {
         return;
     }
@@ -427,14 +435,14 @@ function downloadPatchedRmsFile(content, filename, patch) {
     saveAs(blob, filename);
 }
 
-function downloadPatchedZipFile(data, zipFilename, patch) {
+function downloadPatchedZipFile(data, zipFilename, mapName, patch) {
     JSZip.loadAsync(data).then(function (d) {
         for (let filename in d.files) {
             if (d.files.hasOwnProperty(filename)) {
                 if (filename.endsWith('.rms')) {
                     let currentRmsFileName = filename;
                     d.file(filename).async('text').then(function (content) {
-                        content = patch(content);
+                        content = patch(content, mapName);
                         if (content === null) {
                             return;
                         }

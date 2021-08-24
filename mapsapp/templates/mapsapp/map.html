@@ -2,10 +2,6 @@
 {% load static %}
 {% load startswith %}
 
-{% block additionalcss %}
-    <link rel="stylesheet" href="{% static 'mapsapp/css/railscasts.css' %}">
-{% endblock %}
-
 {% block additionalheader %}
     <!-- Facebook Open Graph -->
     <meta property="og:locale" content="en_GB"/>
@@ -112,7 +108,7 @@
                     {% endif %}
                 {% endif %}
             </div>
-            <div class="col-md-6 col-12">
+            <div class="col-md-6 col-12 map-info">
                 <div class="row pt-5">
                     <div class="col-12 text-center">
                         <h4 class="card-title"><a href="{% url 'map' rms_id=rms.uuid %}" id="map-name">{{ rms.name }}</a>
@@ -132,17 +128,17 @@
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <div class="dropdown-menu">
-                                <button class="dropdown-item" id="viewCodeButton">View rms code</button>
-                                <button class="dropdown-item" id="deModButton">Download ZIP for DE mod</button>
-                                <button class="dropdown-item" id="wkVooblyModButton">Download ZIP for WK Voobly mod
+                                <button class="dropdown-item viewCodeButton">View rms code</button>
+                                <button class="dropdown-item deModButton">Download ZIP for DE mod</button>
+                                <button class="dropdown-item wkVooblyModButton">Download ZIP for WK Voobly mod
                                 </button>
-                                <button class="dropdown-item" id="256xTechButton">
+                                <button class="dropdown-item x256TechButton">
                                     256x tech version (DE)
                                 </button>
-                                <button class="dropdown-item" id="suddenDeathButton">
+                                <button class="dropdown-item suddenDeathButton">
                                     Sudden Death version (UP)
                                 </button>
-                                <button class="dropdown-item" id="explodingVillagersButton">
+                                <button class="dropdown-item explodingVillagersButton">
                                     Exploding Villagers version (UP)
                                 </button>
                             </div>

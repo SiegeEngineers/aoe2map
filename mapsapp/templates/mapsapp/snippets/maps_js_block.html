@@ -1,8 +1,27 @@
 {% load static %}
+<div class="modal fade bd-example-modal-xl" id="showCodeModal" tabindex="-1" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <pre><code id="codearea"></code></pre>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     const API_URL = "{{API_URL}}";
     const LATEST_MAPS_URL = "{{LATEST_MAPS_URL}}";
     const LATEST_UPDATED_MAPS_URL = "{{LATEST_UPDATED_MAPS_URL}}";
 </script>
 <script src="{% static 'mapsapp/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'mapsapp/js/popper.min.js' %}"></script>
+<script src="{% static 'mapsapp/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'mapsapp/js/jszip.min.js' %}"></script>
+<script src="{% static 'mapsapp/js/FileSaver.js' %}"></script>
+<script src="{% static 'mapsapp/js/highlight.js' %}"></script>
+<script src="{% static 'mapsapp/js/highlight.js-rms.js' %}"></script>
+<script src="{% static 'mapsapp/js/highlightjs-line-numbers.min.js' %}"></script>
+<script src="{% static 'mapsapp/js/view-code.js' %}"></script>
+<script src="{% static 'mapsapp/js/custom-versions.js' %}"></script>
 <script src="{% static 'mapsapp/js/aoe2map.js' %}"></script>

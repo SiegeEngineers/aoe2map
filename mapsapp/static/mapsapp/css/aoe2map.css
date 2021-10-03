@@ -137,3 +137,8 @@ ul.mapslist li:before {
 .btn-secondary:hover .heart {
     color: #fc0;
 }
+
+#nav-link-donate {
+    font-weight: bold;
+    line-height: 20pt;
+}

@@ -54,6 +54,9 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'info' %}" id="nav-link-info">Info</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="https://siegeengineers.org/donate/?from=aoe2map" id="nav-link-donate">Donate</a>
+        </li>
         {% if not request.user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'login' %}" id="nav-link-login">Login</a>

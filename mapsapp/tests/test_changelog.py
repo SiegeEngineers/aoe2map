@@ -1,6 +1,6 @@
 from django.test import Client
 from django.urls import reverse
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_str
 
 from mapsapp.tests.aoe2maptest import AbstractAoe2mapTest
 
@@ -55,6 +55,6 @@ class ChangelogTest(AbstractAoe2mapTest):
         c = Client()
         response = c.get(reverse('map', kwargs={'rms_id': rms3.uuid}))
         self.assertEquals(rms3.newer_version, rms2)
-        self.assertIn('A newer version of this map is available!', smart_text(response.content))
+        self.assertIn('A newer version of this map is available!', smart_str(response.content))
         self.assertIn(f'<a href="/map/{rms1.uuid}" class="alert-link">Check it out!</a>',
-                      smart_text(response.content))
+                      smart_str(response.content))

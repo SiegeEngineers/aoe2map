@@ -2,8 +2,6 @@ import logging
 import os
 
 from django.conf import settings as djangosettings
-
-from aoe2map import imagestorage
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
@@ -14,9 +12,10 @@ from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
+from aoe2map import imagestorage
 from mapsapp.helpers import count_voters, has_self_voted
 from mapsapp.models import Rms, Image, Collection, Tag, VersionTag, SiteSettings, RmsCollection
 from mapsapp.tokens import email_verification_token
@@ -183,7 +182,7 @@ class PasswordResetViewWithCustomDomain(PasswordResetView):
 
 def verify_email(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None

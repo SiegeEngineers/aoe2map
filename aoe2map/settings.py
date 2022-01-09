@@ -109,6 +109,6 @@ LOGIN_URL = '/login'
 FILE_UPLOAD_PERMISSIONS = 0o644
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-CSRF_TRUSTED_ORIGINS = ['aoe2map.uber.space', 'aoe2map.net', 'localhost']
+CSRF_TRUSTED_ORIGINS = ['https://aoe2map.uber.space', 'https://aoe2map.net', 'http://localhost']
 X_FRAME_OPTIONS = 'DENY'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

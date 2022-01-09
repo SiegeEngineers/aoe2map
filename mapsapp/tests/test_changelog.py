@@ -53,8 +53,8 @@ class ChangelogTest(AbstractAoe2mapTest):
         self.assertIn('map-name', rms3.name)
 
         c = Client()
-        response = c.get(reverse('map', kwargs={'rms_id': rms3.uuid}))
+        response = c.get(reverse('map', kwargs={'rms_id': rms3.id, 'slug': rms3.slug}))
         self.assertEquals(rms3.newer_version, rms2)
         self.assertIn('A newer version of this map is available!', smart_str(response.content))
-        self.assertIn(f'<a href="/map/{rms1.uuid}" class="alert-link">Check it out!</a>',
+        self.assertIn(f'<a href="/map/{rms1.id}/map-name-0" class="alert-link">Check it out!</a>',
                       smart_str(response.content))

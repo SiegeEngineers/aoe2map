@@ -114,7 +114,7 @@ class SmokeTest(StaticLiveServerTestCase):
 
         # 0101_open_map_page_and_find_changelog
 
-        self.browser.get(self.live_server_url + reverse('map', kwargs={'rms_id': new_map_uuid}))
+        self.browser.get(self.live_server_url + reverse('map_uuid', kwargs={'rms_id': new_map_uuid}))
         self.assertIn('Changelog Information', self.browser.page_source)
         self.assertIn('https://www.ageofempires.com/mods/details/1337/', self.browser.page_source)
         self.assertIn('<span class="votes">0</span>', self.browser.page_source)

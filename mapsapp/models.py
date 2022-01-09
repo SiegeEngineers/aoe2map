@@ -10,6 +10,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.utils.text import slugify
 
 from aoe2map import settings
 from aoe2map import imagestorage
@@ -44,6 +45,7 @@ class Tag(models.Model):
 
 class Rms(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.CharField(max_length=255, unique=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     version = models.CharField(max_length=255, blank=True)
@@ -68,6 +70,24 @@ class Rms(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.version})"
+
+    @property
+    def slug(self):
+        return slugify(self.name)
+
+    def calculate_id(self):
+        uuid_str = str(self.uuid)
+        for strlen in range(6, len(uuid_str)-1):
+            candidate = uuid_str[:strlen]
+            if not Rms.objects.filter(id=candidate):
+                return candidate
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.id = self.uuid
+            super(Rms, self).save(*args, **kwargs)
+            self.id = self.calculate_id()
+        super(Rms, self).save(*args, **kwargs)
 
 
 class Image(models.Model):

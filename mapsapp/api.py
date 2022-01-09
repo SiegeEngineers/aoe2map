@@ -181,15 +181,16 @@ def maps2json(maps):
         newer_version = None
         latest_version = None
         if o.newer_version:
-            newer_version = reverse('map', kwargs={'rms_id': o.newer_version.uuid})
-            latest_version = reverse('map', kwargs={'rms_id': get_latest_version(o.newer_version).uuid})
+            newer_version = reverse('map', kwargs={'rms_id': o.newer_version.id, 'slug': o.newer_version.slug})
+            latest_version_rms = get_latest_version(o.newer_version)
+            latest_version = reverse('map', kwargs={'rms_id': latest_version_rms.uuid, 'slug': latest_version_rms.slug})
         objects.append({
             "uuid": o.uuid,
             "name": escape(o.name),
             "version": escape(o.version),
             "authors": escape(o.authors),
             "description": escape(o.description),
-            "pageurl": reverse('map', kwargs={'rms_id': o.uuid}),
+            "pageurl": reverse('map', kwargs={'rms_id': o.id, 'slug': o.slug}),
             "newer_version": newer_version,
             "latest_version": latest_version,
             "url": escape(o.url),

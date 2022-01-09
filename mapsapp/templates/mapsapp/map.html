@@ -111,7 +111,7 @@
             <div class="col-md-6 col-12 map-info">
                 <div class="row pt-5">
                     <div class="col-12 text-center">
-                        <h4 class="card-title"><a href="{% url 'map' rms_id=rms.uuid %}" id="map-name">{{ rms.name }}</a>
+                        <h4 class="card-title"><a href="{% url 'map' rms_id=rms.id slug=rms.slug %}" id="map-name">{{ rms.name }}</a>
                             <small class="text-muted"> {{ rms.version }}</small>
                         </h4>
                         <h5 class="card-subtitle mb-2 text-muted">by {{ rms.authors }}</h5>

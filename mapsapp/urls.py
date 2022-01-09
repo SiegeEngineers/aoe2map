@@ -1,14 +1,28 @@
 from django.contrib.auth import views as auth_views
-from django.urls import path, re_path
+from django.urls import path, re_path, register_converter
 
 from mapsapp.views import PasswordResetViewWithCustomDomain
 from . import views
+
+
+class UUIDSubstringConverter:
+    regex = '[-0-9a-f]{1,35}'
+
+    def to_python(self, value):
+        return value
+
+    def to_url(self, value):
+        return value
+
+
+register_converter(UUIDSubstringConverter, 'subuuid')
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('info', views.info, name='info'),
     path('maps', views.maps, name='maps'),
-    path('map/<uuid:rms_id>', views.rms, name='map'),
+    path('map/<subuuid:rms_id>/<slug:slug>', views.rms, name='map'),
+    path('map/<uuid:rms_id>', views.rms_redirect, name='map_uuid'),
     path('map/<uuid:rms_id>/archive', views.rms_archive, name='map_archive'),
     path('map/s/<name>', views.map_search, name='map_search'),
     path('map/s/', views.map_search, name='map_search_post'),

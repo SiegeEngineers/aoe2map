@@ -69,15 +69,19 @@ class ApiTest(AbstractAoe2mapTest):
         first = self.create_sample_map()
         first.created = datetime.datetime(2018, 12, 1, 1, 1, 1, tzinfo=pytz.utc)
         masking.append(self.mask_uuid(first))
+        masking.append(self.mask_id(first))
         second = self.create_sample_map()
         second.created = datetime.datetime(2018, 12, 2, 1, 1, 1, tzinfo=pytz.utc)
         masking.append(self.mask_uuid(second))
+        masking.append(self.mask_id(second))
         third = self.create_sample_map()
         third.created = datetime.datetime(2018, 12, 3, 1, 1, 1, tzinfo=pytz.utc)
         masking.append(self.mask_uuid(third))
+        masking.append(self.mask_id(third))
         third_predecessor = self.create_sample_map(newer_version=third)
         third_predecessor.created = datetime.datetime(2018, 12, 2, 2, 1, 1, tzinfo=pytz.utc)
         masking.append(self.mask_uuid(third_predecessor))
+        masking.append(self.mask_id(third_predecessor))
         return masking
 
 

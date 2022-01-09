@@ -15,7 +15,7 @@
             <ul class="maplist">
                 {% for rms in rmss %}
                     <li>
-                        <a href="{% url 'map' rms_id=rms.uuid %}">{{ rms.name }}
+                        <a href="{% url 'map' rms_id=rms.id slug=rms.slug %}">{{ rms.name }}
                             <small>{% if rms.version %}{{ rms.version }} {% endif %}(by {{ rms.authors }})</small>
                         </a>
                         <div class="dropdown" style="display: inline;">

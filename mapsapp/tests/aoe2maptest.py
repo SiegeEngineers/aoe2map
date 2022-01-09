@@ -41,11 +41,11 @@ class AbstractAoe2mapTest(TestCase):
         return rms
 
     def assert_map_has_changelog(self, rms):
-        response = self.client.get(reverse('map', kwargs={'rms_id': rms.uuid}))
+        response = self.client.get(reverse('map', kwargs={'rms_id': rms.id, 'slug': rms.slug}))
         self.assertIn(b'Changelog', response.content)
 
     def assert_map_does_not_have_changelog(self, rms):
-        response = self.client.get(reverse('map', kwargs={'rms_id': rms.uuid}))
+        response = self.client.get(reverse('map', kwargs={'rms_id': rms.id, 'slug': rms.slug}))
         self.assertNotIn(b'Changelog', response.content)
 
     def compareJsonWithValidationFile(self, output, suffix="", masking=None):
@@ -80,3 +80,7 @@ class AbstractAoe2mapTest(TestCase):
     @staticmethod
     def mask_uuid(rms):
         return lambda x: x.replace(str(rms.uuid), f'[{rms.name}_UUID]')
+
+    @staticmethod
+    def mask_id(rms):
+        return lambda x: x.replace(str(rms.id), f'[{rms.name}_ID]')

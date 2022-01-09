@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-8">
             <h6>
-                <a class="text-black" href="{% url 'map' rms_id=rms.uuid %}">
+                <a class="text-black" href="{% url 'map' rms_id=rms.id slug=rms.slug %}">
                     <small class="text-muted">{{ rms.name }}</small>
                     {{ rms.version }}
                 </a>

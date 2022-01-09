@@ -40,7 +40,7 @@
                 "{{ rms.name }}"?</p>
 
             <button class="btn btn-danger" name="confirm_archive">Remove/Archive</button>
-            <a href="{% url 'map' rms_id=rms.uuid %}" class="btn btn-primary">Cancel</a>
+            <a href="{% url 'map' rms_id=rms.id slug=rms.slug %}" class="btn btn-primary">Cancel</a>
         </form>
     </div>
 {% endblock %}

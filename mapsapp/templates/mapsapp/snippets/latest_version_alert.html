@@ -3,6 +3,6 @@
 {% else %}
     <div class="alert alert-info" role="alert">
         A newer version of this map is available!
-        <a href="{% url 'map' rms_id=rms.uuid %}" class="alert-link">Check it out!</a>
+        <a href="{% url 'map' rms_id=rms.id slug=rms.slug %}" class="alert-link">Check it out!</a>
     </div>
 {% endif %}

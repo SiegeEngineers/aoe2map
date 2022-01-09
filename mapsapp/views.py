@@ -42,8 +42,13 @@ def maps(request):
     return render(request, 'mapsapp/maps.html', context)
 
 
-def rms(request, rms_id):
-    rms_instance = get_object_or_404(Rms, pk=rms_id)
+def rms_redirect(request, rms_id):
+    rms_object = Rms.objects.get(uuid=rms_id)
+    return redirect('map', rms_id=rms_object.id, slug=rms_object.slug)
+
+
+def rms(request, rms_id, slug):
+    rms_instance = get_object_or_404(Rms, id=rms_id)
     collections_for_user = []
     self_voted = False
     if request.user.is_authenticated:
@@ -51,10 +56,10 @@ def rms(request, rms_id):
         self_voted = has_self_voted(rms_instance, request.user.id)
     de_map = rms_instance.versiontags.filter(name="DE")
     context = {
-        API_URL: reverse('api:rms', kwargs={'rms_id': rms_id}),
+        API_URL: reverse('api:rms', kwargs={'rms_id': rms_instance.uuid}),
         "rms": rms_instance,
         "top_url": djangosettings.DJANGO_TOP_URL,
-        "page_url": reverse('map', kwargs={'rms_id': rms_id}),
+        "page_url": reverse('map', kwargs={'rms_id': rms_instance.id, 'slug': rms_instance.slug}),
         "collections": collections_for_user,
         "votes": count_voters(rms_instance),
         "self_voted": self_voted,
@@ -257,7 +262,7 @@ def newmap(request, rms_id=None, created_rms_id=None):
                                     'text': '''Your Map has been created! Click 
                                     <a href="{}" id="a-goto-created-map">here</a> to view it, or 
                                     <a href="{}" id="a-goto-edit-created-map">here</a> to edit it further.'''.format(
-                                        reverse('map', kwargs={'rms_id': created_rms_id}),
+                                        reverse('map_uuid', kwargs={'rms_id': created_rms_id}),
                                         reverse('editmap', kwargs={'rms_id': created_rms_id})
                                     )})
     if request.method == 'POST':
@@ -450,7 +455,7 @@ def editmap(request, rms_id):
                 'class': 'success',
                 'text': '''Your Map was updated! Click <a href="{}">here</a> to view it, or continue editing it 
                 right here on this page.'''.format(
-                    reverse('map', kwargs={'rms_id': rms.uuid})
+                    reverse('map_uuid', kwargs={'rms_id': rms.uuid})
                 )})
         else:
             context['messages'].append({'class': 'danger', 'text': 'That did not work…'})

@@ -94,10 +94,15 @@ def collections(request):
     return render(request, 'mapsapp/collections.html', context)
 
 
-def collection(request, collection_id):
-    c = get_object_or_404(Collection, pk=collection_id)
+def collection_redirect(request, collection_id):
+    collection_object = Collection.objects.get(uuid=collection_id)
+    return redirect('collection', collection_id=collection_object.id, slug=collection_object.slug)
+
+
+def collection(request, collection_id, slug):
+    c = get_object_or_404(Collection, id=collection_id)
     context = {
-        API_URL: reverse('api:collection', kwargs={'collection_id': collection_id}),
+        API_URL: reverse('api:collection', kwargs={'collection_id': c.uuid}),
         "collection": c}
     return render(request, 'mapsapp/collection.html', context)
 

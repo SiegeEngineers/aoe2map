@@ -158,6 +158,7 @@ def submission_delete(sender, instance, **kwargs):
 
 class Collection(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.CharField(max_length=255, unique=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     authors = models.CharField(max_length=255)
@@ -167,6 +168,24 @@ class Collection(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def slug(self):
+        return slugify(self.name)
+
+    def calculate_id(self):
+        uuid_str = str(self.uuid)
+        for strlen in range(6, len(uuid_str)-1):
+            candidate = uuid_str[:strlen]
+            if not Collection.objects.filter(id=candidate):
+                return candidate
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.id = self.uuid
+            super(Collection, self).save(*args, **kwargs)
+            self.id = self.calculate_id()
+        super(Collection, self).save(*args, **kwargs)
 
 
 class RmsCollection(models.Model):

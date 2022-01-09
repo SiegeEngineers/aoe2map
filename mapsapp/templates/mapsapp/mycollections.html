@@ -15,7 +15,7 @@
 
             <ul class="mapslist">
                 {% for collection in collections %}
-                    <li><a href="{% url 'collection' collection_id=collection.uuid %}">{{ collection.name }}
+                    <li><a href="{% url 'collection' collection_id=collection.id slug=collection.slug %}">{{ collection.name }}
                         <small>(by {{ collection.authors }})</small>
                     </a> – <a href="{% url 'editcollection' collection_id=collection.uuid %}">edit</a></li>
                 {% endfor %}

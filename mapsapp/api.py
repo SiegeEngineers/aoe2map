@@ -146,7 +146,7 @@ def modifycollection(request):
                 """The map <i>{mapname}</i> has been added
                 to your collection <a href='{collectionurl}'>{collectionname}</a>.""",
                 mapname=rms_instance.name, collectionname=collection_instance.name,
-                collectionurl=reverse('collection', kwargs={"collection_id": collection_instance.uuid})),
+                collectionurl=reverse('collection_uuid', kwargs={"collection_id": collection_instance.uuid})),
             "class": "success"
         })
 

@@ -361,7 +361,7 @@ def editcollection(request, collection_id=None, rms_id=None):
                     'text': '''Collection {} successfully –  
                                <a class="alert-link" href="{}">Show collection</a>'''
                         .format(verb,
-                                reverse('collection', kwargs={'collection_id': instance.uuid}),
+                                reverse('collection_uuid', kwargs={'collection_id': instance.uuid}),
                                 reverse('editcollection', kwargs={'collection_id': instance.uuid}))
                 })
 
@@ -373,7 +373,7 @@ def editcollection(request, collection_id=None, rms_id=None):
                                <a class="alert-link" href="{}">Show collection</a> 
                                – <a class="alert-link" href="{}">Edit collection</a>'''
                         .format(verb,
-                                reverse('collection', kwargs={'collection_id': instance.uuid}),
+                                reverse('collection_uuid', kwargs={'collection_id': instance.uuid}),
                                 reverse('editcollection', kwargs={'collection_id': instance.uuid}))
                 })
         else:

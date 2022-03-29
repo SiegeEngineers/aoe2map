@@ -148,6 +148,7 @@ def registerpage(request):
     return render(request, 'mapsapp/register.html', context=context)
 
 
+@login_required
 def settings(request):
     context = {'messages': []}
     if request.method == 'POST':

@@ -17,7 +17,7 @@ contextlib2==21.6.0
 cryptography==36.0.1
 distlib==0.3.4
 distro==1.6.0
-Django==4.0.4
+Django==4.0.6
 django-storages==1.12.3
 django-widget-tweaks==1.4.12
 html5lib==1.1

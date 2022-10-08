@@ -117,7 +117,7 @@ class SmokeTest(StaticLiveServerTestCase):
 
         self.browser.get(self.live_server_url + reverse('map_uuid', kwargs={'rms_id': new_map_uuid}))
         self.assertIn('Changelog Information', self.browser.page_source)
-        self.assertIn('https://mods.aoe2map.net/1337', self.browser.page_source)
+        self.assertIn('https://mods.aoe2.se/1337', self.browser.page_source)
         self.assertIn('<span class="votes">0</span>', self.browser.page_source)
 
         # 0102_press_the_heart
@@ -152,7 +152,7 @@ class SmokeTest(StaticLiveServerTestCase):
         # 014_open_collection_page_and_find_map
 
         self.click_page_link_text('Collection Name', 'Collection Description')
-        self.assertIn('https://mods.aoe2map.net/42', self.browser.page_source)
+        self.assertIn('https://mods.aoe2.se/42', self.browser.page_source)
         sleep(1)
         self.assertIn('Map Name', self.browser.page_source)
 
@@ -179,7 +179,7 @@ class SmokeTest(StaticLiveServerTestCase):
         self.click_page_link('a-goto-created-map', 'Map Name')
         self.assertIn('Changelog Information: New Version', self.browser.page_source)
         self.assertIn('relic_nothing.png', self.browser.page_source)
-        self.assertIn('https://mods.aoe2map.net/1337', self.browser.page_source)
+        self.assertIn('https://mods.aoe2.se/1337', self.browser.page_source)
 
         # 099_logout
 

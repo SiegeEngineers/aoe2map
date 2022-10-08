@@ -7,6 +7,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.test import override_settings
 from django.urls import reverse, re_path
 from django.views.static import serve
+from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.webdriver import WebDriver
 
@@ -182,14 +183,14 @@ class SmokeTest(StaticLiveServerTestCase):
 
         # 099_logout
 
-        logout = self.browser.find_element_by_id('user-nav-logout')
+        logout = self.browser.find_element(By.ID, 'user-nav-logout')
 
         logout.click()
 
         self.assertLoggedOut()
 
     def get_new_map_uuid(self):
-        href = self.browser.find_element_by_id('a-goto-created-map').get_attribute('href')
+        href = self.browser.find_element(By.ID, 'a-goto-created-map').get_attribute('href')
         return href.split('/')[-1]
 
     def open_index_page(self):
@@ -205,7 +206,7 @@ class SmokeTest(StaticLiveServerTestCase):
         self.assertLoggedIn()
 
     def click(self, element_id):
-        button = self.browser.find_element_by_id(element_id)
+        button = self.browser.find_element(By.ID, element_id)
         button.click()
 
     def fill_fields(self, content):
@@ -213,17 +214,17 @@ class SmokeTest(StaticLiveServerTestCase):
             self.fill_field(key, value)
 
     def fill_field(self, element_id, content):
-        field = self.browser.find_element_by_id(element_id)
+        field = self.browser.find_element(By.ID, element_id)
         field.send_keys(content)
 
     def click_page_link(self, element_id, content):
-        link = self.browser.find_element_by_id(element_id)
+        link = self.browser.find_element(By.ID, element_id)
         self.scroll_to(link)
         link.click()
         self.assertIn(content, self.browser.page_source)
 
     def click_page_link_text(self, link_text, content):
-        link = self.browser.find_element_by_partial_link_text(link_text)
+        link = self.browser.find_element(By.PARTIAL_LINK_TEXT, link_text)
         self.scroll_to(link)
         link.click()
         self.assertIn(content, self.browser.page_source)
@@ -232,7 +233,7 @@ class SmokeTest(StaticLiveServerTestCase):
         self.browser.execute_script("arguments[0].scrollIntoView();", link)
 
     def assertLoggedIn(self):
-        self.browser.find_element_by_id('user-nav-username')
+        self.browser.find_element(By.ID, 'user-nav-username')
 
     def assertLoggedOut(self):
         self.assertNotIn('user-nav-username', self.browser.page_source)

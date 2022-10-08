@@ -2,6 +2,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.urls import reverse
+from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.webdriver import WebDriver
 
@@ -30,9 +31,9 @@ class AuthenticationTest(StaticLiveServerTestCase):
         self.create_test_user('hscmi', 'password')
         self.browser.get(self.live_server_url + reverse('login'))
 
-        username = self.browser.find_element_by_id('username')
-        password = self.browser.find_element_by_id('password')
-        loginbutton = self.browser.find_element_by_id('login')
+        username = self.browser.find_element(By.ID, 'username')
+        password = self.browser.find_element(By.ID, 'password')
+        loginbutton = self.browser.find_element(By.ID, 'login')
 
         username.send_keys("hscmi")
         password.send_keys("password")

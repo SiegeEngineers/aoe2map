@@ -11,7 +11,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.webdriver import WebDriver
 
-import imagestorage
+from aoe2map import imagestorage
 from aoe2map.urls import urlpatterns as base_patterns
 from mapsapp.models import VersionTag
 

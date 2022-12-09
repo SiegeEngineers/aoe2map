@@ -7,7 +7,7 @@ azure-core==1.26.1
 azure-storage-blob==12.14.1
 azure-storage-common==2.1.0
 CacheControl==0.12.11
-certifi==2022.9.24
+certifi==2022.12.7
 cffi==1.15.1
 chardet==5.1.0
 charset-normalizer==2.1.1

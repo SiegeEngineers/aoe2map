@@ -57,6 +57,24 @@ FORM_HELP_FILE = "Choose the .rms file you want to share. You can also drag+drop
 FORM_HELP_IMAGES_TO_COPY = "Select the image files you want to copy to your new map."
 
 
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
+
+
 def get_version_tag_choices():
     versiontags = []
     try:
@@ -71,8 +89,7 @@ class NewRmsForm(forms.Form):
     file = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=['rms'])],
                            help_text=FORM_HELP_FILE)
 
-    images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}),
-                             required=False,
+    images = MultipleFileField(required=False,
                              help_text=FORM_HELP_IMAGES)
 
     name = forms.CharField(max_length=255,
@@ -138,8 +155,7 @@ class EditRmsForm(ModelForm):
                                                    required=False,
                                                    widget=CheckboxSelectMultiple)
 
-    images = forms.FileField(widget=forms.FileInput(attrs={'multiple': True}),
-                             required=False,
+    images = MultipleFileField(required=False,
                              label='Add images')
 
     class Meta:

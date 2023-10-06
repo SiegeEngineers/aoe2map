@@ -112,7 +112,7 @@ class Image(models.Model):
         new_height = math.floor(factor * uploaded_image.height)
 
         # Resize/modify the image
-        resized_image = uploaded_image.resize((new_width, new_height), resample=PilImage.LINEAR)
+        resized_image = uploaded_image.resize((new_width, new_height), resample=PilImage.BILINEAR)
 
         # after modifications, save it to the output
         resized_image.save(output, format='PNG', quality=100)
@@ -130,7 +130,7 @@ class Image(models.Model):
             preview_width = math.floor(preview_factor * uploaded_image.width)
             preview_height = math.floor(preview_factor * uploaded_image.height)
 
-            uncropped_preview = uploaded_image.resize((preview_width, preview_height), resample=PilImage.LINEAR)
+            uncropped_preview = uploaded_image.resize((preview_width, preview_height), resample=PilImage.BILINEAR)
             crop_left = math.floor((preview_width - PREVIEW_WIDTH) / 2)
             crop_upper = math.floor((preview_height - PREVIEW_HEIGHT) / 2)
             crop_right = crop_left + PREVIEW_WIDTH

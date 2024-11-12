@@ -21,7 +21,7 @@ urlpatterns = [
     path('collection/<uuid:collection_id>', api.collection, name='collection'),
     path('modifycollection/', api.modifycollection, name='modifycollection'),
     path('version/<version_name>', api.versiontag, name='version'),
-    re_path(r'^tags/(?P<url_fragment>(\d+/)*)$', api.tags, name='tags'),
+    path('tags/<tag>', api.tags, name='tags'),
     path('vote/<uuid:rms_id>/add', api.add_vote, name='add_vote'),
     path('vote/<uuid:rms_id>/remove', api.remove_vote, name='remove_vote'),
 ]

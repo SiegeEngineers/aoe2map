@@ -206,18 +206,11 @@ def maps2json(maps):
     return objects
 
 
-def tags(request, url_fragment):
-    if url_fragment == '':
+def tags(request, tag):
+    if tag == '':
         return JsonResponse({"maps": []})
 
-    items = url_fragment.split('/')
-    taglist = []
-    for item in items:
-        if item.isnumeric():
-            taglist.append(get_object_or_404(Tag, pk=int(item)))
-    resultset = Rms.objects.filter(newer_version=None, archived=False)
-    for tag in taglist:
-        resultset = resultset.filter(tags=tag)
+    resultset = Rms.objects.filter(newer_version=None, archived=False).filter(tags=tag)
     objects = maps2json(resultset)
 
     return JsonResponse({"maps": objects})

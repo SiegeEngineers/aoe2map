@@ -478,16 +478,12 @@ def email_verification_sent(request):
     return render(request, 'mapsapp/email_verification_sent.html', context=context)
 
 
-def tags(request, url_fragment):
-    items = url_fragment.split('/')
-    tagset = set()
-    for item in items:
-        if item.isnumeric():
-            tagset.add(get_object_or_404(Tag, pk=int(item)))
+def tags(request, tag):
+    tag_object = Tag.objects.filter(id=tag).first()
     context = {
-        "tagset": tagset,
+        "tag": tag_object.name if tag_object else '?',
         "alltags": Tag.objects.all(),
-        API_URL: reverse('api:tags', kwargs={'url_fragment': url_fragment})
+        API_URL: reverse('api:tags', kwargs={'tag': tag})
     }
     return render(request, 'mapsapp/tags.html', context)
 
@@ -499,19 +495,6 @@ def version(request, version_name):
         API_URL: reverse('api:version', kwargs={'version_name': version_name})
     }
     return render(request, 'mapsapp/version.html', context)
-
-
-def tags_remove(request, url_fragment, id_to_remove):
-    items = url_fragment.split('/')
-    tag_id_set = set()
-    for item in items:
-        if item != "":
-            tag_id_set.add(item)
-    tag_id_set.remove(id_to_remove)
-    new_url_fragment = '/'.join(tag_id_set)
-    if new_url_fragment != '':
-        new_url_fragment += '/'
-    return redirect('tags', url_fragment=new_url_fragment)
 
 
 def info(request):
